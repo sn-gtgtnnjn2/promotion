@@ -24,6 +24,7 @@
                         <img src="<%= request.getContextPath() %>/icon/testicon.png" alt="【プロフィール名を表示】">
                         <div class="edit-icon" onclick="openForm()">✏️</div>
                     </div>
+                    <div class="overlay" id="overlay"></div>
                     <div id="form-container" class="form-container">
                         <form>
                             <input type="file" id="image-input" name="profile-image" accept="image/*" onchange="previewImage(event)">

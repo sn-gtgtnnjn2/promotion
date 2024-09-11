@@ -1,9 +1,10 @@
+
 function openForm() {
     document.getElementById('form-container').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
 }
 
 function previewImage(event) {
-    isOpen = true;
     const reader = new FileReader();
     reader.onload = function() {
         const preview = document.getElementById('image-preview');
@@ -11,12 +12,13 @@ function previewImage(event) {
         preview.style.display = 'block';
     }
     reader.readAsDataURL(event.target.files[0]);
-    isOpen = false;
 }
 
 window.onclick = function(event) {
     const formContainer = document.getElementById('form-container');
-    if (event.target !== formContainer && !formContainer.contains(event.target)) {
+    const overlay = document.getElementById('overlay');
+    if (event.target === overlay) {
         formContainer.style.display = 'none';
+        overlay.style.display = 'none';
     }
 }
