@@ -53,9 +53,16 @@ main {
 }
 
 .calendar {
-    background-color: #A8DBA8;
     padding: 1em;
     border-radius: 8px;
+}
+
+.calendar-sunday {
+    color: red;
+}
+
+.calendar-saturday {
+    color: blue;
 }
 
 .sample {
@@ -106,4 +113,59 @@ img.menu-icon:active {
         flex-direction: column;
         gap: 0.5em;
     }
+}
+
+div.block .calendar table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile_img img{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+}
+
+/* 画像編集用スタイル */
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.image-container img {
+    display: block;
+}
+
+.edit-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+}
+
+.image-container:hover .edit-icon {
+    display: block;
+}
+
+.form-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.5); /* 透明度50の黒色 */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: white; /* テキストを白色に変更 */
+}
+
+
+#image-preview {
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
 }

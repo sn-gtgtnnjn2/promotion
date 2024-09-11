@@ -9,6 +9,7 @@
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/calender.js"></script>
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/modal.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="<%= request.getContextPath() %>/js/change_file.js"></script>
 </head>
 <body>
     <header>
@@ -18,8 +19,18 @@
         <div class="container">
             <div class="block">
                 <div class="box">
-                    <div class="midashi">アイコン【ラベル】</div>
-                    <img src="<%= request.getContextPath() %>/icon/testicon.png" alt="てすとあいこん">
+                    <div class="midashi">【ユーザー名】</div>
+                    <div class="profile_img image-container" >
+                        <img src="<%= request.getContextPath() %>/icon/testicon.png" alt="【プロフィール名を表示】">
+                        <div class="edit-icon" onclick="openForm()">✏️</div>
+                    </div>
+                    <div id="form-container" class="form-container">
+                        <form>
+                            <input type="file" id="image-input" name="profile-image" accept="image/*" onchange="previewImage(event)">
+                            <img id="image-preview" src="" alt="プレビュー画像" style="display:none;">
+                            <button type="submit">アップロード</button>
+                        </form>
+                    </div>
                 </div>
                 <div class="box">
                     <div class="midashi">プロフィール【ラベル】</div>
