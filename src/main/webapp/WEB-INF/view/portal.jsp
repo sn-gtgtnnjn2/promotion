@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/unique.css">
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/calender.js"></script>
     <script type="text/javascript" src="<%= request.getContextPath() %>/js/modal.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -18,7 +19,7 @@
             <div class="block">
                 <div class="box">
                     <div class="midashi">アイコン【ラベル】</div>
-                    <img src="icons/testicon.png" alt="てすとあいこん">
+                    <img src="<%= request.getContextPath() %>/icon/testicon.png" alt="てすとあいこん">
                 </div>
                 <div class="box">
                     <div class="midashi">プロフィール【ラベル】</div>

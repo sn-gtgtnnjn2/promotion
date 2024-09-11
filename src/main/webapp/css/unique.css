@@ -83,6 +83,13 @@ main {
     width: 100px;
     height: 100px;
     cursor: pointer;
+    border-radius: 10px;
+}
+
+img.menu-icon:active {
+    box-shadow: none;
+    position: relative;
+    top: 3px;
 }
 
 /* スマホ表示用のスタイル */
