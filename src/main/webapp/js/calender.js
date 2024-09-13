@@ -1,155 +1,83 @@
-class Calendar {
-  constructor(targetElement, date) {
-    this.targetElement = targetElement;
-    this.date = date;
-    this.render();
-  }
+document.addEventListener('DOMContentLoaded', function() {
+  let currentYear = new Date().getFullYear();
+  let currentMonth = new Date().getMonth();
 
-  setDatePickedCallback(callback) {
-    this.datePickedCallback = callback;
-  }
+  function generateCalendar(year, month) {
+    const calendar = document.getElementById('calendar');
+    const monthYear = document.getElementById('month-year');
+    calendar.innerHTML = `
+      <div class="calendar-header">
+        <span id="prev" class="arrow">◀</span>
+        <span id="month-year"></span>
+        <span id="next" class="arrow">▶</span>
+      </div>
+    `;
 
-  getCurrentDate() {
-    return this.date;
-  }
+    const table = document.createElement('table');
+    const headerRow = document.createElement('tr');
+    const daysOfWeek = ['日', '月', '火', '水', '木', '金', '土'];
 
-  render() {
-    while (this.targetElement.firstChild ){
-      this.targetElement.removeChild(this.targetElement.firstChild);
-    }
-    const firstYoubi = Calendar.#getFirstYoubi(this.date);
-    let nth = 0; // 月の中の何日目かを示す
-    let lastNth = Calendar.#getLastNth(this.date);
-    let endFlag = false;
+    daysOfWeek.forEach(day => {
+      const th = document.createElement('th');
+      th.textContent = day;
+      headerRow.appendChild(th);
+    });
 
-    const tableElem = document.createElement("table");
-    const headTr = document.createElement("tr");
+    table.appendChild(headerRow);
 
-    const leftArrowTd = document.createElement("td");
-    leftArrowTd.innerText = "≪";
-    leftArrowTd.classList.add("calendar-left-arrow");
-    headTr.appendChild(leftArrowTd);
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    let date = 1;
 
-    const monthTd = document.createElement("td");
-    monthTd.colSpan = 5;
-    monthTd.innerText = this.date.getFullYear() + "年" + (this.date.getMonth() + 1) + "月";
-    monthTd.classList.add("calendar-header-month");
-    headTr.appendChild(monthTd);
+    for (let i = 0; i < 6; i++) {
+      const row = document.createElement('tr');
 
-    const rightArrowTd = document.createElement("td");
-    rightArrowTd.innerText = "≫";
-    rightArrowTd.classList.add("calendar-right-arrow");
-    headTr.appendChild(rightArrowTd);
-    tableElem.appendChild(headTr);
+      for (let j = 0; j < 7; j++) {
+        const cell = document.createElement('td');
 
-    leftArrowTd.onclick = this.leftArrowClicked.bind(this);
-    rightArrowTd.onclick = this.rightArrowClicked.bind(this);
-
-    for (;;) {
-      const trElem = document.createElement("tr");
-      tableElem.appendChild(trElem);
-      for (let youbi = 0; youbi < 7; youbi++) {
-        const tdElem = document.createElement("td");
-        trElem.appendChild(tdElem);
-
-        if (nth == 0 && youbi < firstYoubi) {
-          ;
-        } else if (nth <= lastNth) {
-          if (nth == 0 && youbi == firstYoubi) {
-            nth = 1;
-          }
-          tdElem.innerText = "" + nth;
-          tdElem.setAttribute("data-date", nth);
-          tdElem.classList.add("calendar-date");
-          if (youbi == 0) {
-            tdElem.classList.add("calendar-sunday");
-          }
-          if (youbi == 6) {
-            tdElem.classList.add("calendar-saturday");
-          }
-          if (nth == this.date.getDate()) {
-            tdElem.classList.add("calendar-target-date");
-          }
-          tdElem.onclick = this.dateClicked.bind(this);
-          nth++;
-          if (nth > lastNth) {
-            endFlag = true;
-          }
+        if (i === 0 && j < firstDay) {
+          cell.textContent = '';
+        } else if (date > lastDate) {
+          cell.textContent = '';
         } else {
-          ;
+          cell.textContent = date;
+          const selectedDate = new Date(year, month, date); // 正しい日付を取得
+          cell.addEventListener('click', () => {
+            alert(`選ばれた日付: ${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`);
+          });
+          if (date === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+            cell.classList.add('today');
+          }
+          date++;
         }
+
+        row.appendChild(cell);
       }
-      if (endFlag) {
-        break;
+
+      table.appendChild(row);
+    }
+
+    calendar.appendChild(table);
+    document.getElementById('month-year').textContent = `${year}年 ${month + 1}月`; // ここでmonth-yearを更新
+
+    document.getElementById('prev').addEventListener('click', () => {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
       }
-    }
-    this.targetElement.appendChild(tableElem);
+      generateCalendar(currentYear, currentMonth);
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      generateCalendar(currentYear, currentMonth);
+    });
   }
 
-  leftArrowClicked() {
-    let newYear = this.date.getFullYear();
-    let newMonth;
-    let newDate;
-
-    if (this.date.getMonth() == 0) {
-      newMonth = 11;
-      newYear--;
-    } else {
-      newMonth = this.date.getMonth() - 1;
-    }
-    newDate = Calendar.#fixLastDate(newYear, newMonth, this.date.getDate());
-    this.date = new Date(newYear, newMonth, newDate);
-    this.render();
-  }
-
-  rightArrowClicked() {
-    let newYear = this.date.getFullYear();
-    let newMonth;
-    let newDate;
-
-    if (this.date.getMonth() == 11) {
-      newMonth = 0;
-      newYear++;
-    } else {
-      newMonth = this.date.getMonth() + 1;
-    }
-    newDate = Calendar.#fixLastDate(newYear, newMonth, this.date.getDate());
-    this.date = new Date(newYear, newMonth, newDate);
-    this.render();
-  }
-
-  dateClicked(e) {
-    const date = e.target.dataset.date;
-    this.date.setDate(parseInt(date));
-    this.render();
-    if (this.datePickedCallback !== undefined && this.datePickedCallback !== null) {
-      this.datePickedCallback(this.date);
-    }
-  }
-
-  static #getLastNth(date) {
-    const date2 = new Date(date.getTime());
-    date2.setMonth(date.getMonth() + 1, 0);
-    return date2.getDate();
-  }
-
-  static #getFirstYoubi(date) {
-    const date2 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    date2.setDate(1);
-    return date2.getDay();
-  }
-
-  static #fixLastDate(newYear, newMonth, oldDate) {
-    const tempDate = new Date(newYear, newMonth, 1);
-    const lastNth = Calendar.#getLastNth(tempDate);
-    let newDate;
-
-    if (oldDate > lastNth) {
-      newDate = lastNth;
-    } else {
-      newDate = oldDate;
-    }
-
-    return newDate;
-  }
-}
+  generateCalendar(currentYear, currentMonth);
+});

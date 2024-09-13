@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class PortalServlet
+ * Servlet implementation class UserRegist
  */
-@WebServlet("/portal")
-public class PortalServlet extends HttpServlet {
+@WebServlet("/userRegist")
+public class UserRegist extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PortalServlet() {
+    public UserRegist() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,9 +27,7 @@ public class PortalServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// ログイン情報を取得
-		// プロフィール情報を取得
-		request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/user_regist.jsp").forward(request, response);
 	}
 
 	/**

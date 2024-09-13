@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+div.box div#calendar {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+div.box div#calendar .calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #79BD9A;
+  color: white;
+  padding: 10px;
+}
+
+div.box div#calendar .arrow {
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+div.box div#calendar table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+div.box div#calendar th, #calendar td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+}
+
+div.box div#calendar th {
+  background-color: #f2f2f2;
+}
+
+div.box div#calendar td {
+  cursor: pointer;
+}
+
+div.box div#calendar td:hover {
+  background-color: #f1f1f1;
+}
+
+div.box div#calendar .today {
+  background-color: #ffeb3b;
+}
