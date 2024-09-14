@@ -9,6 +9,11 @@ public class DaoFactory {
 		PreUserDaoImpl pud = new PreUserDaoImpl(getDataSource());
 		return pud;
 	}
+	
+	public static UserDaoImpl createUserDao() {
+		UserDaoImpl ud = new UserDaoImpl(getDataSource());
+		return ud;
+	}
 
 	private static DataSource getDataSource() {
 		InitialContext ctx = null;

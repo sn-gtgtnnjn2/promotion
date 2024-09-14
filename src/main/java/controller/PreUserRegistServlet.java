@@ -44,6 +44,8 @@ public class PreUserRegistServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("mail");
 		
+		// todo 既登録チェック
+		
 		// @todo メールのバリデーション機能
 		boolean isValid = true;
 		if(!isValid) {
@@ -70,7 +72,7 @@ public class PreUserRegistServlet extends HttpServlet {
 		PreUser updatedPu = pud.findByEmailAndToken(email, uuid);
 		System.out.println(updatedPu.getId());
 		
-		String url = "http://localhost:8080/SEISAKU_KADAI/validate?id=" + updatedPu.getId() + "&uuid=" + uuid ;
+		String url = "http://localhost:8080/kadai2/validate?id=" + updatedPu.getId() + "&uuid=" + uuid ;
 		
 		request.setAttribute("email", email);
 		request.setAttribute("uuid", uuid);
@@ -79,7 +81,7 @@ public class PreUserRegistServlet extends HttpServlet {
 		MailSender.sendMessege(url);
 		
 		request.getRequestDispatcher("/WEB-INF/view/pre_user_regist_done.jsp").forward(request, response);
-		
+		return;
 	}
 
 }

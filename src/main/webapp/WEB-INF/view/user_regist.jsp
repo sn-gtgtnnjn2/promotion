@@ -13,33 +13,36 @@
 		<div class="container">
 			<div class="block">
 				<div class="box">
+					<div class="errorMessage">
+					${errorList }
+					</div>
 					<form method="post" action="userRegist">
 						<div class="midashi">会員情報を入力してください</div>
 						<table width="1000" border="0">
 							<tr>
-								<th>ユーザー名</th>
+								<th>ユーザーID</th>
 								<th><input type="text" maxlength="100" placeholder="山田太郎"
-									id="name"></th>
+									id="userId" name="userId" value="${userId}"></th>
 							</tr>
 							<tr>
-								<th>ユーザー名(ふりがな)</th>
+								<th>ユーザー名</th>
 								<th><input type="text" maxlength="200" placeholder="やまだたろう"
-									id="name_huri"></th>
+									id="userName" name="userName" value="${userName}"></th>
 							</tr>
 							<tr>
 								<th>メールアドレス</th>
 								<th><input type="text" maxlength="254"
-									placeholder="aaaa@gmail.com" id="mail"></th>
+									value="${email}" id="email"  name="email" readonly></th>
 							</tr>
 							<tr>
 								<th>パスワード</th>
 								<th><input type="password" maxlength="20"
-									placeholder="半角英数8文字以上" id="pass"></th>
+									placeholder="半角英数8文字以上"  name="password" id="pass"></th>
 							</tr>
 							<tr>
 								<th>パスワード再入力</th>
 								<th><input type="password" maxlength="20"
-									placeholder="半角英数8文字以上" id="repass"></th>
+									placeholder="半角英数8文字以上" name="passwordComfirm" id="repass"></th>
 							</tr>
 						</table>
 						<br> 

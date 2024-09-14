@@ -17,7 +17,7 @@
 		<div class="container">
 			<div class="block">
 				<div class="box">
-					<div class="midashi">【ユーザー名】</div>
+					<div class="midashi">${userName}</div>
 					<div class="profile_img image-container">
 						<img src="<%=request.getContextPath()%>/icon/testicon.png"
 							alt="【プロフィール名を表示】">
