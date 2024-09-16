@@ -12,7 +12,7 @@ public class User {
 	private Date updateDatetime;
 	private Boolean deleteFlg;
 	
-	User(){
+	public User(){
 		
 	}
 

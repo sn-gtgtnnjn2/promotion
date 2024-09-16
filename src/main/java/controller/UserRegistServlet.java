@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import dao.DaoFactory;
 import dao.UserDao;
 import dto.User;
@@ -90,7 +92,7 @@ public class UserRegistServlet extends HttpServlet {
 		}
 		
 		// エラーがなければ、Userテーブルに登録し、その後portalへフォワード
-		User user = new User(userId, userName, email, password);
+		User user = new User(userId, userName, email, BCrypt.hashpw(password, BCrypt.gensalt()));
 		UserDao ud = DaoFactory.createUserDao();
 		ud.insert(user);
 		

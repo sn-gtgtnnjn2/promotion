@@ -12,16 +12,17 @@
 	<main>
 		<div class="container">
 			<div class="block">
+				<div class="errorMessege">${errorList }</div>
 				<div class="box">
 					<h1>ログイン</h1>
-					<form method="post" action="portal">
-						<input type="text" name="username" placeholder="ユーザー名" required>
+					<form method="post">
+						<input type="text" name="userId" placeholder="ユーザー名" required>
 						<br> 
 						<input type="password" name="password" placeholder="パスワード" required>
 						<br>
 						<input type="submit" value="ログイン">
 					</form>
-					<a href="userRegist">新規会員登録はこちら。</a>
+					<a href="preUserRegist">新規会員登録はこちら。</a>
 
 				</div>
 			</div>
