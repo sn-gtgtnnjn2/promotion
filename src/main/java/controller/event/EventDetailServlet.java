@@ -1,4 +1,4 @@
-package controller;
+package controller.event;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class EventDetailServlet
  */
-@WebServlet("/eventDetail")
+@WebServlet("/event/eventDetail")
 public class EventDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -1,8 +1,8 @@
 <%@page pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="/WEB-INF/jspf/common-taglibs.jspf" %>
 <!DOCTYPE html>
 <html lang="ja">
-<jsp:include page="header.jsp" flush="true" />
+<jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
 <body>
 	<header>

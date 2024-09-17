@@ -58,22 +58,22 @@ public class UserRegistServlet extends HttpServlet {
 		
 		// バリデーション
 		// 必須チェック 文字種チェック　長さチェック
-		if(!sv.validate(userId, 1, 20, StringValidator.HALF_ALF_NUM_SBL)) {
+		if(!sv.validate(userId, 1, 20, StringValidator.HALF_ALF_NUM_SBL, "ユーザーID")) {
 			errorList.addAll(sv.getErrorList());
 		}
 		sv.clearErrorMessage();
 		
-		if(!sv.validate(userName, 1, 20, StringValidator.HALF_ALF_NUM_SBL)) {
+		if(!sv.validate(userName, 1, 20, StringValidator.HALF_ALF_NUM_SBL, "ユーザー名")) {
 			errorList.addAll(sv.getErrorList());
 		}
 		sv.clearErrorMessage();
 		
 		if(password.equals(passwordComfirm)) {			
-			if(!sv.validate(password, 1, 20, StringValidator.HALF_ALF_NUM_SBL)) {
+			if(!sv.validate(password, 1, 20, StringValidator.HALF_ALF_NUM_SBL, "パスワード")) {
 				errorList.addAll(sv.getErrorList());
 			}
 		} else {
-			errorList.add("パスワードと確認用パスワードが一致しません");
+			errorList.add("パスワード:確認用パスワードと一致しません");
 		}
 		sv.clearErrorMessage();
 		

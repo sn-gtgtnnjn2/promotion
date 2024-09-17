@@ -74,7 +74,9 @@ public class LoginServlet extends HttpServlet {
 		}
 		System.out.println("aaa");
 		User user = ud.findByUserId(userId);
+		// セッションにユーザー情報を格納する
         session.setAttribute("userName", user.getUserName());
+        session.setAttribute("userId", user.getUserId());
         request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
         return;
 	}

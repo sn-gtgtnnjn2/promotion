@@ -132,6 +132,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public Boolean isAuthenticated(String userId, String inputPassword) {
 		System.out.println("isAuthenticated");
+		System.out.println(userId);
 		Boolean isAuthenticated = false;
 
 		User user = findByUserId(userId);
