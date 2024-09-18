@@ -4,8 +4,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import dto.EventAndDetailDaoImpl;
-
 public class DaoFactory {
 	public static PreUserDaoImpl createPreUserDao() {
 		PreUserDaoImpl pud = new PreUserDaoImpl(getDataSource());

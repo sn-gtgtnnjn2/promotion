@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public class GeneralFormatter {
 	String dtLocalFormatString = "yyyy-MM-dd'T'HH:mm";
+	String onSiteFormatString = "yyyy-MM-dd HH:mm";
 	
 	
 	public static java.sql.Date convDateToSqlDate(Date date) {
@@ -30,4 +31,14 @@ public class GeneralFormatter {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		return formatter.parse(datetimeLocal);
 	}
+	
+    public static String toISO8601(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        return sdf.format(date);
+    }
+
+    public static String toUsualString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        return sdf.format(date);
+    }
 }

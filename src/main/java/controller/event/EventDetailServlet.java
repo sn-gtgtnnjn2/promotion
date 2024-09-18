@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class EventDetailServlet
+ * Servlet implementation class Eventdetailervlet
  */
 @WebServlet("/event/eventDetail")
-public class EventDetailServlet extends HttpServlet {
+public class EventdetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EventDetailServlet() {
+    public EventdetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

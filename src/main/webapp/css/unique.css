@@ -184,3 +184,28 @@ div.block .calendar table{
 	width:50px;
 	position:absolute;
 }
+
+/* ラジオボタン　*/
+.radio input {
+  opacity: 0; /* ラジオボタンを透明に */
+}
+
+.radio label {
+  display: block;
+  margin: 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: lavenderblush;
+  float: left; /* floatレイアウトで横並びに */
+}
+
+.radio:after { /* clearfix */
+  content: "";
+  display: block;
+  clear: left;
+}
+
+.radio input[type="radio"]:checked + label {
+  background-color: #ff0066;
+  color: #ffffff;
+}
