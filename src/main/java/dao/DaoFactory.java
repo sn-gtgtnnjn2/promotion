@@ -15,6 +15,10 @@ public class DaoFactory {
 		return ud;
 	}
 
+	public static ProfileDaoImpl createProfileDao() {
+		ProfileDaoImpl pd = new ProfileDaoImpl(getDataSource());
+		return pd;
+	}
 	private static DataSource getDataSource() {
 		InitialContext ctx = null;
 		DataSource ds = null;

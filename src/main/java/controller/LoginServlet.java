@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("aaaabbb");
+		
 		String userId = request.getParameter("userId");
 		String password = request.getParameter("password");
 		List<String> errorList = new ArrayList<String>();
@@ -77,7 +77,7 @@ public class LoginServlet extends HttpServlet {
 		// セッションにユーザー情報を格納する
         session.setAttribute("userName", user.getUserName());
         session.setAttribute("userId", user.getUserId());
-        request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
+        request.getRequestDispatcher("/portal").forward(request, response);
         return;
 	}
 

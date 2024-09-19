@@ -44,6 +44,7 @@ main {
 }
 
 .midashi {
+	display: flex;
     font-weight: bold;
     margin-bottom: 0.5em;
     color: #79BD9A;
@@ -147,6 +148,20 @@ div.block .calendar table{
     display: none;
 }
 
+.edit-icon-display {
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    width:25px;
+}
+
+.edit-icon-display:hover {
+    background: rgba(240, 240, 240, 0.7);
+}
+
 .image-container:hover .edit-icon {
     display: block;
 }
@@ -208,4 +223,19 @@ div.block .calendar table{
 .radio input[type="radio"]:checked + label {
   background-color: #ff0066;
   color: #ffffff;
+}
+
+/*プロフィール本文編集 */
+.edit-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: none;
+}
+
+.prof-input{
+ white-space: pre-wrap; /* 折り返しを有効にする */
+ line-height: 1.5;
+ height: 80px;
+ width: 200px;
 }

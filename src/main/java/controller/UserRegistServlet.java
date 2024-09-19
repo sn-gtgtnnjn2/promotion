@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import dao.DaoFactory;
+import dao.ProfileDao;
 import dao.UserDao;
+import dto.Profile;
 import dto.User;
 import util.StringValidator;
 
@@ -91,12 +95,25 @@ public class UserRegistServlet extends HttpServlet {
 			return;
 		}
 		
-		// エラーがなければ、Userテーブルに登録し、その後portalへフォワード
+		// エラーがなければ、User・Profileテーブルに登録し、その後portalへフォワード
 		User user = new User(userId, userName, email, BCrypt.hashpw(password, BCrypt.gensalt()));
-		UserDao ud = DaoFactory.createUserDao();
-		ud.insert(user);
+		ProfileDao pd = DaoFactory.createProfileDao();
 		
-		request.setAttribute("userName", userName);
+		try {
+			UserDao ud = DaoFactory.createUserDao();
+			ud.insert(user);
+			Profile profile = new Profile(userId, null, null);
+			pd.insert(profile);
+		} catch (SQLException e) {
+			errorList.add("ユーザー情報の登録に失敗しました");
+			request.setAttribute("errorList", errorList);
+			request.getRequestDispatcher("/WEB-INF/view/user_regist.jsp").forward(request, response);
+			e.printStackTrace();
+			return;
+		}
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("userName", userName);
 		request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
 	}
 

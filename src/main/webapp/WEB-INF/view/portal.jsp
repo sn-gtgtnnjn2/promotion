@@ -16,11 +16,17 @@
 	<main>
 		<div class="container">
 			<div class="block">
+				<div>${errorList }</div>
 				<div class="box">
 					<div class="midashi">${userName}</div>
 					<div class="profile_img image-container">
+						<c:if test="${empty strImageData }">
 						<img src="<%=request.getContextPath()%>/icon/testicon.png"
-							alt="【プロフィール名を表示】">
+							alt="<c:out value="${userName }の画像" />">
+						</c:if>
+						<c:if test="${!empty strImageData }">
+							<img src="data:image/jpeg;base64,${strImageData }" alt="<c:out value="${userName }の画像" />">
+						</c:if>
 						<div class="edit-icon" onclick="openForm()">
 							<img src="<%=request.getContextPath()%>/img/pen.png"
 								style="width: 25px;" alt="" />
@@ -28,7 +34,9 @@
 					</div>
 					<div class="overlay" id="overlay"></div>
 					<div id="form-container" class="form-container">
-						<form>
+						<form method="post" action="upload" enctype="multipart/form-data">
+							<input type="hidden" value="${userId }" name="userId"/>
+							<div>新しいプロフィール画像</div>
 							<input type="file" id="image-input" name="profile-image"
 								accept="image/*" onchange="previewImage(event)"> <img
 								id="image-preview" src="" alt="プレビュー画像" style="display: none;">
@@ -37,7 +45,22 @@
 					</div>
 				</div>
 				<div class="box">
-					<div class="midashi">プロフィール【ラベル】</div>
+					<div class="midashi">プロフィール
+					<div class="edit-icon-display" onclick="openEditDialog()"><img src="<%=request.getContextPath()%>/img/pen.png"
+								style="width: 25px;" alt="" /></div>
+					</div>
+					<div class="overlay" id="prof-text-overlay"></div>
+					<div id="prof-text-container" class="form-container">
+						<form action="portal">
+							<div><label for="profText">本文内容</label></div>
+							<div>
+							<textarea class="prof-input" rows="4" cols="15"  wrap="soft" id="profText" name="profText"></textarea>
+							</div>
+							<div>
+							<button type="submit">編集</button>
+							</div>
+						</form>
+					</div>
 					<p>AA 自己紹介メモ</p>
 				</div>
 			</div>

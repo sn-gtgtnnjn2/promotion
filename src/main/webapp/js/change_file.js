@@ -21,4 +21,27 @@ window.onclick = function(event) {
         formContainer.style.display = 'none';
         overlay.style.display = 'none';
     }
+    
+    const profTextFormContainer = document.getElementById('prof-text-container');
+    const profTextoverlay = document.getElementById('prof-text-overlay');
+    if (event.target === profTextoverlay) {
+        profTextFormContainer.style.display = 'none';
+        profTextoverlay.style.display = 'none';
+    }
+}
+
+function openEditDialog() {
+    document.getElementById('prof-text-container').style.display = 'block';
+    document.getElementById('prof-text-overlay').style.display = 'block';
+}
+
+function closeEditDialog() {
+    document.getElementById('edit-dialog').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function saveContent() {
+    const content = document.getElementById('edit-content').value;
+    // 保存処理をここに追加
+    closeEditDialog();
 }
