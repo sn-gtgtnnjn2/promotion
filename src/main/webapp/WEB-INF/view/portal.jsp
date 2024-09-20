@@ -13,6 +13,25 @@
 		</h1>
 	</header>
 	
+	<script>
+
+	
+	window.onload = function() {
+	    var errorListChild = '<%=request.getAttribute("errorListChild")%>';
+	    var text = '<%=request.getAttribute("profText")%>';
+	    console.log(errorListChild);
+	    console.log("errorListChild:" + errorListChild);
+	    console.log("(errorListChild !== null):" + (errorListChild !== null));
+	    console.log(!(errorListChild !== null));
+
+	    if (errorListChild !== "null" && errorListChild !== null && errorListChild !== "" && errorListChild.trim().length > 0) {
+	        console.log(errorListChild.length);
+	        openEditDialogWithError('<%=request.getAttribute("profText")%>');
+	    }
+	};
+
+	</script>
+	
 	<main>
 		<div class="container">
 			<div class="block">
@@ -51,10 +70,13 @@
 					</div>
 					<div class="overlay" id="prof-text-overlay"></div>
 					<div id="prof-text-container" class="form-container">
-						<form action="portal">
+						<form action="changePrfText" method="post">
 							<div><label for="profText">本文内容</label></div>
+							<div class="errorListChild" id="errorListChild" name="errorListChild"><c:out value="${errorListChild }" /></div>
 							<div>
-							<textarea class="prof-input" rows="4" cols="15"  wrap="soft" id="profText" name="profText"></textarea>
+								<textarea class="prof-input" rows="4" cols="15" wrap="soft"
+									id="profText" name="profText">
+								</textarea>
 							</div>
 							<div>
 							<button type="submit">編集</button>

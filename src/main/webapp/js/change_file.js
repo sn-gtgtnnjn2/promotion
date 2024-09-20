@@ -35,6 +35,12 @@ function openEditDialog() {
     document.getElementById('prof-text-overlay').style.display = 'block';
 }
 
+function openEditDialogWithError(profText) {
+    document.getElementById('prof-text-container').style.display = 'block';
+    document.getElementById('prof-text-overlay').style.display = 'block';
+    document.getElementById('profText').textContent = profText;
+}
+
 function closeEditDialog() {
     document.getElementById('edit-dialog').style.display = 'none';
     document.getElementById('overlay').style.display = 'none';
@@ -45,3 +51,7 @@ function saveContent() {
     // 保存処理をここに追加
     closeEditDialog();
 }
+//
+//function openChildWindowWithError(errorMessage, prfText) {
+//	openEditDialog(errorMessage, prfText);
+//}

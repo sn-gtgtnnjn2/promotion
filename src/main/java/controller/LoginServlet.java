@@ -72,7 +72,7 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
 			return;
 		}
-		System.out.println("aaa");
+
 		User user = ud.findByUserId(userId);
 		// セッションにユーザー情報を格納する
         session.setAttribute("userName", user.getUserName());

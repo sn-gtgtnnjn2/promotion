@@ -61,7 +61,7 @@ public class RegistEventServlet extends HttpServlet {
 		eadd.insert(ead);
 		session.removeAttribute("eadb");
 		request.setAttribute("info", "イベントが追加されました");
-		request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
+		request.getRequestDispatcher("/portal").forward(request, response);
 	}
 
 }
