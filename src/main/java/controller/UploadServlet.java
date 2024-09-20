@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +20,7 @@ import dao.DaoFactory;
 import dao.ProfileDao;
 import dao.UserDao;
 import dto.User;
+import util.Base64ImageEncoder;
 
 /**
  * Servlet implementation class UploadServlet
@@ -66,8 +68,12 @@ public class UploadServlet extends HttpServlet {
 		if (filename != null && isImageFile(filename)) {
 			try {
 				String saveTargetPath = saveFile(upfile, filename, id);
+				System.out.println(saveTargetPath);
 				ProfileDao pd = DaoFactory.createProfileDao();
-				pd.updateImagePath(userId, saveTargetPath);
+				ServletContext ctx = request.getServletContext();
+				String path = ctx.getRealPath(UploadServlet.UPLOAD_DIR);
+				File imgFile = new File(path + "/" + saveTargetPath);
+				pd.updateImage(userId, saveTargetPath, Base64ImageEncoder.encodeImage(imgFile.getPath()));
 
 			} catch (IOException e) {
 				List<String> errorList = new ArrayList<String>();

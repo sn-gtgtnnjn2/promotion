@@ -28,6 +28,7 @@ public class ProfileDaoImpl implements ProfileDao{
 		String sql = "SELECT "
 				+ " user_id"
 				+ ", image_path"
+				+ ", base64_data "
 				+ ", text"
 				+ ", entry_datetime"
 				+ ", update_datetime"
@@ -43,6 +44,7 @@ public class ProfileDaoImpl implements ProfileDao{
 			while(rs.next()) {
 				pr.setUserId(rs.getString("user_id"));
 				pr.setImagePath(rs.getString("image_path"));
+				pr.setBase64Data(rs.getString("base64_data"));
 				pr.setText(rs.getString("text"));
 				pr.setEntryDatetime(rs.getTimestamp("entry_datetime"));
 				pr.setUpdateDatetime(rs.getTimestamp("update_datetime"));
@@ -59,14 +61,16 @@ public class ProfileDaoImpl implements ProfileDao{
 		String sql = "INSERT INTO profile ( "
 				+ " user_id"
 				+ ", image_path"
+				+ ", base64_data"
 				+ ", text"
 				+ ") values ("
 				+ "?, ?, ? )";
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1 , profile.getUserId());
-			stmt.setString(2 , profile.getImagePath());
-			stmt.setString(3 , profile.getText());
+			stmt.setString(2 , profile.getBase64Data());
+			stmt.setString(3 , profile.getImagePath());
+			stmt.setString(4 , profile.getText());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,14 +92,16 @@ public class ProfileDaoImpl implements ProfileDao{
 	}
 
 	@Override
-	public void updateImagePath(String userId, String newPath) throws SQLException {
+	public void updateImage(String userId, String newPath, String base64Data) throws SQLException {
 		String sql = "UPDATE profile SET "
 				+ " image_path = ?"
+				+ " ,base64_data = ?"
 				+ " WHERE user_id = ?";
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1 , newPath);
-			stmt.setString(2 , userId);
+			stmt.setString(2 , base64Data);
+			stmt.setString(3 , userId);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -104,9 +110,19 @@ public class ProfileDaoImpl implements ProfileDao{
 	}
 
 	@Override
-	public void updateText(String userId, String newText) {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	public void updateText(String userId, String newText) throws SQLException  {
+		String sql = "UPDATE profile SET "
+				+ " text = ?"
+				+ " WHERE user_id = ?";
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1 , newText);
+			stmt.setString(2 , userId);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}		
 	}
 
 }

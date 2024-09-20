@@ -10,7 +10,7 @@ public interface ProfileDao {
 	Profile findByUserId(String userId);
 	void insert(Profile profile) throws SQLException;
 	void updateRow(Profile profile);
-	void updateImagePath(String userId, String newPath) throws SQLException;
-	void updateText(String userId, String newText);
+	void updateImage(String userId, String newPath, String base64Data) throws SQLException;
+	void updateText(String userId, String newText) throws SQLException;
 	void deleteById(Profile profile);
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DaoFactory;
+import dao.ProfileDao;
 import util.StringValidator;
 
 /**
@@ -50,8 +53,9 @@ public class ChangePrfTextServlet extends HttpServlet {
 		StringValidator sv = new StringValidator();
 		
 		// バリデーション
-		// 必須チェック 文字種チェック　長さチェック
-		if(!sv.validate(text, 0, 200, StringValidator.NO_CHECK, "プロフィール本文")) {
+		// 長さチェック
+		System.out.println("文字長" + text.length());
+		if(!sv.isValidLength(text, 0, 200, "プロフィール本文")) {
 			errorList.addAll(sv.getErrorList());
 		}
 		sv.clearErrorMessage();
@@ -60,9 +64,19 @@ public class ChangePrfTextServlet extends HttpServlet {
 		if(errorList.size() > 0) {
 			request.setAttribute("profText", text);
 			request.setAttribute("errorListChild", errorList);
+			request.getRequestDispatcher("/portal").forward(request, response);
+			return;
 		}
 		
-		
+		// 登録処理
+		try {
+		ProfileDao pd = DaoFactory.createProfileDao();
+		pd.updateText(userId, text);
+		} catch (SQLException e) {
+			errorList.add("プロフィール本文の更新処理に失敗しました");
+			request.setAttribute("errorListChild", errorList);
+			e.printStackTrace();
+		}
 		request.getRequestDispatcher("/portal").forward(request, response);
 	}
 	

@@ -16,6 +16,23 @@ th, td {
   text-align: left;
 }
 
+ .event-status {
+            display: inline-block;
+            border: 2px solid black;
+            padding: 2px 5px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .event-item {
+            cursor: pointer;
+        }
+        .event-organizer-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
 @media screen and (max-width: 600px) {
   table, thead, tbody, th, td, tr {
     display: block;

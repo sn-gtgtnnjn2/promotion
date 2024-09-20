@@ -6,6 +6,7 @@ public class Profile {
 	private String userId;
 	private String imagePath;
 	private String text;
+	private String Base64Data;
 	private Date entryDatetime;
 	private Date updateDatetime;
 	private Boolean deleteFlg;
@@ -54,6 +55,14 @@ public class Profile {
 	}
 	public void setDeleteFlg(Boolean deleteFlg) {
 		this.deleteFlg = deleteFlg;
+	}
+
+	public String getBase64Data() {
+		return Base64Data;
+	}
+
+	public void setBase64Data(String base64Data) {
+		Base64Data = base64Data;
 	}
 }
 

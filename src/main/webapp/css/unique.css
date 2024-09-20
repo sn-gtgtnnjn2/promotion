@@ -25,9 +25,9 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    width: 60vw;
+    margin: 0 auto;
+    width: 80%;
+    height: auto;
 }
 
 .block {
@@ -66,12 +66,12 @@ main {
     color: blue;
 }
 
-.sample {
+.event-list {
     list-style-type: none;
     padding: 0;
 }
 
-.sample li {
+.event-list li {
     background-color: #79BD9A;
     color: #fff;
     padding: 0.5em;
@@ -238,4 +238,8 @@ div.block .calendar table{
  line-height: 1.5;
  height: 80px;
  width: 200px;
+}
+
+div.box div {
+	overflow-wrap: break-word;
 }

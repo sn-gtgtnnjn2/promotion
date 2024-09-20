@@ -45,6 +45,7 @@ public class StringValidator {
 
     // 文字の長さが適切かチェック（例: 5〜10文字）
     public boolean isValidLength(String input, int minLength, int maxLength, String itemName) {
+    	System.out.println(input);
         if (input.length() < minLength || input.length() > maxLength) {
         	errorList.add(itemName + ":文字の長さが不適切です。" + minLength + "〜" + maxLength + "文字で入力してください。");
             return false;

@@ -19,6 +19,16 @@ public class DaoFactory {
 		ProfileDaoImpl pd = new ProfileDaoImpl(getDataSource());
 		return pd;
 	}
+	
+	public static EventDaoImpl createEventDao() {
+		EventDaoImpl edi = new EventDaoImpl(getDataSource());
+		return edi;
+	}
+	
+	public static EntryApprovalDaoImpl createEntryApprovalDao() {
+		EntryApprovalDaoImpl eadi = new EntryApprovalDaoImpl(getDataSource());
+		return eadi;
+	}
 	private static DataSource getDataSource() {
 		InitialContext ctx = null;
 		DataSource ds = null;

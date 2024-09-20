@@ -2,6 +2,10 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.ServletContext;
@@ -12,10 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.EventInfo;
 import dao.DaoFactory;
+import dao.EntryApprovalDao;
+import dao.EventDao;
 import dao.ProfileDao;
+import dto.EntryApproval;
 import dto.Profile;
-import util.Base64ImageEncoder;
 
 /**
  * Servlet implementation class PortalServlet
@@ -55,12 +62,19 @@ public class PortalServlet extends HttpServlet {
 		String path = ctx.getRealPath(UploadServlet.UPLOAD_DIR);
 		File imgFile = new File(path + "/" +profile.getImagePath());
 		System.out.println("ある？"+imgFile.exists());
-		String strImageData = "";
-		if(imgFile.exists()) {
-			strImageData = Base64ImageEncoder.encodeImage(imgFile.getPath());
-		}
+//		String strImageData = "";
+//		if(imgFile.exists()) {
+//			strImageData = Base64ImageEncoder.encodeImage(imgFile.getPath());
+//		}
 		
-		request.setAttribute("strImageData", strImageData);
+		try {
+			request.setAttribute("eventInfoList", getEventInfoListForPortal(userId));
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		request.setAttribute("strImageData", profile.getBase64Data());
+		request.setAttribute("profText", profile.getText());
 		request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
 	}
 
@@ -72,4 +86,36 @@ public class PortalServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+	private List<EventInfo> getEventInfoListForPortal(String userId) throws SQLException {
+		EntryApprovalDao ead = DaoFactory.createEntryApprovalDao();
+		EventDao ed = DaoFactory.createEventDao();
+		
+		List<EntryApproval> eaList;
+			eaList = ead.selectByUserId(userId);
+		System.out.println("ead.selectByUserId(userId):" + eaList.size());
+		List<Integer> eventIdList = new ArrayList<Integer>();
+		
+		List<EventInfo> eventList = null;
+		// 対象イベントIDリストを生成する。
+		if(!Objects.isNull(eaList) && eaList.size() != 0) {			
+			for(int i = 0; i < eaList.size(); i ++) {
+				eventIdList.add(eaList.get(i).getEventID());
+			}
+		}
+		if (!Objects.isNull(eventIdList) && eventIdList.size() != 0) {
+			eventList = ed.selectByEventIds(eventIdList);
+			for (int i = 0; i < eventList.size(); i++) {
+				// 参加締め切り前、締め切り後を判定してステータスをセット
+				eventList.get(i).setStatus(getEventStatus(eventList.get(i).getRecruitmentStartDate(),
+						eventList.get(i).getRecruitmentEndDate()));
+			}
+		}
+		
+		return eventList;
+	}
+
+	private Integer getEventStatus(Date recruitmentStartDate, Date recruitmentEndDate) {
+		// TODO 自動生成されたメソッド・スタブ
+		return 1;
+	}
 }

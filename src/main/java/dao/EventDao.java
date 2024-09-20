@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import bean.EventInfo;
 import dto.Event;
 
 public interface EventDao {
@@ -11,4 +12,5 @@ public interface EventDao {
 	void insert(Event Event);
 	void updateRow(Event Event);
 	void deleteById(Event Event);
+	public List<EventInfo> selectByEventIds(List<Integer> eventIds);
 }
