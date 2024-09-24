@@ -9,7 +9,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import dto.EntryApproval;
 import dto.EventAndDetail;
+import util.Constants;
 import util.GeneralFormatter;
 
 public class EventAndDetailDaoImpl implements EventAndDetailDao {
@@ -58,7 +60,7 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				ead.setRecruitmentStartDate(rs.getTimestamp("recruitment_start_date"));
 				ead.setRecruitmentEndDate(rs.getTimestamp("recruitment_end_date"));
 				ead.setMemberLimit(rs.getInt("member_limit"));
-				ead.setopenLevel(rs.getInt("open_level"));
+				ead.setOpenLevel(rs.getInt("open_level"));
 				ead.setStatus(rs.getInt("status"));
 				eadList.add(ead);
 			}
@@ -75,9 +77,54 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 	}
 
 	@Override
-	public EventAndDetail findByEventId(Integer eventId) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public EventAndDetail findByEventId(Integer eventId) throws SQLException {
+		String sql = "SELECT  "
+				+ " event.event_id as event_id"
+				+ ", event.user_id as user_id"
+				+ ", event_title"
+				+ ", event_datetime"
+				+ ", organizer_name"
+				+ ", organizer_id"
+				+ ", scenario_title"
+				+ ", recruitment_start_date"
+				+ ", recruitment_end_date"
+				+ ", member_limit"
+				+ ", detail"
+				+ ", status"
+				+ ", event.entry_datetime as entry_datetime"
+				+ ", event.update_datetime as update_datetime"
+				+ ", event.delete_flg as delete_flg"
+				+ " FROM event inner join event_detail "
+				+ " ON event.event_id = event_detail.event_id"
+				+ " WHERE event.event_id = ?";
+		EventAndDetail ead = null;
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, eventId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				ead = new EventAndDetail(); 
+				ead.setEventId(rs.getInt("event_id"));
+				ead.setEventTitle(rs.getString("event_title"));
+				ead.setEventDatetime(rs.getTimestamp("event_datetime"));
+				ead.setUserId(rs.getString("user_id"));
+				ead.setOrganizerId(rs.getString("organizer_id"));
+				ead.setOrganizerName(rs.getString("organizer_name"));
+				ead.setScenarioTitle(rs.getString("scenario_title"));
+				ead.setRecruitmentStartDate(rs.getTimestamp("recruitment_start_date"));
+				ead.setRecruitmentEndDate(rs.getTimestamp("recruitment_end_date"));
+				ead.setMemberLimit(rs.getInt("member_limit"));
+				ead.setDetail(rs.getString("detail"));
+				ead.setEntryDatetime(rs.getTimestamp("entry_datetime"));
+				ead.setUpdateDatetime(rs.getTimestamp("update_datetime"));
+				ead.setDeleteFlg(rs.getBoolean("delete_flg"));
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+				
+		return ead;
 	}
 
 	@Override
@@ -92,8 +139,9 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				+ ", recruitment_start_date"
 				+ ", recruitment_end_date"
 				+ ", member_limit"
+				+ ", open_level"
 				+ ", status"
-				+ ") values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+				+ ") values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 		
 		String sql2 = "INSERT INTO event_detail ( "
 				+ " event_id"
@@ -115,7 +163,8 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				stmtEvent.setTimestamp(7, GeneralFormatter.convDateToSqlTimestamp(ead.getRecruitmentStartDate()));
 				stmtEvent.setTimestamp(8, GeneralFormatter.convDateToSqlTimestamp(ead.getRecruitmentEndDate()));
 				stmtEvent.setInt(9, ead.getMemberLimit());
-				stmtEvent.setInt(10, 0);
+				stmtEvent.setInt(10, ead.getOpenLevel());
+				stmtEvent.setInt(11, 0);
 				System.out.println(sql);
 				System.out.println(sql2);
 				stmtEvent.executeUpdate();
@@ -123,11 +172,20 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				PreparedStatement stmtEventDetail = con.prepareStatement(sql2);
 				ResultSet keys = stmtEvent.getGeneratedKeys();
 				keys.next();
-				System.out.println(keys.getInt(1));
+				Integer newEventId = keys.getInt(1);
+				System.out.println(newEventId);
 				stmtEventDetail.setInt(1, keys.getInt(1)); // カラムインデックスを使用
 				stmtEventDetail.setString(2, ead.getUserId());
 				stmtEventDetail.setString(3, ead.getDetail());
 				stmtEventDetail.executeUpdate();
+				
+				// 応募状況テーブルにも追加
+				EntryApprovalDao entAppDao = DaoFactory.createEntryApprovalDao();
+				EntryApproval entApp = new EntryApproval();
+				entApp.setEventID(newEventId);
+				entApp.setSignUpUserId(ead.getUserId());
+				entApp.setApprovalStatus(Constants.EVENT_APPROVAL_AVAILABLE);		
+				entAppDao.insert(entApp);
 				
 				con.commit();
 				

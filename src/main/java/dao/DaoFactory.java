@@ -29,6 +29,12 @@ public class DaoFactory {
 		EntryApprovalDaoImpl eadi = new EntryApprovalDaoImpl(getDataSource());
 		return eadi;
 	}
+	
+	public static EventInfoDaoImpl createEventInfoDao() {
+		EventInfoDaoImpl eid = new EventInfoDaoImpl(getDataSource());
+		return eid;
+	}
+	
 	private static DataSource getDataSource() {
 		InitialContext ctx = null;
 		DataSource ds = null;

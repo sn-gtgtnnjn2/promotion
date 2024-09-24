@@ -71,19 +71,34 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 	}
 
 	@Override
-	public void insert(EntryApproval EventApproval) {
+	public void insert(EntryApproval entryApproval) throws SQLException {
+		System.out.println("ここまで到達");
+		String sql = "INSERT into entry_Approval ("
+				+ "event_id"
+				+ ", sign_up_user_id"
+				+ ", approve_status"
+				+ ") values ( ?, ?, ?)";
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, entryApproval.getEventID());
+			stmt.setString(2, entryApproval.getSignUpUserId());
+			stmt.setInt(3, entryApproval.getApprovalStatus());
+			stmt.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public void updateRow(EntryApproval entryApproval) {
 		// TODO 自動生成されたメソッド・スタブ
 		
 	}
 
 	@Override
-	public void updateRow(EntryApproval EventApproval) {
-		// TODO 自動生成されたメソッド・スタブ
-		
-	}
-
-	@Override
-	public void deleteById(EntryApproval EventApproval) {
+	public void deleteById(EntryApproval entryApproval) {
 		// TODO 自動生成されたメソッド・スタブ
 		
 	}

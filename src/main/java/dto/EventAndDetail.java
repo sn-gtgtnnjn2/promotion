@@ -86,10 +86,10 @@ public class EventAndDetail {
 	public void setMemberLimit(Integer memberLimit) {
 		this.memberLimit = memberLimit;
 	}
-	public Integer getopenLevel() {
+	public Integer getOpenLevel() {
 		return openLevel;
 	}
-	public void setopenLevel(Integer openLevel) {
+	public void setOpenLevel(Integer openLevel) {
 		this.openLevel = openLevel;
 	}
 	public Integer getStatus() {

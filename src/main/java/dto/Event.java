@@ -3,9 +3,10 @@ package dto;
 import java.util.Date;
 
 public class Event {
-	private Integer event_id;
-	private String user_id;
-	private String event_title;
+	private Integer eventId;
+	private String userId;
+	private String eventTitle;
+	private Date eventDate;
 	private String organizerName;
 	private String organizerId;
 	private String scenarioTitle;
@@ -17,24 +18,25 @@ public class Event {
 	private Date entryDatetime;
 	private Date updateDatetime;
 	private Boolean deleteFlg;
+	private String organizerImageString;
 	
-	public Integer getEvent_id() {
-		return event_id;
+	public Integer getEventId() {
+		return eventId;
 	}
-	public void setEvent_id(Integer event_id) {
-		this.event_id = event_id;
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getEvent_title() {
-		return event_title;
+	public String getEventTitle() {
+		return eventTitle;
 	}
-	public void setEvent_title(String event_title) {
-		this.event_title = event_title;
+	public void setEventTitle(String eventTitle) {
+		this.eventTitle = eventTitle;
 	}
 	public String getOrganizerName() {
 		return organizerName;
@@ -72,6 +74,18 @@ public class Event {
 	public void setMemberLimit(Integer memberLimit) {
 		this.memberLimit = memberLimit;
 	}
+	public Date getEventDate() {
+		return eventDate;
+	}
+	public void setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
+	}
+	public Integer getOpenLevel() {
+		return openLevel;
+	}
+	public void setOpenLevel(Integer openLevel) {
+		this.openLevel = openLevel;
+	}
 	public Integer getopenLevel() {
 		return openLevel;
 	}
@@ -101,6 +115,12 @@ public class Event {
 	}
 	public void setDeleteFlg(Boolean deleteFlg) {
 		this.deleteFlg = deleteFlg;
+	}
+	public String getOrganizerImageString() {
+		return organizerImageString;
+	}
+	public void setOrganizerImageString(String organizerImageString) {
+		this.organizerImageString = organizerImageString;
 	}
 
 }

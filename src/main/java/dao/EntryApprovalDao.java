@@ -11,7 +11,7 @@ public interface EntryApprovalDao {
 	EntryApproval findById(Integer id);
 	EntryApproval selectByEventId(Integer eventId);
 	List<EntryApproval> selectByUserId(String userId) throws SQLException;
-	void insert(EntryApproval EventApproval);
+	void insert(EntryApproval EventApproval) throws SQLException;
 	void updateRow(EntryApproval EventApproval);
 	void deleteById(EntryApproval EventApproval);
 	public List<EntryApproval> selectByEventIds(List<Integer> eventIds);

@@ -46,6 +46,7 @@ public class RegistEventServlet extends HttpServlet {
 		
 		// BeanからDtoを作成
 		EventAndDetail ead = new EventAndDetail();
+
 		ead.setEventTitle(eadb.getEventTitle());
 		ead.setEventDatetime(eadb.getEventDate());
 		ead.setUserId(eadb.getUserId());
@@ -56,9 +57,10 @@ public class RegistEventServlet extends HttpServlet {
 		ead.setRecruitmentStartDate(eadb.getRecruitmentStartDate());
 		ead.setRecruitmentEndDate(eadb.getRecruitmentEndDate());
 		ead.setMemberLimit(eadb.getMemberLimit());
-		ead.setopenLevel(eadb.getopenLevel());
+		ead.setOpenLevel(eadb.getopenLevel());
 		ead.setStatus(eadb.getStatus());
 		eadd.insert(ead);
+		
 		session.removeAttribute("eadb");
 		request.setAttribute("info", "イベントが追加されました");
 		request.getRequestDispatcher("/portal").forward(request, response);

@@ -12,7 +12,7 @@
 		href="<%=request.getContextPath()%>/css/event_list.css">
 	<header>
 		<h1>
-			TRPG Resume Site<img class="logo" src="img/logo.png" alt="" />
+			TRPG Resume Site<img class="logo" src="<%= request.getContextPath() %>/img/logo.png" alt="" />
 		</h1>
 	</header>
 
@@ -24,7 +24,10 @@
 	    var text = '<%=request.getAttribute("profText")%>';
 	    console.log(errorListChild);
 	    console.log("errorListChild:" + errorListChild);
+	    console.log("(errorListChild == null):" + (errorListChild == null));
+	    console.log("(errorListChild === null):" + (errorListChild === null));
 	    console.log("(errorListChild !== null):" + (errorListChild !== null));
+	    console.log("(errorListChild == undefined):" + (errorListChild == undefined));
 	    console.log(!(errorListChild !== null));
 
 	    if (errorListChild !== "null" && errorListChild !== null && errorListChild !== "" && errorListChild.trim().length > 0) {
@@ -100,7 +103,7 @@
 					</div>
 				</div>
 								<div class="box">
-					<div class="midashi">カレンダー【ラベル】</div>
+					<div class="midashi">カレンダー</div>
 					<div id="calendar">
 						<div class="calendar-header">
 							<span id="prev" class="arrow">&#9664;</span> <span
@@ -112,8 +115,8 @@
 			<div class="block">
 
 				<div class="box">
-					<div class="midashi">イベント一覧【ラベル】</div>
-					
+					<div class="midashi">イベント一覧</div>
+	<!--				
 					<ul id="event-list" class="event-list">
 						<li class="event-item"
 							onclick="location.href='event-details.html'"><span
@@ -131,7 +134,25 @@
 							<span class="event-organizer">地域コミュニティ</span> <a
 							href="event-edit.html" class="event-edit-link"
 							style="display: none;">イベント編集</a></li>
-						<!-- 他のイベントも同様に追加 -->
+					</ul>
+	  -->
+					<ul class="event-list">
+					
+					${eventInfo.organizerImageString }
+					<c:forEach items="${eventInfoList}" var="eventInfo">
+					<fmt:formatDate value="${eventInfo.eventDate}" pattern="yyyy/MM/dd HH:mm" var="eventDateFormatted"/>
+					<li class="event-item"
+							onclick="location.href='<%= request.getContextPath() %>/eventView?eventId=${eventInfo.eventId }'"><span
+							class="event-date"><c:out value="${eventDateFormatted}" /></span> 
+							<img src="data:image/jpeg;base64,${eventInfo.organizerImageString }"
+							alt="${eventInfo.organizerName }" class="event-organizer-icon"> <span
+							class="event-status">募集中</span> <span class="event-title">${eventInfo.eventTitle }</span>
+							<span class="event-organizer">${eventInfo.organizerName }</span> <a
+							href="EventViewServlet?eventId=${eventInfo.eventId }" class="event-edit-link"
+							style="display: none;">イベント編集</a>
+					</li>
+					
+					</c:forEach>
 					</ul>
 				</div>
 			</div>

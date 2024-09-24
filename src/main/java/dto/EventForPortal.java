@@ -1,10 +1,8 @@
-package bean;
+package dto;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class EventInfo implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class EventForPortal {
 	private Integer eventId;
 	private String userId;
 	private String eventTitle;
@@ -17,28 +15,16 @@ public class EventInfo implements Serializable{
 	private Integer memberLimit;
 	private Integer openLevel;
 	private Integer status;
+	private Date entryDatetime;
+	private Date updateDatetime;
+	private Boolean deleteFlg;
 	private String organizerImageString;
 	
-	public String getOrganizerImageString() {
-		return organizerImageString;
-	}
-	public void setOrganizerImageString(String organizerImageString) {
-		this.organizerImageString = organizerImageString;
-	}
 	public Integer getEventId() {
 		return eventId;
 	}
 	public void setEventId(Integer eventId) {
 		this.eventId = eventId;
-	}
-	public Date getEventDate() {
-		return eventDate;
-	}
-//	public String getFormattedEventDate() {
-//		return GeneralFormatter.toISO8601(eventDate);
-//	}
-	public void setEventDate(Date eventDate) {
-		this.eventDate = eventDate;
 	}
 	public String getUserId() {
 		return userId;
@@ -70,18 +56,15 @@ public class EventInfo implements Serializable{
 	public void setScenarioTitle(String scenarioTitle) {
 		this.scenarioTitle = scenarioTitle;
 	}
-
 	public Date getRecruitmentStartDate() {
 		return recruitmentStartDate;
 	}
-
 	public void setRecruitmentStartDate(Date recruitmentStartDate) {
 		this.recruitmentStartDate = recruitmentStartDate;
 	}
 	public Date getRecruitmentEndDate() {
 		return recruitmentEndDate;
 	}
-
 	public void setRecruitmentEndDate(Date recruitmentEndDate) {
 		this.recruitmentEndDate = recruitmentEndDate;
 	}
@@ -91,10 +74,22 @@ public class EventInfo implements Serializable{
 	public void setMemberLimit(Integer memberLimit) {
 		this.memberLimit = memberLimit;
 	}
-	public Integer getopenLevel() {
+	public Date getEventDate() {
+		return eventDate;
+	}
+	public void setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
+	}
+	public Integer getOpenLevel() {
 		return openLevel;
 	}
 	public void setOpenLevel(Integer openLevel) {
+		this.openLevel = openLevel;
+	}
+	public Integer getopenLevel() {
+		return openLevel;
+	}
+	public void setopenLevel(Integer openLevel) {
 		this.openLevel = openLevel;
 	}
 	public Integer getStatus() {
@@ -102,6 +97,30 @@ public class EventInfo implements Serializable{
 	}
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+	public Date getEntryDatetime() {
+		return entryDatetime;
+	}
+	public void setEntryDatetime(Date entryDatetime) {
+		this.entryDatetime = entryDatetime;
+	}
+	public Date getUpdateDatetime() {
+		return updateDatetime;
+	}
+	public void setUpdateDatetime(Date updateDatetime) {
+		this.updateDatetime = updateDatetime;
+	}
+	public Boolean getDeleteFlg() {
+		return deleteFlg;
+	}
+	public void setDeleteFlg(Boolean deleteFlg) {
+		this.deleteFlg = deleteFlg;
+	}
+	public String getOrganizerImageString() {
+		return organizerImageString;
+	}
+	public void setOrganizerImageString(String organizerImageString) {
+		this.organizerImageString = organizerImageString;
 	}
 
 }

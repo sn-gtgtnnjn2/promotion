@@ -2,15 +2,15 @@ package dao;
 
 import java.util.List;
 
-import bean.EventInfo;
 import dto.Event;
 
 public interface EventDao {
 	List<Event> selectAll();
-	Event findById(Integer id);
+	List<Event> findByUserId(String userId);
+	List<Event> findRecentInfo(Integer monthRange);
 	Event findByEventId(Integer eventId);
 	void insert(Event Event);
 	void updateRow(Event Event);
 	void deleteById(Event Event);
-	public List<EventInfo> selectByEventIds(List<Integer> eventIds);
+	public List<Event> selectByEventIds(List<Integer> eventIds);
 }
