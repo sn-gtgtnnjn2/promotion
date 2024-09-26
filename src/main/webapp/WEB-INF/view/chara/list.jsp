@@ -53,7 +53,7 @@
 <table border="1">
     <c:forEach var="charaInfo" items="${charaInfoList}" varStatus="status">
         <c:if test="${status.index % 2 == 0}">
-            <tr class="${status.index >= 8 ? 'hidden' : ''}">
+            <tr class="${status.index >= 4 ? 'hidden' : ''}">
         </c:if>
             <td>
                 <a href="">
