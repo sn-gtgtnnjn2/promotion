@@ -19,36 +19,37 @@
 					</div>
 				
 					<div class="midashi">キャラクター登録</div>
-					<form method="post">
+					<form method="post" enctype="multipart/form-data">
 						<table>
 							<tr>
-								<td><label for="eventTitle">キャラクター名:</label></td>
-								<td><input type="text" id="eventTitle" name="eventTitle" value="${eadb.eventTitle }"
-									required></td>
+								<td><label for="characterName">キャラクター名:</label></td>
+								<td><input type="text" id="characterName"
+									name="characterName" value="${charaInfo.characterName}" required></td>
 							</tr>
 							<tr>
-								<td><label for="eventTitle">キャラクター名（フリガナ）:</label></td>
-								<td><input type="text" id="eventTitle" name="eventTitle" value="${eadb.eventTitle }"
-									required></td>
+								<td><label for="characterNameFurigana">キャラクター名（フリガナ）:</label></td>
+								<td><input type="text" id="characterNameFurigana"
+									name="characterNameFurigana"
+									value="${charaInfo.characterNameFurigana}" required></td>
 							</tr>
 							<tr>
-								<td><label for="eventDate">画像</label></td>
-								<td><input type="datetime-local" id="eventDate" 
-									name="eventDate" value="${eventDate }" required></td>
+								<td><label for="imageUpload">画像</label></td>
+								<td><input type="file" id="imageUpload" name="imageUpload"
+									accept="image/*" required></td>
 							</tr>
 							<tr>
-								<td><label for="scenarioTitle">メモ欄</label></td>
-								<td><input type="text" id="scenarioTitle"
-									name="scenarioTitle" value="${eadb.scenarioTitle }" required></td>
+								<td><label for="memo">メモ欄</label></td>
+								<td><textarea id="memo" name="memo" required>${charaInfo.memo}</textarea></td>
 							</tr>
 							<tr>
-								<td><label for="detail">外部リンク</label></td>
-								<td><textarea id="detail" name="detail" required>${eadb.detail }</textarea></td>
+								<td><label for="externalLink">外部リンク</label></td>
+								<td><input type="url" id="externalLink" name="externalLink"
+									value="${charaInfo.externalLink}" required></td>
 							</tr>
-							
 							<tr>
 								<td colspan="2" style="text-align: center;">
-									<button onclick="location.href= '<%= request.getContextPath() %>/portal'">戻る</button> 
+									<button type="button"
+										onclick="location.href='<%=request.getContextPath()%>/portal'">戻る</button>
 									<input type="submit" value="確認画面へ">
 								</td>
 							</tr>

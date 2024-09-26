@@ -35,6 +35,11 @@ public class DaoFactory {
 		return eid;
 	}
 	
+	public static CharasDaoImpl createCharasDao() {
+		CharasDaoImpl cdi = new CharasDaoImpl(getDataSource());
+		return cdi;
+	}
+	
 	private static DataSource getDataSource() {
 		InitialContext ctx = null;
 		DataSource ds = null;

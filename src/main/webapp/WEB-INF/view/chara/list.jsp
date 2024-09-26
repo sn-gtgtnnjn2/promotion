@@ -49,81 +49,30 @@
 				</div>
 				<div class="box">
 				<div class="midashi">キャラクター一覧</div>
+
 <table border="1">
-            <tr>
-                <td>
-                    <a href="<%= request.getContextPath() %>/chara/viewCharaDetail">
-                        <img src="キャラクター画像1.png" alt="キャラクター1">
-                    </a>
-                    <div>キャラクター1</div>
-                    <div>年齢: 20</div>
-                    <div>職業: 冒険者</div>
-                </td>
-                <td>
-                    <a href="キャラクター詳細ページ2.html">
-                        <img src="キャラクター画像2.png" alt="キャラクター2">
-                    </a>
-                    <div>キャラクター2</div>
-                    <div>年齢: 25</div>
-                    <div>職業: 魔法使い</div>
-                </td>
+    <c:forEach var="charaInfo" items="${charaInfoList}" varStatus="status">
+        <c:if test="${status.index % 2 == 0}">
+            <tr class="${status.index >= 8 ? 'hidden' : ''}">
+        </c:if>
+            <td>
+                <a href="">
+                	<div class="preview-img">
+                    <img src="<%= request.getContextPath() %>/${charaInfo.imageFilePath}" alt="${charaInfo.characterName}">
+                    </div>
+                </a>
+                <div>名前：<c:out value= "${charaInfo.characterName}" />(<c:out value="${charaInfo.characterNameFurigana}" />)</div>
+                <div>外部リンク: ${charaInfo.externalLink}</div>
+            </td>
+        <c:if test="${status.index % 2 == 1}">
             </tr>
-            <tr>
-                <td>
-                    <a href="キャラクター詳細ページ3.html">
-                        <img src="キャラクター画像3.png" alt="キャラクター3">
-                    </a>
-                    <div>キャラクター3</div>
-                    <div>年齢: 30</div>
-                    <div>職業: 戦士</div>
-                </td>
-                <td>
-                    <a href="キャラクター詳細ページ4.html">
-                        <img src="キャラクター画像4.png" alt="キャラクター4">
-                    </a>
-                    <div>キャラクター4</div>
-                    <div>年齢: 22</div>
-                    <div>職業: 盗賊</div>
-                </td>
-            </tr>
-            <tr class="hidden">
-                <td>
-                    <a href="キャラクター詳細ページ5.html">
-                        <img src="キャラクター画像5.png" alt="キャラクター5">
-                    </a>
-                    <div>キャラクター5</div>
-                    <div>年齢: 28</div>
-                    <div>職業: 騎士</div>
-                </td>
-                <td>
-                    <a href="キャラクター詳細ページ6.html">
-                        <img src="キャラクター画像6.png" alt="キャラクター6">
-                    </a>
-                    <div>キャラクター6</div>
-                    <div>年齢: 24</div>
-                    <div>職業: 僧侶</div>
-                </td>
-            </tr>
-            <tr class="hidden">
-                <td>
-                    <a href="キャラクター詳細ページ7.html">
-                        <img src="キャラクター画像7.png" alt="キャラクター7">
-                    </a>
-                    <div>キャラクター7</div>
-                    <div>年齢: 26</div>
-                    <div>職業: 弓使い</div>
-                </td>
-                <td>
-                    <a href="キャラクター詳細ページ8.html">
-                        <img src="キャラクター画像8.png" alt="キャラクター8">
-                    </a>
-                    <div>キャラクター8</div>
-                    <div>年齢: 29</div>
-                    <div>職業: 錬金術師</div>
-                </td>
-            </tr>
-            <!-- 追加の行も同様に記述 -->
-        </table>
+        </c:if>
+            <!-- もしキャラクターの数が奇数の場合、最後の行を閉じる -->
+    <c:if test="${characters.size() % 2 != 0}">
+        </tr>
+    </c:if>
+    </c:forEach>
+</table>
         <button id="viewMoreBtn" onclick="showMore()">view more</button>
         <button id="closeBtn" class="hidden" onclick="closeRows()">close</button>
     </div>

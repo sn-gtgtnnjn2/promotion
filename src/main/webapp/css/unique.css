@@ -243,3 +243,7 @@ div.block .calendar table{
 div.box div {
 	overflow-wrap: break-word;
 }
+
+div.preview-img img{
+	width:200px;
+}
