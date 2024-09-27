@@ -2,7 +2,7 @@ package dto;
 
 import java.util.Date;
 
-public class EntryApproval {
+public class EntryApprovalWithPict {
 	private Integer id;
 	private Integer eventID;
 	private String signUpUserId;
@@ -10,6 +10,8 @@ public class EntryApproval {
 	private Date entryDatetime;
 	private Date updateDatetime;
 	private Boolean deleteFlg;
+	private String userName;
+	private String base64ImgStr;
 	
 	public Integer getId() {
 		return id;
@@ -52,6 +54,18 @@ public class EntryApproval {
 	}
 	public void setDeleteFlg(Boolean deleteFlg) {
 		this.deleteFlg = deleteFlg;
+	}
+	public String getBase64ImgStr() {
+		return base64ImgStr;
+	}
+	public void setBase64ImgStr(String base64ImgStr) {
+		this.base64ImgStr = base64ImgStr;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

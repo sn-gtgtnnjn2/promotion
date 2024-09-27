@@ -62,6 +62,7 @@ public class ProfileDaoImpl implements ProfileDao{
 				+ " user_id"
 				+ ", image_path"
 				+ ", base64_data"
+				+ ", img_file_type"
 				+ ", text"
 				+ ") values ("
 				+ "?, ?, ? )";
@@ -69,8 +70,9 @@ public class ProfileDaoImpl implements ProfileDao{
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1 , profile.getUserId());
 			stmt.setString(2 , profile.getBase64Data());
-			stmt.setString(3 , profile.getImagePath());
-			stmt.setString(4 , profile.getText());
+			stmt.setString(3 , profile.getImgFileType());
+			stmt.setString(4 , profile.getImagePath());
+			stmt.setString(5 , profile.getText());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -92,16 +94,18 @@ public class ProfileDaoImpl implements ProfileDao{
 	}
 
 	@Override
-	public void updateImage(String userId, String newPath, String base64Data) throws SQLException {
+	public void updateImage(String userId, String newPath, String base64Data, String fileExtention) throws SQLException {
 		String sql = "UPDATE profile SET "
 				+ " image_path = ?"
 				+ " ,base64_data = ?"
+				+ " ,img_file_type = ?"
 				+ " WHERE user_id = ?";
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1 , newPath);
 			stmt.setString(2 , base64Data);
-			stmt.setString(3 , userId);
+			stmt.setString(3 , fileExtention);
+			stmt.setString(4 , userId);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

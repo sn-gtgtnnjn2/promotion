@@ -19,7 +19,7 @@ import dto.EventAndDetail;
 /**
  * Servlet implementation class EventViewServlet
  */
-@WebServlet("/eventView")
+@WebServlet("/sseventView")
 public class EventViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -104,7 +104,7 @@ public class UploadServlet extends HttpServlet {
 				ServletContext ctx = request.getServletContext();
 				String path = ctx.getRealPath(UploadServlet.UPLOAD_DIR);
 				File imgFile = new File(path + "/" + saveTargetPath);
-				pd.updateImage(userId, saveTargetPath, Base64ImageEncoder.encodeImage(imgFile.getPath()));
+				pd.updateImage(userId, saveTargetPath, Base64ImageEncoder.encodeImage(imgFile.getPath()), fileExtention);
 
 			} catch (IOException e) {
 				errorList.add("アップロード失敗：画像の保存に失敗しました");
@@ -135,7 +135,7 @@ public class UploadServlet extends HttpServlet {
 		User user = ud.findByUserId(userId);
 		return user.getId();
 	}
-//
+
 //	private String saveFile(Part part, String filename, Integer id) throws IOException {
 //		Integer unitDir = id / 100 + 1;
 //		File userDir = new File(getServletContext().getRealPath(UPLOAD_DIR), unitDir.toString());

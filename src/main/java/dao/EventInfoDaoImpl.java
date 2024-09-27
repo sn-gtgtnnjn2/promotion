@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
+import bean.EventInfo;
 import dto.Event;
 
 public class EventInfoDaoImpl implements EventInfoDao{
@@ -76,6 +77,12 @@ public class EventInfoDaoImpl implements EventInfoDao{
 			eiList.add(ei);
 		}
 		return eiList;
+	}
+
+	@Override
+	public EventInfo findByEventId(Integer eventId) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 	
 }

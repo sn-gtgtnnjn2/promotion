@@ -10,9 +10,13 @@ public class Profile {
 	private Date entryDatetime;
 	private Date updateDatetime;
 	private Boolean deleteFlg;
+	private String imgFileType;
 	
-	public Profile() {
-		
+	public Profile(String userId, String imagePath, String text, String imgFileType) {
+		this.userId = userId;
+		this.imagePath = imagePath;
+		this.text = text;
+		this.imagePath = imgFileType;
 	}
 	
 	public Profile(String userId, String imagePath, String text) {
@@ -20,6 +24,10 @@ public class Profile {
 		this.imagePath = imagePath;
 		this.text = text;
 	}
+	public Profile() {
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -63,6 +71,14 @@ public class Profile {
 
 	public void setBase64Data(String base64Data) {
 		Base64Data = base64Data;
+	}
+
+	public String getImgFileType() {
+		return imgFileType;
+	}
+
+	public void setImgFileType(String imgFileType) {
+		this.imgFileType = imgFileType;
 	}
 }
 

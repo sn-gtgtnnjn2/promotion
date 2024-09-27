@@ -116,42 +116,23 @@
 
 				<div class="box">
 					<div class="midashi">イベント一覧</div>
-	<!--				
-					<ul id="event-list" class="event-list">
-						<li class="event-item"
-							onclick="location.href='event-details.html'"><span
-							class="event-date">2024-09-25</span> <img src="organizer1.jpg"
-							alt="主催者アイコン" class="event-organizer-icon"> <span
-							class="event-status">募集中</span> <span class="event-title">秋の音楽祭</span>
-							<span class="event-organizer">音楽協会</span> <a
-							href="event-edit.html" class="event-edit-link"
-							style="display: none;">イベント編集</a></li>
-						<li class="event-item"
-							onclick="location.href='event-details.html'"><span
-							class="event-date">2024-10-10</span> <img src="organizer2.jpg"
-							alt="主催者アイコン" class="event-organizer-icon"> <span
-							class="event-status">開催待ち</span> <span class="event-title">ハロウィンパーティー</span>
-							<span class="event-organizer">地域コミュニティ</span> <a
-							href="event-edit.html" class="event-edit-link"
-							style="display: none;">イベント編集</a></li>
-					</ul>
-	  -->
 					<ul class="event-list">
 					
 					${eventInfo.organizerImageString }
 					<c:forEach items="${eventInfoList}" var="eventInfo">
 					<fmt:formatDate value="${eventInfo.eventDate}" pattern="yyyy/MM/dd HH:mm" var="eventDateFormatted"/>
 					<li class="event-item"
-							onclick="location.href='<%= request.getContextPath() %>/eventView?eventId=${eventInfo.eventId }'"><span
+							onclick="location.href='<%= request.getContextPath() %>/event/eventView?eventId=${eventInfo.eventId }'"><span
 							class="event-date"><c:out value="${eventDateFormatted}" /></span> 
+							
 							<img src="data:image/jpeg;base64,${eventInfo.organizerImageString }"
-							alt="${eventInfo.organizerName }" class="event-organizer-icon"> <span
-							class="event-status">募集中</span> <span class="event-title">${eventInfo.eventTitle }</span>
-							<span class="event-organizer">${eventInfo.organizerName }</span> <a
-							href="EventViewServlet?eventId=${eventInfo.eventId }" class="event-edit-link"
-							style="display: none;">イベント編集</a>
+							alt="${eventInfo.organizerName }" class="event-organizer-icon">
+							 <span class="event-status">募集中</span>
+							 <span class="event-title">${eventInfo.eventTitle }</span>
+							 <span class="event-organizer">${eventInfo.organizerName }</span>
+							<!--  <a href="<%= request.getContextPath() %>/sseventView?eventId=${eventInfo.eventId }" class="event-edit-link"
+							style="display: none;">イベント編集</a> -->
 					</li>
-					
 					</c:forEach>
 					</ul>
 				</div>

@@ -174,10 +174,10 @@ public class AddCharacterServlet extends HttpServlet {
             return false;
         }
 
-        // ファイルサイズのチェック
-        if (filePart.getSize() > MAX_FILE_SIZE) {
-        	return false;
-        }
+//        // ファイルサイズのチェック
+//        if (filePart.getSize() > MAX_FILE_SIZE) {
+//        	return false;
+//        }
 
         return true;
     }

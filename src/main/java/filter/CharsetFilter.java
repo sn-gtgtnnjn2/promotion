@@ -38,7 +38,7 @@ public class CharsetFilter extends HttpFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
+		System.out.println("フィルター通過");
 		 HttpServletRequest httpRequest = (HttpServletRequest) request;
 		 String uri = httpRequest.getRequestURI();
 		

@@ -102,7 +102,7 @@ public class UserRegistServlet extends HttpServlet {
 		try {
 			UserDao ud = DaoFactory.createUserDao();
 			ud.insert(user);
-			Profile profile = new Profile(userId, null, null);
+			Profile profile = new Profile(userId, null, null, null);
 			pd.insert(profile);
 		} catch (SQLException e) {
 			errorList.add("ユーザー情報の登録に失敗しました");
