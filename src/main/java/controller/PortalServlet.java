@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import bean.EventInfo;
+import bean.EventInfoBean;
 import dao.DaoFactory;
 import dao.EntryApprovalDao;
 import dao.EventInfoDao;
@@ -85,7 +85,7 @@ public class PortalServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private List<EventInfo> getEventInfoListForPortal(String userId) throws SQLException {
+	private List<EventInfoBean> getEventInfoListForPortal(String userId) throws SQLException {
 		EntryApprovalDao ead = DaoFactory.createEntryApprovalDao();
 		EventInfoDao eid = DaoFactory.createEventInfoDao();
 		
@@ -113,9 +113,9 @@ public class PortalServlet extends HttpServlet {
 		System.out.println("eventList:" + eventList.size());
 		
 		// イベントリストを作成する
-		List<EventInfo> eventInfoList = new ArrayList<EventInfo>(); 
+		List<EventInfoBean> eventInfoList = new ArrayList<EventInfoBean>(); 
 		for(int i = 0; i < eventList.size(); i ++ ) {
-			EventInfo eventInfo = new EventInfo();
+			EventInfoBean eventInfo = new EventInfoBean();
 			eventInfo.setEventId(eventList.get(i).getEventId());
 			eventInfo.setUserId(eventList.get(i).getUserId());
 			eventInfo.setEventTitle(eventList.get(i).getEventTitle());

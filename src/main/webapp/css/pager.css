@@ -1,0 +1,35 @@
+@charset "UTF-8";
+#pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    text-align: center;
+}
+
+.page-button:hover {
+    background-color: #e0e0e0;
+}
+
+.page-button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+div.block div.box-search table#eventTable.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 20px; /* 上下10px、左右20pxのマージン */
+  max-width: fit-content;
+  text-align: center;
+}

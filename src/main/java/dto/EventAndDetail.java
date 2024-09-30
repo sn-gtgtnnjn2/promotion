@@ -2,6 +2,8 @@ package dto;
 
 import java.util.Date;
 
+import bean.EventAndDetailBean;
+
 public class EventAndDetail {
 	private Integer eventId;
 	private String userId;
@@ -19,6 +21,7 @@ public class EventAndDetail {
 	private Date entryDatetime;
 	private Date updateDatetime;
 	private Boolean deleteFlg;
+	private Boolean cancelFlg;
 	
 	public Integer getEventId() {
 		return eventId;
@@ -127,5 +130,56 @@ public class EventAndDetail {
 	public EventAndDetail() {
 		
 	}
+	public Boolean getCancelFlg() {
+		return cancelFlg;
+	}
+	public void setCancelFlg(Boolean cancelFlg) {
+		this.cancelFlg = cancelFlg;
+	}
 
+	public static Integer getIsAvailable(EventAndDetail ead, int signUpUserList) {
+		boolean availableStatus = false;
+		Date nowDate = new Date();
+		if(ead.getCancelFlg()) {
+			return EventAndDetailBean.STATUS_CANCEL;
+		}
+
+		// 現在時刻が募集開始日以降、募集終了日以前であるかを判定する
+		if(nowDate.after(ead.getRecruitmentStartDate())) {
+			if(nowDate.before(ead.getRecruitmentEndDate())){
+				// 現在が有効期限内であるとき、人数に問題がないか判定
+				if(availableStatus) {
+					if(ead.getMemberLimit() <= signUpUserList) {
+						return EventAndDetailBean.STATUS_IS_AVAILABLE;
+					} else {
+						return EventAndDetailBean.STATUS_CLOSED;
+					}
+				}
+			}
+		}
+		return EventAndDetailBean.STATUS_YET;
+	}
+	
+	public static Integer getIsAvailable(Event event, int signUpUserList) {
+		boolean availableStatus = false;
+		Date nowDate = new Date();
+		if(event.getCancelFlg()) {
+			return EventAndDetailBean.STATUS_CANCEL;
+		}
+
+		// 現在時刻が募集開始日以降、募集終了日以前であるかを判定する
+		if(nowDate.after(event.getRecruitmentStartDate())) {
+			if(nowDate.before(event.getRecruitmentEndDate())){
+				// 現在が有効期限内であるとき、人数に問題がないか判定
+				if(availableStatus) {
+					if(event.getMemberLimit() <= signUpUserList) {
+						return EventAndDetailBean.STATUS_IS_AVAILABLE;
+					} else {
+						return EventAndDetailBean.STATUS_CLOSED;
+					}
+				}
+			}
+		}
+		return EventAndDetailBean.STATUS_YET;
+	}
 }

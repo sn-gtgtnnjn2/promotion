@@ -19,6 +19,13 @@ public class EventAndDetailBean implements Serializable{
 	private Integer openLevel;
 	private Integer status;
 	
+	public static final int STATUS_YET = 4;
+	public static final int STATUS_IS_AVAILABLE = 0;
+	public static final int STATUS_CLOSED = 1;
+	public static final int STATUS_DONE = 2;
+	public static final int STATUS_CANCEL = 3;
+	
+	
 	public Integer getEventId() {
 		return eventId;
 	}
@@ -107,4 +114,27 @@ public class EventAndDetailBean implements Serializable{
 		this.status = status;
 	}
 
+	public String getStatusName() {
+		String retStatus = null;
+		switch(status) {
+		case STATUS_IS_AVAILABLE :
+			retStatus = "募集中";
+			break;
+		case STATUS_CLOSED :
+			retStatus = "開催待ち";
+			break;
+		case STATUS_DONE :
+			retStatus = "終了";
+			break;
+		case STATUS_CANCEL :
+			retStatus = "中止";
+			break;
+		case STATUS_YET :
+			retStatus = "募集前";
+			break;
+		default :
+			retStatus = "";
+		}
+		return retStatus;
+	}
 }

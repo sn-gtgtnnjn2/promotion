@@ -18,7 +18,10 @@ public class Event {
 	private Date entryDatetime;
 	private Date updateDatetime;
 	private Boolean deleteFlg;
+	private Boolean cancelFlg;
 	private String organizerImageString;
+	private Integer currentSignUpNum;
+	private Integer currentApprovedNum;
 	
 	public Integer getEventId() {
 		return eventId;
@@ -122,5 +125,24 @@ public class Event {
 	public void setOrganizerImageString(String organizerImageString) {
 		this.organizerImageString = organizerImageString;
 	}
+	public Boolean getCancelFlg() {
+		return cancelFlg;
+	}
+	public void setCancelFlg(Boolean cancelFlg) {
+		this.cancelFlg = cancelFlg;
+	}
+	public Integer getCurrentSignUpNum() {
+		return currentSignUpNum;
+	}
+	public void setCurrentSignUpNum(Integer currentSignUpNum) {
+		this.currentSignUpNum = currentSignUpNum;
+	}
+	public Integer getCurrentApprovedNum() {
+		return currentApprovedNum;
+	}
+	public void setCurrentApprovedNum(Integer currentApprovedNum) {
+		this.currentApprovedNum = currentApprovedNum;
+	}
+
 
 }

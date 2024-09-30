@@ -3,7 +3,7 @@ package bean;
 import java.io.Serializable;
 import java.util.Date;
 
-public class EventInfo implements Serializable{
+public class EventInfoBean implements Serializable{
     private static final long serialVersionUID = 1L;
 	private Integer eventId;
 	private String userId;
@@ -18,6 +18,8 @@ public class EventInfo implements Serializable{
 	private Integer openLevel;
 	private Integer status;
 	private String organizerImageString;
+	private Integer currentSignUpNum;
+	private Integer currentApprovedNum;
 	
 	public String getOrganizerImageString() {
 		return organizerImageString;
@@ -103,5 +105,39 @@ public class EventInfo implements Serializable{
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
+	public Integer getCurrentSignUpNum() {
+		return currentSignUpNum;
+	}
+	public void setCurrentSignUpNum(Integer currentSignUpNum) {
+		this.currentSignUpNum = currentSignUpNum;
+	}
+	public Integer getCurrentApprovedNum() {
+		return currentApprovedNum;
+	}
+	public void setCurrentApprovedNum(Integer currentApprovedNum) {
+		this.currentApprovedNum = currentApprovedNum;
+	}
+	public String getStatusName() {
+		String retStatus = null;
+		switch(status) {
+		case EventAndDetailBean.STATUS_IS_AVAILABLE :
+			retStatus = "募集中";
+			break;
+		case EventAndDetailBean.STATUS_CLOSED :
+			retStatus = "開催待ち";
+			break;
+		case EventAndDetailBean.STATUS_DONE :
+			retStatus = "終了";
+			break;
+		case EventAndDetailBean.STATUS_CANCEL :
+			retStatus = "中止";
+			break;
+		case EventAndDetailBean.STATUS_YET :
+			retStatus = "募集前";
+			break;
+		default :
+			retStatus = "";
+		}
+		return retStatus;
+	}
 }

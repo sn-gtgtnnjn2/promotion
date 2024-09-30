@@ -2,6 +2,7 @@ package controller.event;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +46,9 @@ public class EventDetailServlet extends HttpServlet {
 		System.out.println("strEventId->" + strEventId);
 		Integer eventId = null;
 		
+		// 閲覧権限があるか判定
+		// @todo
+		
 		try {
 			eventId = Integer.parseInt(strEventId);
 		}catch(NumberFormatException e) {
@@ -60,7 +64,6 @@ public class EventDetailServlet extends HttpServlet {
 			event = eid.findByEventId(eventId);
 			// 参加承認情報を取得
 			entAppList = ead.selectByEventIdWithPict(eventId);
-			// イベントが募集状況かどうかを判定（人数制限以内、募集期間内）
 			
 			// 申込者が参加できるかどうかを判定（主催者でない、イベントの閲覧権限があるかどうか）
 
@@ -70,7 +73,7 @@ public class EventDetailServlet extends HttpServlet {
 		}
 		
 		// イベント情報、詳細情報をBeanに格納
-		EventAndDetailBean eadb = storeEventAndDetailToBean(event);
+		EventAndDetailBean eadb = storeEventAndDetailToBean(event, entAppList.size());
 		
 		// 参加者一覧情報をBeanに追加
 		LinkedHashMap<String,String> memberPictList = storeMemberInfo(entAppList);
@@ -97,7 +100,7 @@ public class EventDetailServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	EventAndDetailBean storeEventAndDetailToBean(EventAndDetail ead){
+	EventAndDetailBean storeEventAndDetailToBean(EventAndDetail ead, int signUpUserList){
 		EventAndDetailBean eadb = new EventAndDetailBean();
 		if (!Objects.isNull(ead)) {
 			eadb.setEventDate(ead.getEventDatetime());
@@ -105,8 +108,12 @@ public class EventDetailServlet extends HttpServlet {
 			eadb.setOrganizerName(ead.getOrganizerName());
 			eadb.setScenarioTitle(ead.getScenarioTitle());
 			eadb.setDetail(ead.getDetail());
-			eadb.setMemberLimit(ead.getMemberLimit());			
+			eadb.setMemberLimit(ead.getMemberLimit());
+			// イベントが募集状況かどうかを判定（人数制限以内、募集期間内）
+			eadb.setStatus(EventAndDetail.getIsAvailable(ead, signUpUserList));
 		}
 		return eadb;
 	}
+
+
 }

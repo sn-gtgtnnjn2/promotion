@@ -91,6 +91,7 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				+ ", member_limit"
 				+ ", detail"
 				+ ", status"
+				+ ", cancel_flg"
 				+ ", event.entry_datetime as entry_datetime"
 				+ ", event.update_datetime as update_datetime"
 				+ ", event.delete_flg as delete_flg"
@@ -117,6 +118,7 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				ead.setDetail(rs.getString("detail"));
 				ead.setEntryDatetime(rs.getTimestamp("entry_datetime"));
 				ead.setUpdateDatetime(rs.getTimestamp("update_datetime"));
+				ead.setCancelFlg(rs.getBoolean("cancel_flg"));
 				ead.setDeleteFlg(rs.getBoolean("delete_flg"));
 			}
 		} catch(SQLException e) {
