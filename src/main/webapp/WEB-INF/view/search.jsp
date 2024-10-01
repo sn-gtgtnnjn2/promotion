@@ -5,7 +5,10 @@
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
 <body>
 	<header>
-	<link rel="stylesheet" href="<%= request.getContextPath() %>/css/pager.css" />
+		<script src="<%=request.getContextPath()%>/js/search_pager.js"></script>
+		<script src="<%=request.getContextPath()%>/js/event_view.js"></script>
+		<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
+		<link rel="stylesheet" href="<%= request.getContextPath() %>/css/pager.css" />
 		<h1>
 			TRPG Resume Site<img class="logo" src="img/logo.png" alt="" />
 		</h1>
@@ -15,31 +18,38 @@
 			<div class="block">
 				<div class="box">
 					<div class="midashi">イベント検索</div>
-					<form action="/search_results" method="get">
+					<form action="search" method="get">
 						<table class="design10">
 							<tr>
-								<td><label for="organizer">イベントID:</label></td>
-								<td><input type="text" id="organizer" name="organizer"></td>
+								<td><label for="eventTitle">イベント名:</label></td>
+								<td><input type="text" id="eventTitle" name="eventTitle" value="<c:out value="${eventTitle }" />">
+									
+								</td>
 							</tr>
 							<tr>
-								<td><label for="organizer">主催者名:</label></td>
-								<td><input type="text" id="organizer" name="organizer"></td>
+								<td><label for="organizerName">主催者名:</label></td>
+								<td><input type="text" id="organizerName" name="organizerName" value="<c:out value="${organizerName }" />">
+								
+								</td>
 							</tr>
 							<tr>
-								<td><label for="scenario">シナリオ名:</label></td>
-								<td><input type="text" id="scenario" name="scenario"></td>
+								<td><label for="scenarioTitle">シナリオ名:</label></td>
+								<td><input type="text" id="scenarioTitle" name="scenarioTitle" value="<c:out value="${scenarioTitle }" />">
+								
+								</td>
 							</tr>
 							<tr>
-								<td><label for="month">開催月:</label></td>
-								<td><input type="month" id="month" name="month"></td>
+								<td><label for="eventDate">開催月:</label></td>
+								<td><input type="month" id="eventDate" name="eventDate" value="<c:out value="${eventDate }" />"></td>
 							</tr>
 							<tr>
 								<td><label for="followersOnly">フォロワー内検索:</label></td>
 								<td><input type="checkbox" id="followersOnly"
-									name="followersOnly"></td>
+									name="followersOnly" <c:if test="${followersOnly }">checked</c:if>></td>
 							</tr>
+							<tr><td colspan="2" class="search-button"><input type="submit" value="検索"></td></tr>
 						</table>
-						<input type="submit" value="検索">
+						
 					</form>
 				</div>
 				<div class="box-search">
@@ -56,11 +66,13 @@
 								<th>参加人数/募集人数</th>
 							</tr>
 							<c:forEach var="event" items="${eventInfoList}">
-								<tr>
+								<tr  data-href="event/eventView?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">
 									<td><c:out value="${event.eventDate}" /></td>
 									<td><div class="icon-img"><img src="data:image/jpeg;base64,<c:out value="${event.organizerImageString}" />"
-										alt="主催者アイコン" /></td>
+										alt="主催者アイコン" />
 									</div>
+									<div><c:out value="${event.organizerName }"/></div>
+									</td>
 									<td><c:out value="${event.eventTitle}" /></td>
 									<td><c:out value="${event.scenarioTitle}" /></td>
 									<td><c:out value="${event.statusName}" /></td>
@@ -73,7 +85,6 @@
 						</tbody>
 					</table>
 					<div id="pagination"></div>
-					<script src="<%= request.getContextPath() %>/js/search_pager.js"></script>
 				</div>
 
 			</div>

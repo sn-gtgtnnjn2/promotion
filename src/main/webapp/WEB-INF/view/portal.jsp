@@ -8,6 +8,8 @@
 		src="<%=request.getContextPath()%>/js/calender.js"></script>
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/js/modal.js"></script>
+<!-- 	<script type="text/javascript"
+		src="<%=request.getContextPath()%>/js/endless_scroll.js"></script> -->
 	<link rel="stylesheet"
 		href="<%=request.getContextPath()%>/css/event_list.css">
 	<header>
@@ -122,7 +124,7 @@
 					<c:forEach items="${eventInfoList}" var="eventInfo">
 					<fmt:formatDate value="${eventInfo.eventDate}" pattern="yyyy/MM/dd HH:mm" var="eventDateFormatted"/>
 					<li class="event-item"
-							onclick="location.href='<%= request.getContextPath() %>/event/eventView?eventId=${eventInfo.eventId }'"><span
+							onclick="location.href='<%= request.getContextPath() %>/event/eventView?eventId=${eventInfo.eventId }&from=${screenId }'"><span
 							class="event-date"><c:out value="${eventDateFormatted}" /></span> 
 							
 							<img src="data:image/jpeg;base64,${eventInfo.organizerImageString }"
@@ -135,6 +137,7 @@
 					</li>
 					</c:forEach>
 					</ul>
+					<button id="load-more" style="display: none;">もっと見る</button>
 				</div>
 			</div>
 		</div>

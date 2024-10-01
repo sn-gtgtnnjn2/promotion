@@ -33,12 +33,24 @@ public class GeneralFormatter {
 	}
 	
     public static String toISO8601(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        return sdf.format(date);
+    	String ret = null;
+    	
+    	if(!Objects.isNull(date)) { 		
+    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+    		ret = sdf.format(date);
+    	}
+        return ret;
     }
 
     public static String toUsualString(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         return sdf.format(date);
+    }
+    
+    public static String changeNullToEmpChar(String str) {
+    	if(Objects.isNull(str)) {
+    		return "";
+    	}
+    	return str;
     }
 }

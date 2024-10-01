@@ -130,6 +130,7 @@ public class EventInfoDaoImpl implements EventInfoDao{
 				+ " ) AS entry_approval2 ON event.EVENT_ID = entry_approval2.event_id"
 				+ " " + whereStr
 				+ " group by event.EVENT_ID , entry_approval.sign_up_user_id"
+				+ " order by event.update_datetime DESC"
 				+ " limit " + maxRows;
 		System.out.println("SQL>" + sql);
 		System.out.println(sql);

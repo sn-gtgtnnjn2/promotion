@@ -55,17 +55,7 @@ public class PortalServlet extends HttpServlet {
 		ProfileDao pd = DaoFactory.createProfileDao();
 		Profile profile = pd.findByUserId(userId);
 		System.out.println("imagepath:" + profile.getImagePath());
-		
-//		// プロフィール画像をエンコード
-//		ServletContext ctx = request.getServletContext();
-//		String path = ctx.getRealPath(UploadServlet.UPLOAD_DIR);
-//		File imgFile = new File(path + "/" +profile.getImagePath());
-//		System.out.println("ある？"+imgFile.exists());
-//		String strImageData = "";
-//		if(imgFile.exists()) {
-//			strImageData = Base64ImageEncoder.encodeImage(imgFile.getPath());
-//		}
-		
+
 		try {
 			request.setAttribute("eventInfoList", getEventInfoListForPortal(userId));
 		} catch (SQLException e) {
@@ -74,6 +64,7 @@ public class PortalServlet extends HttpServlet {
 		}
 		request.setAttribute("strImageData", profile.getBase64Data());
 		request.setAttribute("profText", profile.getText());
+		request.setAttribute("screenId", NavigationManager.SCREEN_PORTAL);
 		request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
 	}
 

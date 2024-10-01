@@ -74,12 +74,12 @@
 								</tr>
 								<tr>
 									<td>イベントステータス</td>
-									<td><input type="text" id="eventStatus" name="eventStatus" value="${eadb.eventDate }"
+									<td><input type="text" id="eventStatus" name="eventStatus" value="${eadb.statusName }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> /></td>
 								</tr>
 								<tr>
 									<td>あなたのステータス</td>
-									<td><input type="text" id="yourStatus" name="yourStatus" value="${eadb.eventDate }"
+									<td><input type="text" id="yourStatus" name="yourStatus" value="${canSignUp }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> /></td>
 								</tr>
 							</table>
@@ -87,6 +87,7 @@
 								<button type="submit">変更</button>
 							</c:if>
 						</form>
+						<button onclick="location.href='<%= request.getContextPath() %>/${backTarget}?${searchQuery}'">戻る</button>
 				</div>
 			</div>
 		</div>

@@ -40,6 +40,11 @@ public class DaoFactory {
 		return cdi;
 	}
 	
+	public static FollowsDaoImpl createFollowsDao() {
+		FollowsDaoImpl cfdi = new FollowsDaoImpl(getDataSource());
+		return cfdi;
+	}
+	
 	private static DataSource getDataSource() {
 		InitialContext ctx = null;
 		DataSource ds = null;

@@ -29,3 +29,15 @@
 		img.member-icon{
 			width:50px;
 		}
+		
+		tr.event-row{
+			cursor:pointer;
+		}
+		
+		tr.event-row:hover{
+			background-color: #EFEFEF ;
+		}
+		
+		.search-button{
+			text-align: center;
+		}

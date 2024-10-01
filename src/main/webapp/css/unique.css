@@ -43,6 +43,27 @@ main {
     margin-bottom: 1em;
 }
 
+.box .event-list{
+    margin-bottom: 1em;
+    height: 60vh;
+    overflow: auto;
+    
+}
+
+.event-list::-webkit-scrollbar{
+	width: 20px;
+}
+
+.event-list::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+}
+ 
+.event-list::-webkit-scrollbar-thumb {
+    background-color: #757575;
+    border-radius: 100px;
+}
+
 .midashi {
 	display: flex;
     font-weight: bold;
