@@ -88,6 +88,7 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				+ ", scenario_title"
 				+ ", recruitment_start_date"
 				+ ", recruitment_end_date"
+				+ ", open_level"				
 				+ ", member_limit"
 				+ ", detail"
 				+ ", status"
@@ -95,13 +96,14 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				+ ", event.entry_datetime as entry_datetime"
 				+ ", event.update_datetime as update_datetime"
 				+ ", event.delete_flg as delete_flg"
-				+ " FROM event inner join event_detail "
+				+ " FROM event LEFT OUTER JOIN event_detail "
 				+ " ON event.event_id = event_detail.event_id"
 				+ " WHERE event.event_id = ?";
 		EventAndDetail ead = null;
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, eventId);
+			System.out.println(getClass().toString() + "SQL>" + sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				ead = new EventAndDetail(); 
@@ -116,6 +118,7 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				ead.setRecruitmentEndDate(rs.getTimestamp("recruitment_end_date"));
 				ead.setMemberLimit(rs.getInt("member_limit"));
 				ead.setDetail(rs.getString("detail"));
+				ead.setOpenLevel(rs.getInt("open_level"));
 				ead.setEntryDatetime(rs.getTimestamp("entry_datetime"));
 				ead.setUpdateDatetime(rs.getTimestamp("update_datetime"));
 				ead.setCancelFlg(rs.getBoolean("cancel_flg"));

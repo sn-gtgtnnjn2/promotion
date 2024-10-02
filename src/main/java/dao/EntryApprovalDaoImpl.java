@@ -157,13 +157,13 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 		String sql = "INSERT into entry_Approval ("
 				+ "event_id"
 				+ ", sign_up_user_id"
-				+ ", approve_status"
-				+ ") values ( ?, ?, ?)";
+//				+ ", approve_status"
+				+ ") values ( ?, ?)";
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, entryApproval.getEventID());
 			stmt.setString(2, entryApproval.getSignUpUserId());
-			stmt.setInt(3, entryApproval.getApprovalStatus());
+//			stmt.setInt(3, entryApproval.getApprovalStatus());
 			stmt.executeUpdate();
 		} catch(SQLException e) {
 			e.printStackTrace();

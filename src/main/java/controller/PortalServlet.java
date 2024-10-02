@@ -101,25 +101,26 @@ public class PortalServlet extends HttpServlet {
 				eventList.get(i).getRecruitmentEndDate()));
 			}
 		}
-		System.out.println("eventList:" + eventList.size());
 		
 		// イベントリストを作成する
 		List<EventInfoBean> eventInfoList = new ArrayList<EventInfoBean>(); 
-		for(int i = 0; i < eventList.size(); i ++ ) {
-			EventInfoBean eventInfo = new EventInfoBean();
-			eventInfo.setEventId(eventList.get(i).getEventId());
-			eventInfo.setUserId(eventList.get(i).getUserId());
-			eventInfo.setEventTitle(eventList.get(i).getEventTitle());
-			eventInfo.setEventDate(eventList.get(i).getEventDate());
-			eventInfo.setOrganizerName(eventList.get(i).getOrganizerName());
-			eventInfo.setOrganizerId(eventList.get(i).getOrganizerId());
-			eventInfo.setScenarioTitle(eventList.get(i).getScenarioTitle());
-			eventInfo.setRecruitmentStartDate(eventList.get(i).getRecruitmentStartDate());
-			eventInfo.setRecruitmentEndDate(eventList.get(i).getRecruitmentEndDate());
-			eventInfo.setMemberLimit(eventList.get(i).getMemberLimit());
-			eventInfo.setStatus(getEventStatus(eventList.get(i).getRecruitmentStartDate(), eventList.get(i).getRecruitmentEndDate()));
-			eventInfo.setOrganizerImageString(eventList.get(i).getOrganizerImageString());
-			eventInfoList.add(eventInfo);
+		if(!Objects.isNull(eventList)) {			
+			for(int i = 0; i < eventList.size(); i ++ ) {
+				EventInfoBean eventInfo = new EventInfoBean();
+				eventInfo.setEventId(eventList.get(i).getEventId());
+				eventInfo.setUserId(eventList.get(i).getUserId());
+				eventInfo.setEventTitle(eventList.get(i).getEventTitle());
+				eventInfo.setEventDate(eventList.get(i).getEventDate());
+				eventInfo.setOrganizerName(eventList.get(i).getOrganizerName());
+				eventInfo.setOrganizerId(eventList.get(i).getOrganizerId());
+				eventInfo.setScenarioTitle(eventList.get(i).getScenarioTitle());
+				eventInfo.setRecruitmentStartDate(eventList.get(i).getRecruitmentStartDate());
+				eventInfo.setRecruitmentEndDate(eventList.get(i).getRecruitmentEndDate());
+				eventInfo.setMemberLimit(eventList.get(i).getMemberLimit());
+				eventInfo.setStatus(getEventStatus(eventList.get(i).getRecruitmentStartDate(), eventList.get(i).getRecruitmentEndDate()));
+				eventInfo.setOrganizerImageString(eventList.get(i).getOrganizerImageString());
+				eventInfoList.add(eventInfo);
+			}
 		}
 		return eventInfoList;
 	}

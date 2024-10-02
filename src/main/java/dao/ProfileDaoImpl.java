@@ -65,13 +65,13 @@ public class ProfileDaoImpl implements ProfileDao{
 				+ ", img_file_type"
 				+ ", text"
 				+ ") values ("
-				+ "?, ?, ? )";
+				+ "?, ?, ?, ?, ? )";
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1 , profile.getUserId());
+			stmt.setString(4 , profile.getImagePath());
 			stmt.setString(2 , profile.getBase64Data());
 			stmt.setString(3 , profile.getImgFileType());
-			stmt.setString(4 , profile.getImagePath());
 			stmt.setString(5 , profile.getText());
 			stmt.executeUpdate();
 		} catch (SQLException e) {

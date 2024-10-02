@@ -128,28 +128,60 @@ public class UserDaoImpl implements UserDao {
 		}
 		return user;
 	}
-
-	@Override
+//
+//	@Override
+//	public Boolean isAuthenticated(String userId, String inputPassword) {
+//		System.out.println("isAuthenticated");
+//		System.out.println(userId);
+//		System.out.println(inputPassword);
+//		Boolean isAuthenticated = false;
+//
+//		User user = findByUserId(userId);
+//		System.out.println(user.getUserName());
+//		System.out.println(user.getPassword());
+//		
+//		if (Objects.isNull(user.getPassword())) {
+//			return isAuthenticated;
+//		}
+//
+//		// 入力値である平文のinputPasswordとDBにあるハッシュ化されたpasswordFromDBを比較
+//		if (BCrypt.checkpw(inputPassword, user.getPassword())) {
+//			// 処理
+//			isAuthenticated = true;
+//			System.out.println("認証OK");
+//		}
+//		System.out.println("最後のリターン前" + isAuthenticated);
+//
+//		return isAuthenticated;
+//	}
 	public Boolean isAuthenticated(String userId, String inputPassword) {
-		System.out.println("isAuthenticated");
-		System.out.println(userId);
-		Boolean isAuthenticated = false;
+	    System.out.println("isAuthenticated");
+	    System.out.println(userId);
+	    System.out.println(inputPassword);
+	    Boolean isAuthenticated = false;
 
-		User user = findByUserId(userId);
-		
-		if (Objects.isNull(user.getPassword())) {
-			return isAuthenticated;
-		}
+	    User user = findByUserId(userId);
+	    if (user == null) {
+	        System.out.println("User not found");
+	        return isAuthenticated;
+	    }
 
-		// 入力値である平文のinputPasswordとDBにあるハッシュ化されたpasswordFromDBを比較
-		if (BCrypt.checkpw(inputPassword, user.getPassword())) {
-			// 処理
-			isAuthenticated = true;
-			System.out.println("認証OK");
-		}
-		
-		System.out.println("認証NG");
-		return isAuthenticated;
+	    System.out.println(user.getUserName());
+	    System.out.println(user.getPassword());
+
+	    if (Objects.isNull(user.getPassword())) {
+	        return isAuthenticated;
+	    }
+
+	    // 入力値である平文のinputPasswordとDBにあるハッシュ化されたpasswordFromDBを比較
+	    if (BCrypt.checkpw(inputPassword, user.getPassword())) {
+	        // 処理
+	        isAuthenticated = true;
+	        System.out.println("認証OK");
+	    }
+	    System.out.println("最後のリターン前" + isAuthenticated);
+
+	    return isAuthenticated;
 	}
 
 }

@@ -272,3 +272,8 @@ div.preview-img img{
 div.icon-img img{
 	width:100px;
 }
+
+div.main-button-area {
+	margin:auto;
+	text-align:center;
+}

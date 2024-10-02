@@ -2,6 +2,7 @@ package controller.event;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
@@ -70,6 +71,7 @@ public class EventDetailServlet extends HttpServlet {
 		EventAndDetail event = null;
 		List<EntryApprovalWithPict> entAppList = null;
 		Boolean canSignUp = false;
+		Boolean isFollower = false;
 		try {
 			// イベント情報、詳細情報を取得
 			event = eid.findByEventId(eventId);
@@ -79,13 +81,10 @@ public class EventDetailServlet extends HttpServlet {
 			// フォロワーかどうかの情報を取得
 			FollowsDao flwDao = DaoFactory.createFollowsDao();
 			Follows follower = flwDao.findByUserIdAndFlsId(userId, event.getOrganizerName());
-			Boolean isFollower = false;
 			if(!Objects.isNull(follower)) {
 				isFollower = true;
 			}
 			
-			// 申込者が参加できるかどうかを判定（主催者でない、イベントの閲覧権限があるかどうか)
-			canSignUp = canThisUserSignUp(userId, event.getOrganizerId(), event.getOpenLevel(), entAppList, isFollower);
 
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
@@ -95,6 +94,12 @@ public class EventDetailServlet extends HttpServlet {
 		// イベント情報、詳細情報をBeanに格納(イベントとしての参加可能かどうかのステータスが格納されている)
 		EventAndDetailBean eadb = storeEventAndDetailToBean(event, entAppList.size());
 		
+		// 申込者が参加できるかどうかを判定（主催者でない、イベントの閲覧権限があるかどうか)
+		List<String> userRejectList = new ArrayList<String>();
+		canSignUp = canThisUserSignUp(userId, event.getOrganizerId(), event.getOpenLevel(), entAppList, isFollower, userRejectList);
+			eadb.setUserRejectList(userRejectList);
+			eadb.setIsAvailableUser(canSignUp);
+
 		// 参加者一覧情報をBeanに追加
 		LinkedHashMap<String,String> memberPictList = storeMemberInfo(entAppList);
 		request.setAttribute("canSignUp", canSignUp);
@@ -106,19 +111,27 @@ public class EventDetailServlet extends HttpServlet {
 		// 検索画面のクエリパラメータをセット
 		request.setAttribute("searchQuery", searchQuery);
 		
+		// デバッグ
+		System.out.println(getClass().toString() + ":eadb.status->" + eadb.getStatus());
+		System.out.println(getClass().toString() + ":eadb.isAvailableUser->" + eadb.getIsAvailableUser());
+		
 		request.getRequestDispatcher("/WEB-INF/view/event/event_detail.jsp").forward(request, response);
 	}
 
 	private Boolean canThisUserSignUp(String userId, String organizerId, Integer openLevel,
-			List<EntryApprovalWithPict> entAppList, Boolean isFollower) {
+			List<EntryApprovalWithPict> entAppList, Boolean isFollower, List<String> userRejectList) {
 		// ユーザーが主催者でないことを確認
 		if(userId.equals(organizerId)) {
+			userRejectList.add("主催者は参加表明できません");
+			System.out.println("ユーザーが主催者です");
 			return false;
 		}
 		
 		// 公開レベルが全体以外のとき、ユーザーに閲覧権限があるかを確認
 		if(openLevel != 0) {
 			if(!isFollower) {
+				userRejectList.add("フォロワー向けイベントには、フォロー外のユーザーは参加できません");
+				System.out.println("フォロワーじゃない");
 				return false;
 			}
 		}
@@ -126,6 +139,8 @@ public class EventDetailServlet extends HttpServlet {
 		// 既に申請していないことを確認
 		for(int i = 0; i < entAppList.size(); i++) {
 			if(entAppList.get(i).getSignUpUserId().equals(userId)) {
+				userRejectList.add("既に申請しています");
+				System.out.println("既に申請済み");
 				return false;
 			}
 		}
@@ -157,12 +172,17 @@ public class EventDetailServlet extends HttpServlet {
 	EventAndDetailBean storeEventAndDetailToBean(EventAndDetail ead, int signUpUserList){
 		EventAndDetailBean eadb = new EventAndDetailBean();
 		if (!Objects.isNull(ead)) {
+			eadb.setEventId(ead.getEventId());
 			eadb.setEventDate(ead.getEventDatetime());
 			eadb.setEventTitle(ead.getEventTitle());
 			eadb.setOrganizerName(ead.getOrganizerName());
 			eadb.setScenarioTitle(ead.getScenarioTitle());
 			eadb.setDetail(ead.getDetail());
 			eadb.setMemberLimit(ead.getMemberLimit());
+			eadb.setopenLevel(ead.getOpenLevel());
+			eadb.setRecruitmentStartDate(ead.getRecruitmentStartDate());
+			eadb.setRecruitmentEndDate(ead.getRecruitmentEndDate());
+
 			// イベントが募集状況かどうかを判定（人数制限以内、募集期間内）
 			eadb.setStatus(EventAndDetail.getIsAvailable(ead, signUpUserList));
 		}

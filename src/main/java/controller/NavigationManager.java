@@ -6,7 +6,7 @@ public class NavigationManager {
     private static final Map<String, String> navigationMap = new HashMap<>();
     
     public static final String SCREEN_SEARCH = "search";
-    public static final String SCREEN_EVENT_DETAIL_VIEW = "eventDetailView";
+    public static final String SCREEN_EVENT_DETAIL_VIEW = "/event/eventView";
     public static final String SCREEN_PORTAL = "portal";
     public static final String SCREEN_ADD_EVENT = "addEvent";
     public static final String SCREEN_ADD_CHARACTER = "addCharacter";

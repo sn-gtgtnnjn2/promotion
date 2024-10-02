@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 import dao.DaoFactory;
 import dao.ProfileDao;
 import dao.UserDao;
@@ -58,6 +60,12 @@ public class UploadServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	       // Check if the request actually contains upload file
+        if (!ServletFileUpload.isMultipartContent(request)) {
+            System.out.println("Error: Form must has enctype=multipart/form-data.");
+            return;
+        }
+		
 		String userId = request.getParameter("userId");
 		Integer id = getIdFromUsers(userId);
 		Part upfile = request.getPart("profile-image");

@@ -2,6 +2,7 @@ package bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class EventAndDetailBean implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -17,13 +18,16 @@ public class EventAndDetailBean implements Serializable{
 	private Date recruitmentEndDate;
 	private Integer memberLimit;
 	private Integer openLevel;
-	private Integer status;
+	private Integer status;	// DtoからBeanに格納されるタイミングでセットされる
+	private List<String> userRejectList;
+	private Boolean isAvailableUser;
 	
 	public static final int STATUS_YET = 4;
 	public static final int STATUS_IS_AVAILABLE = 0;
 	public static final int STATUS_CLOSED = 1;
 	public static final int STATUS_DONE = 2;
 	public static final int STATUS_CANCEL = 3;
+	public static final int STATUS_MEMBER_LIMIT_OVER = 5;
 	
 	
 	public Integer getEventId() {
@@ -129,6 +133,9 @@ public class EventAndDetailBean implements Serializable{
 		case STATUS_CANCEL :
 			retStatus = "中止";
 			break;
+		case STATUS_MEMBER_LIMIT_OVER :
+			retStatus = "定員オーバー";
+			break;
 		case STATUS_YET :
 			retStatus = "募集前";
 			break;
@@ -136,5 +143,36 @@ public class EventAndDetailBean implements Serializable{
 			retStatus = "";
 		}
 		return retStatus;
+	}
+	public List<String> getUserRejectList() {
+		return userRejectList;
+	}
+	public void setUserRejectList(List<String> userRejectList) {
+		this.userRejectList = userRejectList;
+	}
+
+	public Boolean getIsAvailableUser() {
+		return isAvailableUser;
+	}
+	public void setIsAvailableUser(Boolean isAvailableUser) {
+		this.isAvailableUser = isAvailableUser;
+	}
+//	public Boolean getOverallStatus() {
+////		Boolean ret = false;
+////		if(isAvailableUser && (status == Integer.valueOf(STATUS_IS_AVAILABLE))) {
+////			ret = true;
+////		}
+////		return ret;
+//		if(isAvailableUser) {
+//			return false;
+//		}
+//		return true;
+//	}
+	
+	public Boolean getOverallStatus() {
+	    if (isAvailableUser != null && status != null && isAvailableUser && (status == Integer.valueOf(STATUS_IS_AVAILABLE))) {
+	        return true;
+	    }
+	    return false;
 	}
 }
