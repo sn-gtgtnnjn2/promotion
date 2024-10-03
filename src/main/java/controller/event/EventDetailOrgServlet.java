@@ -164,16 +164,7 @@ public class EventDetailOrgServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//String[] approvedUsersAry = request.getParameterValues("approvedUsersAry");
-//		
-//        // 承認済みユーザーのデータを取得
-//        String[] approvedUsers = request.getParameterValues("approvedUsersAry");
-//        // 申請中ユーザーのデータを取得
-//        String[] pendingUsers = request.getParameterValues("pendingUsersAry");
-//        // 却下されたユーザーのデータを取得
-//        String[] rejectedUsers = request.getParameterValues("rejectedUsersAry");
-//        
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
         // 承認済みユーザーのデータを取得
         String[] approvedUsers = request.getParameterValues("approvedUsers[]");
         // 申請中ユーザーのデータを取得

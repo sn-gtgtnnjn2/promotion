@@ -63,7 +63,9 @@
             cursor: pointer;
         }
         
-          .custom-select-list {
+  .custom-select-list {
+  	width: 10vw;
+  	height:200px;
     border: 1px solid #ddd;
     max-height: 200px;
     overflow-y: auto;
@@ -80,3 +82,14 @@
   .select-item:hover {
     background-color: #f1f1f1;
   }
+  .selected{
+   background-color: #A8DBA8;
+  }
+  .selected,.select-item:hover {
+   background-color: #A8DBA8;
+  }
+    button.btn.btn-primary{
+    text-align:center;
+  	margin : auto;
+  }
+  

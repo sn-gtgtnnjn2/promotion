@@ -5,7 +5,7 @@
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
-<script src="<%= request.getContextPath() %>/js/event_detail_org.js"></script>
+
 <script src="<%= request.getContextPath() %>/js/jquery-3.7.1.min.js"></script>
 <body>
 	<header>
@@ -81,8 +81,7 @@
 									<td>申請者一覧</td>
 									<td><div id="signUpList" name="signUpList"
 											<c:if test="${!organizerFlg}">readonly class="readonly"</c:if>>
-											<c:forEach items="${signUpMemberPictList }"
-												var="signUpMemberPict" varStatus="status">
+											<c:forEach items="${signUpMemberPictList }" var="signUpMemberPict" varStatus="status">
 												<img class="member-icon"
 													src="data:image/png;base64,${signUpMemberPict.value}"
 													alt="${signUpMemberPict.key }" title="${memberPict.key }" />
@@ -126,47 +125,46 @@
 							</div>
 							
 <!-- イベント作成者固有エリア -->
+  <form id="user-management-form" method="POST" action="<%= request.getContextPath() %>/event/eventViewOrg">
 <div class="user-management-container">
-<div class="user-select-box">
-    <div>承認済みユーザー</div>
-    <select class="user-select-box" size="8" id="approved-users" multiple>
-    </select>
-    <div id="hiddenValues"></div>
-</div>
-<div class="action-buttons">
-    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'approved-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
-    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('approved-users', 'pending-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
+    <div class="user-select-box">
+      <div>承認済みユーザー</div>
+      <div class="custom-select-list" id="approved-users">
+        <!-- 承認済みユーザーのリストがここに表示されます -->
+      </div>
+    </div>
+    <div class="action-buttons">
+      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'approved-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
+      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('approved-users', 'pending-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
+    </div>
+    <div class="user-select-box">
+      <div class="text-muted">申請中ユーザー</div>
+      <div class="custom-select-list" id="pending-users">
+      	<c:forEach items="${memberPictList }" var="memberPict" varStatus="status">
 
-</div>
-<div class="user-select-box">
-    <div class="text-muted">申請中ユーザー</div>
-    <select class="user-select-box" size="8" id="pending-users" multiple>
-	<option value="90">January</option>
-    <option value="91">February</option>
-    <option value="92">March</option>
-    
-    <c:forEach items="${memberPictList }" var="pendMember" varStatus="status">
-    	<option value="${status.index + 1}"><c:out value="${pendMember.key }" /></option>
-    </c:forEach>
-    </select>
-</div>
+        	<div class="select-item" data-value="1"><img class="member-icon" src="data:image/png;base64,${memberPict.value}" alt="${memberPict.key }" title="${memberPict.key }" /> ${memberPict.key }</div>
+      	</c:forEach>
+      </div>
+    </div>
+    <div class="action-buttons">
+      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('rejected-users', 'pending-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
+      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'rejected-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
+    </div>
+    <div class="user-select-box">
+      <div class="text-muted">申請中ユーザー</div>
+      <div class="custom-select-list" id="rejected-users">
 
-<div class="action-buttons">
-    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('rejected-users', 'pending-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
-    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'rejected-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
-
+      </div>
+    </div>
+    <!-- Hidden fields to store the selected values -->
+    <div id="approvedUsers"></div>
+    <div id="pendingUsers"></div>
+    <div id="rejectedUsers"></div>
 </div>
-
-<div class="user-select-box">
-    <div class="text-muted">却下ユーザー</div>
-    <select class="user-select-box" size="8" id="rejected-users" multiple>
-    <option value="1">January</option>
-    <option value="2">February</option>
-    <option value="3">March</option>
-
-    </select>
+    <button type="submit" class="btn btn-primary" onclick="prepareHiddenFields();">登録</button>
+<div>
 </div>
-</div>
+  </form>
 <div class="row m-3">
 <!--
  <div class="col-md-3">
@@ -187,5 +185,6 @@
 		</div>
 	</main>
 	<jsp:include page="/WEB-INF/view/footer.jsp" flush="true" />
+	<script src="<%= request.getContextPath() %>/js/event_detail_org.js"></script>
 </body>
 </html>
