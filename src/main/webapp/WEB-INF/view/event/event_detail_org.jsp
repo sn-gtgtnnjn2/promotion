@@ -5,7 +5,8 @@
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
-<script src="<%= request.getContextPath() %>/js/event_detail.js"></script>
+<script src="<%= request.getContextPath() %>/js/event_detail_org.js"></script>
+<script src="<%= request.getContextPath() %>/js/jquery-3.7.1.min.js"></script>
 <body>
 	<header>
 		<h1>
@@ -69,8 +70,7 @@
 									<td>参加者一覧</td>
 									<td><div id="participantList" name="participantList"
 											<c:if test="${!organizerFlg}">readonly class="readonly"</c:if>>
-											<c:forEach items="${memberPictList }" var="memberPict"
-												varStatus="status">
+											<c:forEach items="${memberPictList }" var="memberPict" varStatus="status">
 												<img class="member-icon"
 													src="data:image/png;base64,${memberPict.value}"
 													alt="${memberPict.key }" title="${memberPict.key }" />
@@ -124,9 +124,60 @@
 									</c:forEach>
 								</div>
 							</div>
+							
+<!-- イベント作成者固有エリア -->
+<div class="user-management-container">
+<div class="user-select-box">
+    <div>承認済みユーザー</div>
+    <select class="user-select-box" size="8" id="approved-users" multiple>
+    </select>
+    <div id="hiddenValues"></div>
+</div>
+<div class="action-buttons">
+    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'approved-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
+    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('approved-users', 'pending-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
+
+</div>
+<div class="user-select-box">
+    <div class="text-muted">申請中ユーザー</div>
+    <select class="user-select-box" size="8" id="pending-users" multiple>
+	<option value="90">January</option>
+    <option value="91">February</option>
+    <option value="92">March</option>
+    
+    <c:forEach items="${memberPictList }" var="pendMember" varStatus="status">
+    	<option value="${status.index + 1}"><c:out value="${pendMember.key }" /></option>
+    </c:forEach>
+    </select>
+</div>
+
+<div class="action-buttons">
+    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('rejected-users', 'pending-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
+    <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'rejected-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
+
+</div>
+
+<div class="user-select-box">
+    <div class="text-muted">却下ユーザー</div>
+    <select class="user-select-box" size="8" id="rejected-users" multiple>
+    <option value="1">January</option>
+    <option value="2">February</option>
+    <option value="3">March</option>
+
+    </select>
+</div>
+</div>
+<div class="row m-3">
+<!--
+ <div class="col-md-3">
+    <button type="button" class="btn btn-primary" onclick="showSelectValues();">選択を表示</button>
+</div>
+ -->
+</div>
 							<c:if test="${organizerFlg}">
 								<button type="submit">変更</button>
 							</c:if>
+
 						<c:url var="backUrl" value="${backTarget}">
     					<c:param name="searchQuery" value="${searchQuery}" />
 						</c:url>

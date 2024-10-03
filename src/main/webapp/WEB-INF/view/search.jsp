@@ -66,7 +66,12 @@
 								<th>参加人数/募集人数</th>
 							</tr>
 							<c:forEach var="event" items="${eventInfoList}">
-								<tr  data-href="<%= request.getContextPath() %>/event/eventView?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">
+								<c:if test="${!event.organizerFlg }">
+									<tr  data-href="<%= request.getContextPath() %>/event/eventView?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">							
+								</c:if>
+								<c:if test="${event.organizerFlg }">
+									<tr  data-href="<%= request.getContextPath() %>/event/eventViewOrg?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">							
+								</c:if>
 									<td><c:out value="${event.eventDate}" /></td>
 									<td><div class="icon-img"><img src="data:image/jpeg;base64,<c:out value="${event.organizerImageString}" />"
 										alt="主催者アイコン" />

@@ -20,6 +20,7 @@ public class EventInfoBean implements Serializable{
 	private String organizerImageString;
 	private Integer currentSignUpNum;
 	private Integer currentApprovedNum;
+	private Boolean organizerFlg;
 	
 	public String getOrganizerImageString() {
 		return organizerImageString;
@@ -139,5 +140,11 @@ public class EventInfoBean implements Serializable{
 			retStatus = "";
 		}
 		return retStatus;
+	}
+	public Boolean getOrganizerFlg() {
+		return organizerFlg;
+	}
+	public void setOrganizerFlg(Boolean organizerFlg) {
+		this.organizerFlg = organizerFlg;
 	}
 }

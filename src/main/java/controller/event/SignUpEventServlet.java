@@ -40,7 +40,10 @@ public class SignUpEventServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String strEventId = (String) request.getParameter("eventId");
 		String userId = (String) session.getAttribute("userId");
-		System.out.println(strEventId);
+		String searchQuery = (String) request.getParameter("searchQuery");
+//		String searchQuery = (String) request.getQueryString();
+		String backTarget = (String) request.getParameter("backTarget");
+		System.out.println(searchQuery);
 		// エラーリスト
 		
 		// バリデーション
@@ -71,6 +74,8 @@ public class SignUpEventServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("eventId", eventId);
+		request.setAttribute("searchQuery", searchQuery);
+		request.setAttribute("backTarget", backTarget);
 		request.getRequestDispatcher(NavigationManager.getServletURL(NavigationManager.SCREEN_EVENT_DETAIL_VIEW)).forward(request, response);
 	}
 

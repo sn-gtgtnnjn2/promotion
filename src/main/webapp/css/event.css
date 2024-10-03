@@ -41,3 +41,42 @@
 		.search-button{
 			text-align: center;
 		}
+		
+		.user-management-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 600px;
+            margin: 50px auto;
+        }
+        .user-select-box {
+            width: 150px;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .action-buttons button {
+            margin: 5px 0;
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+          .custom-select-list {
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .select-item {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .select-item img {
+    margin-right: 10px;
+  }
+  .select-item:hover {
+    background-color: #f1f1f1;
+  }

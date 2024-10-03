@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -41,6 +42,9 @@ public class SearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		
         // 検索条件を取得
         String eventTitle = request.getParameter("eventTitle");
         String organizerName = request.getParameter("organizerName");
@@ -79,7 +83,7 @@ public class SearchServlet extends HttpServlet {
 		String whereStr = buildWhereStr(eventTitle, organizerName, scenarioTitle, eventDate, followersOnly );
 		System.out.println(whereStr);
 		List<Event> eventList = eid.selectAvailableEventsWithPict(100, whereStr);
-		List<EventInfoBean> eventInfoList = storeEventToBean(eventList);
+		List<EventInfoBean> eventInfoList = storeEventToBean(eventList, userId);
 		System.out.println(eventInfoList.size());
 		
 
@@ -153,7 +157,7 @@ public class SearchServlet extends HttpServlet {
 		return sb.toString();
 	}
 
-	private List<EventInfoBean> storeEventToBean(List<Event> eventList) {
+	private List<EventInfoBean> storeEventToBean(List<Event> eventList, String userId) {
 		List<EventInfoBean> eibList = new ArrayList<EventInfoBean>();
 		for(int i = 0; i < eventList.size(); i ++) {
 			EventInfoBean eib = new EventInfoBean();
@@ -170,6 +174,11 @@ public class SearchServlet extends HttpServlet {
 			eib.setStatus(EventAndDetail.getIsAvailable(eventList.get(i), eventList.get(i).getCurrentApprovedNum()));
 			eib.setCurrentSignUpNum(eventList.get(i).getCurrentSignUpNum());
 			eib.setCurrentApprovedNum(eventList.get(i).getCurrentApprovedNum());
+			if(eventList.get(i).getOrganizerId().equals(userId)){
+				eib.setOrganizerFlg(true);
+			} else {
+				eib.setOrganizerFlg(false);				
+			}
 			eibList.add(eib);
 		}
 		return eibList;
