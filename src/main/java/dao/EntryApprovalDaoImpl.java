@@ -115,6 +115,54 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 				
 		return entryAppList;
 	}
+	
+	@Override
+	public List<EntryApprovalWithPict> selectByEventIdWithPict(Integer eventId, Integer approvalStatus) {
+		System.out.println(getClass().getName() + "->" + eventId + "," + approvalStatus);
+		List<EntryApprovalWithPict> entryAppList = new ArrayList<EntryApprovalWithPict>();
+		String sql = "SELECT "
+				+ " entry_approval.id as id"
+				+ ", entry_approval.event_id"
+				+ ", entry_approval.sign_up_user_id"
+				+ ", entry_approval.approve_status"
+				+ ", entry_approval.entry_datetime as entry_datetime"
+				+ ", entry_approval.update_datetime as update_datetime"
+				+ ", entry_approval.delete_flg as delete_flg"
+				+ ", profile.base64_data"
+				+ ", user.user_name"
+				+ " FROM entry_approval"
+				+ " INNER JOIN profile"
+				+ " ON entry_approval.sign_up_user_id = profile.user_id"
+				+ " INNER JOIN user ON entry_approval.sign_up_user_id = user.user_id"
+				+ " WHERE entry_approval.event_id = ?"
+				+ " AND entry_approval.approve_status = ? "
+				+ " ORDER BY entry_approval.update_datetime ASC";
+		
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, eventId);
+			stmt.setInt(2, approvalStatus);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				EntryApprovalWithPict eawp = new EntryApprovalWithPict();
+				eawp.setId(rs.getInt("id"));
+				eawp.setEventID(rs.getInt("event_id"));
+				eawp.setSignUpUserId(rs.getString("sign_up_user_id"));
+				eawp.setApprovalStatus(rs.getInt("approve_status"));
+				eawp.setEntryDatetime(rs.getTimestamp("entry_datetime"));
+				eawp.setUpdateDatetime(rs.getTimestamp("update_datetime"));
+				eawp.setDeleteFlg(rs.getBoolean("delete_flg"));
+				eawp.setBase64ImgStr(rs.getString("base64_data"));
+				eawp.setUserName(rs.getString("user_name"));
+				entryAppList.add(eawp);
+			}
+		} catch(SQLException e) {
+			System.out.println("selectByEventIdWithPictで問題が生じました");
+			e.printStackTrace();
+		}
+				
+		return entryAppList;
+	}
 
 	
 	@Override
@@ -190,4 +238,23 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 		return null;
 	}
 
+	@Override
+	public void updateApproveStatus(List<EntryApproval> targetList, Integer updateStatus) throws SQLException {
+		String sql = "UPDATE entry_approval SET approve_status = ?"
+				+ " WHERE event_id = ?"
+				+ " AND sign_up_user_id = ? ";
+		try(Connection con = ds.getConnection()){
+			 PreparedStatement stmt = con.prepareStatement(sql);
+			for(EntryApproval entryApproval : targetList ) {
+				stmt.setInt(1, updateStatus);
+				stmt.setInt(2, entryApproval.getEventID());
+				stmt.setString(3, entryApproval.getSignUpUserId());
+				stmt.addBatch();
+			}
+			stmt.executeBatch();
+		} catch (SQLException e ) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 }

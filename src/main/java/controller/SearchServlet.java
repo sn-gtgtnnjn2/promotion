@@ -44,6 +44,7 @@ public class SearchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
+		//String searchQuery = request.getParameter("searchQuery");
 		
         // 検索条件を取得
         String eventTitle = request.getParameter("eventTitle");

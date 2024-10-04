@@ -70,10 +70,15 @@
 									<td>参加者一覧</td>
 									<td><div id="participantList" name="participantList"
 											<c:if test="${!organizerFlg}">readonly class="readonly"</c:if>>
-											<c:forEach items="${memberPictList }" var="memberPict" varStatus="status">
+											<c:forEach items="${approveMemberPictList }" var="approveMemberPict" varStatus="status">
+												<c:if test="${empty approveMemberPict.imageString}">
+													<img src="<%=request.getContextPath()%>/icon/testicon.png" alt="${signUpMemberPict.userName }"  title="${signUpMemberPict.userName }" />">
+												</c:if>
+												<c:if test="${!empty approveMemberPict.imageString}">
 												<img class="member-icon"
-													src="data:image/png;base64,${memberPict.value}"
-													alt="${memberPict.key }" title="${memberPict.key }" />
+													src="data:image/png;base64,${approveMemberPict.imageString}"
+													alt="${approveMemberPict.userName }" title="${approveMemberPict.userName }" />
+												</c:if>
 											</c:forEach>
 										</div></td>
 								</tr>
@@ -82,9 +87,14 @@
 									<td><div id="signUpList" name="signUpList"
 											<c:if test="${!organizerFlg}">readonly class="readonly"</c:if>>
 											<c:forEach items="${signUpMemberPictList }" var="signUpMemberPict" varStatus="status">
+												<c:if test="${empty signUpMemberPict.imageString}">
+													<img src="<%=request.getContextPath()%>/icon/testicon.png" alt="${signUpMemberPict.userName }"  title="${signUpMemberPict.userName }" />">
+												</c:if>
+												<c:if test="${!empty signUpMemberPict.imageString}">
 												<img class="member-icon"
-													src="data:image/png;base64,${signUpMemberPict.value}"
-													alt="${signUpMemberPict.key }" title="${memberPict.key }" />
+													src="data:image/png;base64,${signUpMemberPict.imageString}"
+													alt="${signUpMemberPict.userName }" title="${signUpMemberPict.userName }" />
+												</c:if>
 											</c:forEach>
 										</div></td>
 								</tr>
@@ -125,47 +135,92 @@
 							</div>
 							
 <!-- イベント作成者固有エリア -->
-  <form id="user-management-form" method="POST" action="<%= request.getContextPath() %>/event/eventViewOrg">
-<div class="user-management-container">
-    <div class="user-select-box">
-      <div>承認済みユーザー</div>
-      <div class="custom-select-list" id="approved-users">
-        <!-- 承認済みユーザーのリストがここに表示されます -->
-      </div>
-    </div>
-    <div class="action-buttons">
-      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'approved-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
-      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('approved-users', 'pending-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
-    </div>
-    <div class="user-select-box">
-      <div class="text-muted">申請中ユーザー</div>
-      <div class="custom-select-list" id="pending-users">
-      	<c:forEach items="${memberPictList }" var="memberPict" varStatus="status">
+						<form id="user-management-form" method="POST" action="<%=request.getContextPath()%>/event/eventViewOrg">
+							<div class="user-management-container">
+								<div class="user-select-box">
+									<div>承認済みユーザー</div>
+									<div class="custom-select-list" id="approved-users">
+										<!-- 承認済みユーザーのリストがここに表示されます -->
+										<c:forEach items="${approveMemberPictList }" var="memberPict" varStatus="status">
+											<div class="select-item" data-value="${memberPict.userId }">
+												<c:if test="${!empty  memberPict.imageString}">
+												<img class="member-icon"
+													src="data:image/png;base64,${memberPict.imageString}"
+													alt="${memberPict.userName }" title="${memberPict.userName }" />
+												</c:if>
+												<c:if test="${empty  memberPict.imageString}">
+												<img src="<%=request.getContextPath()%>/icon/testicon.png" alt="${signUpMemberPict.userName }"  title="${signUpMemberPict.userName }" />">
+												</c:if>
+												${memberPict.userName }
+											</div>
+										</c:forEach>
+									</div>
+								</div>
+								
+								<div class="action-buttons">
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="moveGroup('pending-users', 'approved-users');">
+										<i class="bi bi-chevron-double-left"></i>← 承認
+									</button>
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="moveGroup('approved-users', 'pending-users');">
+										却下 →<i class="bi bi-chevron-double-right"></i>
+									</button>
+								</div>
+								
+								<div class="user-select-box">
+									<div class="text-muted">申請中ユーザー</div>
+									<div class="custom-select-list" id="pending-users">
+										<c:forEach items="${signUpMemberPictList }" var="memberPict" varStatus="status">
 
-        	<div class="select-item" data-value="1"><img class="member-icon" src="data:image/png;base64,${memberPict.value}" alt="${memberPict.key }" title="${memberPict.key }" /> ${memberPict.key }</div>
-      	</c:forEach>
-      </div>
-    </div>
-    <div class="action-buttons">
-      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('rejected-users', 'pending-users');"><i class="bi bi-chevron-double-left"></i>← 承認</button>
-      <button type="button" class="btn btn-outline-secondary" onclick="moveGroup('pending-users', 'rejected-users');">却下 →<i class="bi bi-chevron-double-right"></i></button>
-    </div>
-    <div class="user-select-box">
-      <div class="text-muted">申請中ユーザー</div>
-      <div class="custom-select-list" id="rejected-users">
-
-      </div>
-    </div>
-    <!-- Hidden fields to store the selected values -->
-    <div id="approvedUsers"></div>
-    <div id="pendingUsers"></div>
-    <div id="rejectedUsers"></div>
-</div>
-    <button type="submit" class="btn btn-primary" onclick="prepareHiddenFields();">登録</button>
-<div>
-</div>
-  </form>
-<div class="row m-3">
+											<div class="select-item" data-value="${memberPict.userId }">
+												<c:if test="${!empty  memberPict.imageString}">
+												<img class="member-icon"
+													src="data:image/png;base64,${memberPict.imageString}"
+													alt="${memberPict.userName }" title="${memberPict.userName }" />
+												</c:if>
+												<c:if test="${empty memberPict.imageString}">
+													<img src="<%=request.getContextPath()%>/icon/testicon.png" alt="${memberPict.userName }"  title="${memberPict.userName }" />
+												</c:if>
+												${memberPict.userName }
+											</div>
+										</c:forEach>
+									</div>
+								</div>
+								
+								<div class="action-buttons">
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="moveGroup('rejected-users', 'pending-users');">
+										<i class="bi bi-chevron-double-left"></i>← 承認
+									</button>
+									<button type="button" class="btn btn-outline-secondary"
+										onclick="moveGroup('pending-users', 'rejected-users');">
+										却下 →<i class="bi bi-chevron-double-right"></i>
+									</button>
+								</div>
+								
+								<div class="user-select-box">
+									<div class="text-muted">申請中ユーザー</div>
+									<div class="custom-select-list" id="rejected-users"></div>
+								</div>
+								
+								<!-- Hidden fields to store the selected values -->
+								<div id="approvedUsers"></div>
+								<div id="pendingUsers"></div>
+								<div id="rejectedUsers"></div>
+							</div>
+							
+							<div class="main-button-area">
+								<input type="hidden" id="searchQuery" name="searchQuery"value="${searchQuery}"/>
+								<input type="hidden" id="backTarget" name="backTarget"value="${backTarget}"/>
+								<input type="hidden" id="eventId" name="eventId"value="${eventId}"/>
+								<button type="submit" class="btn btn-primary" onclick="prepareHiddenFields();">登録</button>
+							</div>
+							<div>
+							
+							</div>
+						</form>
+						<div class="row m-3">
 <!--
  <div class="col-md-3">
     <button type="button" class="btn btn-primary" onclick="showSelectValues();">選択を表示</button>
@@ -177,9 +232,10 @@
 							</c:if>
 
 						<c:url var="backUrl" value="${backTarget}">
-    					<c:param name="searchQuery" value="${searchQuery}" />
+    					
+    					<c:param name="eventId" value="${eventId}" />
 						</c:url>
-						<button onclick="location.href='${backUrl}'">戻る</button>
+						<button onclick="location.href='${backUrl}${searchQuery}'">戻る</button>
 				</div>
 			</div>
 		</div>
