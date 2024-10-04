@@ -13,10 +13,11 @@ public interface EntryApprovalDao {
 	List<EntryApproval> selectByEventId(Integer eventId);
 	List<EntryApproval> selectByUserId(String userId) throws SQLException;
 	void insert(EntryApproval EventApproval) throws SQLException;
-	void updateRow(EntryApproval EventApproval);
-	void deleteById(EntryApproval EventApproval);
+	void updateApproveStatusRow(EntryApproval EventApproval) throws SQLException;
+	void deleteById(EntryApproval EventApproval) throws SQLException;
 	public List<EntryApproval> selectByEventIds(List<Integer> eventIds);
 	List<EntryApprovalWithPict> selectByEventIdWithPict(Integer eventId);
 	List<EntryApprovalWithPict> selectByEventIdWithPict(Integer eventId, Integer approvalStatus);
 	void updateApproveStatus(List<EntryApproval> approveTargetList, Integer updateStatus) throws SQLException;
+	EntryApproval findByEventIdAndSgnUpUsrId(Integer eventId, String userId);
 }

@@ -21,6 +21,7 @@ public class EventAndDetailBean implements Serializable{
 	private Integer status;	// DtoからBeanに格納されるタイミングでセットされる
 	private List<String> userRejectList;
 	private Boolean isAvailableUser;
+	private Boolean organizerFlg;
 	
 	public static final int STATUS_YET = 4;
 	public static final int STATUS_IS_AVAILABLE = 0;
@@ -174,5 +175,11 @@ public class EventAndDetailBean implements Serializable{
 	        return true;
 	    }
 	    return false;
+	}
+	public Boolean getOrganizerFlg() {
+		return organizerFlg;
+	}
+	public void setOrganizerFlg(Boolean organizerFlg) {
+		this.organizerFlg = organizerFlg;
 	}
 }

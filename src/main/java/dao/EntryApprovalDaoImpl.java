@@ -137,7 +137,7 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 				+ " WHERE entry_approval.event_id = ?"
 				+ " AND entry_approval.approve_status = ? "
 				+ " ORDER BY entry_approval.update_datetime ASC";
-		
+		System.out.println(sql);
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, eventId);
@@ -221,15 +221,37 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 	}
 
 	@Override
-	public void updateRow(EntryApproval entryApproval) {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	public void updateApproveStatusRow(EntryApproval entryApproval) throws SQLException {
+		String sql = "UPDATE entry_approval SET approve_status = ?"
+				+ " WHERE event_id = ?"
+				+ " AND sign_up_user_id = ? ";
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, entryApproval.getApprovalStatus());
+			stmt.setInt(2, entryApproval.getEventID());
+			stmt.setString(3, entryApproval.getSignUpUserId());
+			stmt.executeUpdate();
+		} catch (SQLException e ) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
-	public void deleteById(EntryApproval entryApproval) {
-		// TODO 自動生成されたメソッド・スタブ
-		
+	public void deleteById(EntryApproval entryApproval) throws SQLException {
+		String sql = "Delete from entry_approval"
+				+ " WHERE event_id = ?"
+				+ " AND sign_up_user_id = ? ";
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, entryApproval.getApprovalStatus());
+			stmt.setInt(2, entryApproval.getEventID());
+			stmt.setString(3, entryApproval.getSignUpUserId());
+			stmt.executeUpdate();
+		} catch (SQLException e ) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
@@ -256,5 +278,42 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	@Override
+	public EntryApproval findByEventIdAndSgnUpUsrId(Integer eventId, String userId) {
+		String sql = "SELECT "
+				+ " id"
+				+ ", event_id"
+				+ ", sign_up_user_id"
+				+ ", approve_status"
+				+ ", entry_datetime"
+				+ ", update_datetime"
+				+ ", delete_flg"
+				+ " FROM entry_approval"
+				+ " WHERE event_id = ?"
+				+ " AND sign_up_user_id = ?"
+				+ " ORDER BY update_datetime ASC";
+		
+		System.out.println(getClass().getName() + "SQL->" + sql);
+		EntryApproval ea = new EntryApproval();
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, eventId);
+			stmt.setString(2, userId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				ea.setId(rs.getInt("id"));
+				ea.setEventID(rs.getInt("event_id"));
+				ea.setSignUpUserId(rs.getString("sign_up_user_id"));
+				ea.setApprovalStatus(rs.getInt("approve_status"));
+				ea.setEntryDatetime(rs.getTimestamp("entry_datetime"));
+				ea.setEntryDatetime(rs.getTimestamp("update_datetime"));
+				ea.setDeleteFlg(rs.getBoolean("delete_flg"));
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return ea;
 	}
 }

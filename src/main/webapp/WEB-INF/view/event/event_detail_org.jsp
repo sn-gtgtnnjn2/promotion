@@ -20,6 +20,7 @@
 					<div class="midashi">イベント詳細</div>
 					<table class="custom-table">
 
+						<form id="user-management-form" method="POST" action="<%=request.getContextPath()%>/event/eventViewOrg">
 							<table>
 								<tr>
 									<td>イベント日時</td>
@@ -135,7 +136,6 @@
 							</div>
 							
 <!-- イベント作成者固有エリア -->
-						<form id="user-management-form" method="POST" action="<%=request.getContextPath()%>/event/eventViewOrg">
 							<div class="user-management-container">
 								<div class="user-select-box">
 									<div>承認済みユーザー</div>

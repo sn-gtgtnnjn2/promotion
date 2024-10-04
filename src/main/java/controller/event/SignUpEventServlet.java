@@ -2,6 +2,7 @@ package controller.event;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import controller.NavigationManager;
 import dao.DaoFactory;
 import dao.EntryApprovalDao;
 import dto.EntryApproval;
+import util.Constants;
 
 /**
  * Servlet implementation class SignUpEventServlet
@@ -66,7 +68,13 @@ public class SignUpEventServlet extends HttpServlet {
 		ea.setEventID(eventId);
 		ea.setSignUpUserId(userId);
 		try {
-			ead.insert(ea);
+			EntryApproval eaFromDB = ead.findByEventIdAndSgnUpUsrId(eventId, userId);
+			if(Objects.isNull(eaFromDB)) {
+				ead.insert(ea);
+			} else {
+				ea.setApprovalStatus(Constants.EVENT_APPROVAL_SIGNUP);
+				ead.updateApproveStatusRow(ea);
+			}
 		} catch (SQLException e) {
 			System.out.println("参加承認テーブルへのインサートに失敗しました。");
 			// TODO 自動生成された catch ブロック

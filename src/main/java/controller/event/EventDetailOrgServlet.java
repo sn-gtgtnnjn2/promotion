@@ -122,6 +122,14 @@ public class EventDetailOrgServlet extends HttpServlet {
 		canSignUp = canThisUserSignUp(userId, event.getOrganizerId(), event.getOpenLevel(), entSignUpList, isFollower, userRejectList);
 			eadb.setUserRejectList(userRejectList);
 			eadb.setIsAvailableUser(canSignUp);
+			
+		// 主催者かどうか判定
+		boolean oFlg = false;
+		if(event.getOrganizerId().equals(userId)) {
+			oFlg = true;
+		} else {
+			oFlg = false;
+		}
 
 		// 参加者一覧情報をBeanに追加
 		List<MemberBean> signUpMemberPictList = storeMemberInfo(entSignUpList);
@@ -133,6 +141,7 @@ public class EventDetailOrgServlet extends HttpServlet {
 		request.setAttribute("approveMemberPictList", approveMemberPictList);
 		request.setAttribute("screenId", NavigationManager.SCREEN_EVENT_DETAIL_VIEW);
 		request.setAttribute("eventId", eventId);
+		request.setAttribute("organizerFlg", oFlg);
 		
 		// 検索画面のクエリパラメータをセット
 		request.setAttribute("searchQuery", searchQuery);
