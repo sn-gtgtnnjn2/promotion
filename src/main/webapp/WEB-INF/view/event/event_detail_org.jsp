@@ -24,9 +24,14 @@
 							<table>
 								<tr>
 									<td>イベント日時</td>
-									<td><input type="text" id="eventDate" name="eventDate"
-										value="${eadb.eventDate }"
-										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> /></td>
+									<fmt:formatDate value="${eadb.eventDate}" pattern="yyyy/MM/dd(E)" var="eventDate"/>
+									<fmt:formatDate value="${eadb.eventDate}" pattern="HH:mm" var="eventTime"/>
+									<td>
+										 <input type="text" id="eventDate" maxlength="8" placeholder="例: 20241009" value="${eventDate }">
+										 <div id="date-error" class="error-message">入力値が不正です</div>
+										 <input type="text" id="eventTime" maxlength="4" placeholder="例: 1900" value="${eventTime }">
+										 <div id="time-error" class="error-message">入力値が不正です</div>
+										</td>
 								</tr>
 								<tr>
 									<td>イベントタイトル</td>

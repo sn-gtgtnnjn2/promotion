@@ -5,6 +5,7 @@
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
+<script>var ctx = "<%=request.getContextPath()%>"</script>
 <script src="<%= request.getContextPath() %>/js/event_detail.js"></script>
 <body>
 	<header>
@@ -127,6 +128,39 @@
 							<c:if test="${organizerFlg}">
 								<button type="submit">変更</button>
 							</c:if>
+
+							<div class="main-button-area">
+								<form action="<%= request.getContextPath() %>/event/signUpEvent" name="signUpForm" id="signUpForm">
+									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
+									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
+									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
+									<div>
+										<!-- 登録キャラクター表示場所 -->
+										<div id="selectedCharacterName"></div>
+										<div id="selectedCharacterNameKana"></div>
+										<div id="selectedCharacterPict"></div>
+										<div id="selectedCharacter"></div>
+										<button type="button" onclick="openSearchDiv()">検索する</button>
+									</div>
+								</form>
+							</div>
+
+						<div id="overlay" style="display: none;"></div>
+						<div id="childScreen" style="display: none;">
+							キャラクターの名前: 
+							<input type="text" id="characterName" onkeyup="fetchSuggestions()">
+							<input type="hidden" id="characterId" />
+							<ul id="suggestions" style="display: none;"></ul>
+							<div id="characterDetails" style="display: none;">
+								<p id="characterInfo">
+									<c:out value="${characterInfo }" />
+								</p>
+								<button type="button" onclick="registerParticipant()">参加登録する</button>
+							</div>
+							<button type="button" onclick="searchCharacter()">検索</button>
+							<button type="button" onclick="openRegisterDiv()">新規登録</button>
+						</div>
+
 						<c:url var="backUrl" value="${backTarget}">
     					<c:param name="searchQuery" value="${searchQuery}" />
 						</c:url>

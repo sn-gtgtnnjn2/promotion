@@ -6,5 +6,5 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/calendar.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/unique.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="<%= request.getContextPath() %>/js/change_file.js"></script>
+
 </head>

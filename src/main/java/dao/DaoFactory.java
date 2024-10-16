@@ -65,9 +65,13 @@ public class DaoFactory {
 		return ds;
 	}
 
-	public static EventAndDetailDao createEventAndDetailDao() {
+	public static EventAndDetailDaoImpl createEventAndDetailDao() {
 		EventAndDetailDaoImpl eadd = new EventAndDetailDaoImpl(getDataSource());
 		return eadd;
 	}
 
+	public static ScenarioEntriedCharaDaoImpl createScenarioEntriedCharaDao() {
+		ScenarioEntriedCharaDaoImpl secd = new ScenarioEntriedCharaDaoImpl(getDataSource());
+		return secd;
+	}
 }

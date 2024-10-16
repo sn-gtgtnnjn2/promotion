@@ -69,9 +69,46 @@ public class CharasDaoImpl implements CharasDao{
 	}
 
 	@Override
-	public Character findByCharacterId(Integer characterId) throws SQLException {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public CharaDto findByCharacterId(Integer characterId) throws SQLException {
+		String sql = "SELECT "
+				+ " character_id"
+				+ ", creater_id"
+				+ ", name"
+				+ ", name_kana"
+				+ ", memo"
+				+ ", is_lost"
+				+ ", image_filename"
+				+ ", image_path"
+				+ ", external_link"
+				+ ", entry_datetime"
+				+ ", update_datetime"
+				+ ", delete_flg"
+				+ " FROM charas"
+				+ " WHERE character_id = ?";
+		CharaDto charaInfo = new CharaDto();
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, characterId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				charaInfo.setCharacterId(rs.getInt("character_id"));
+				charaInfo.setCreaterId(rs.getString("creater_id"));
+				charaInfo.setName(rs.getString("name"));
+				charaInfo.setNameKana(rs.getString("name_kana"));
+				charaInfo.setMemo(rs.getString("memo"));
+				charaInfo.setIsLost(rs.getBoolean("is_lost"));
+				charaInfo.setImageFileName(rs.getString("image_filename"));
+				charaInfo.setImagePath(rs.getString("image_path"));
+				charaInfo.setExternalLink(rs.getString("external_link"));
+				charaInfo.setEntryDate(rs.getTimestamp("entry_datetime"));
+				charaInfo.setUpdateDate(rs.getTimestamp("update_datetime"));
+				charaInfo.setDeleteFlg(rs.getBoolean("delete_flg"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(charaInfo.getCreaterId());
+		return charaInfo;
 	}
 
 	@Override
@@ -113,6 +150,56 @@ public class CharasDaoImpl implements CharasDao{
 	public void deleteByCharacterId(Integer characterId) throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
 		
+	}
+
+	@Override
+	public List<CharaDto> selectCharasListByNamePartialMatch(String matchStr) throws SQLException {
+		String sql = "Select "
+				+ " CHARACTER_ID"
+				+ " ,CREATER_ID"
+				+ " ,NAME"
+				+ " ,NAME_KANA"
+				+ " ,MEMO"
+				+ " ,IS_LOST"
+				+ " ,IMAGE_FILENAME"
+				+ " ,IMAGE_PATH"
+				+ " ,EXTERNAL_LINK"
+				+ " ,ENTRY_DATETIME"
+				+ " ,UPDATE_DATETIME"
+				+ " ,DELETE_FLG"
+				+ " FROM charas"
+				+ " WHERE name_kana like ?"
+				+ " OR  name like ?"; 
+		System.out.println(getClass().getName() + ":sql;->" + sql);
+		List<CharaDto> rt = new ArrayList<CharaDto>();
+		
+		try (Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, "%" + matchStr + "%");
+			stmt.setString(2, "%" + matchStr + "%");
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				CharaDto cdto = new CharaDto();
+				cdto.setCharacterId(rs.getInt("character_id"));
+				cdto.setCreaterId(rs.getString("creater_id"));
+				cdto.setName(rs.getString("name"));
+				cdto.setNameKana(rs.getString("name_kana"));
+				cdto.setMemo(rs.getString("memo"));
+				cdto.setIsLost(rs.getBoolean("is_lost"));
+				cdto.setImageFileName(rs.getString("image_filename"));
+				cdto.setImagePath(rs.getString("image_path"));
+				cdto.setExternalLink(rs.getString("external_link"));
+				cdto.setEntryDate(rs.getTimestamp("entry_datetime"));
+				cdto.setUpdateDate(rs.getTimestamp("update_datetime"));
+				cdto.setDeleteFlg(rs.getBoolean("delete_flg"));
+				rt.add(cdto);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+			System.out.println("エラーです。");
+		}
+		
+		return rt;
 	}
 
 }

@@ -6,6 +6,7 @@
 <body>
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/js/calender.js"></script>
+	    <script src="<%= request.getContextPath() %>/js/change_file.js"></script>
 	<script type="text/javascript"
 		src="<%=request.getContextPath()%>/js/modal.js"></script>
 <!-- 	<script type="text/javascript"
