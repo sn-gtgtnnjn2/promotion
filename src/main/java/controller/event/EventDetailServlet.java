@@ -14,12 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bean.CharaInfoForEventDetailBean;
 import bean.EventAndDetailBean;
 import controller.NavigationManager;
 import dao.DaoFactory;
 import dao.EntryApprovalDao;
 import dao.EventAndDetailDao;
 import dao.FollowsDao;
+import dao.ScenarioEntriedCharaDao;
+import dto.CharasForEventDetailDto;
 import dto.EntryApprovalWithPict;
 import dto.EventAndDetail;
 import dto.Follows;
@@ -68,8 +71,11 @@ public class EventDetailServlet extends HttpServlet {
 		
 		EventAndDetailDao eid = DaoFactory.createEventAndDetailDao();
 		EntryApprovalDao ead = DaoFactory.createEntryApprovalDao();
+		ScenarioEntriedCharaDao secd = DaoFactory.createScenarioEntriedCharaDao();
+		
 		EventAndDetail event = null;
 		List<EntryApprovalWithPict> entAppList = null;
+		List<CharasForEventDetailDto> charaList = null;
 		Boolean canSignUp = false;
 		Boolean isFollower = false;
 		try {
@@ -77,6 +83,9 @@ public class EventDetailServlet extends HttpServlet {
 			event = eid.findByEventId(eventId);
 			// 参加承認情報を取得
 			entAppList = ead.selectByEventIdWithPict(eventId);
+			
+			// 参加予定キャラクターを取得
+			charaList = secd.getEventEntryCharas(eventId);
 			
 			// フォロワーかどうかの情報を取得
 			FollowsDao flwDao = DaoFactory.createFollowsDao();
@@ -94,17 +103,22 @@ public class EventDetailServlet extends HttpServlet {
 		// イベント情報、詳細情報をBeanに格納(イベントとしての参加可能かどうかのステータスが格納されている)
 		EventAndDetailBean eadb = storeEventAndDetailToBean(event, entAppList.size());
 		
+		// キャラクター情報をbeanに格納
+		List<CharaInfoForEventDetailBean> charaListForScreen = storeCharaListToBean(charaList);
+		
 		// 申込者が参加できるかどうかを判定（主催者でない、イベントの閲覧権限があるかどうか)
 		List<String> userRejectList = new ArrayList<String>();
 		canSignUp = canThisUserSignUp(userId, event.getOrganizerId(), event.getOpenLevel(), entAppList, isFollower, userRejectList);
 			eadb.setUserRejectList(userRejectList);
 			eadb.setIsAvailableUser(canSignUp);
 
+		System.out.println("charaForScreenSize" + charaListForScreen.size());
 		// 参加者一覧情報をBeanに追加
 		LinkedHashMap<String,String> memberPictList = storeMemberInfo(entAppList);
 		request.setAttribute("canSignUp", canSignUp);
 		request.setAttribute("backTarget", NavigationManager.getServletURL(fromStr));
 		request.setAttribute("eadb", eadb);
+		request.setAttribute("charaListForScreen", charaListForScreen);
 		request.setAttribute("memberPictList", memberPictList);
 		request.setAttribute("screenId", NavigationManager.SCREEN_EVENT_DETAIL_VIEW);
 		
@@ -116,6 +130,25 @@ public class EventDetailServlet extends HttpServlet {
 		System.out.println(getClass().toString() + ":eadb.isAvailableUser->" + eadb.getIsAvailableUser());
 		
 		request.getRequestDispatcher("/WEB-INF/view/event/event_detail.jsp").forward(request, response);
+	}
+
+	private List<CharaInfoForEventDetailBean> storeCharaListToBean(List<CharasForEventDetailDto> charaList) {
+		List<CharaInfoForEventDetailBean> newCharaList = new ArrayList<CharaInfoForEventDetailBean>();
+		for(int i = 0; i < charaList.size(); i ++) {
+			CharaInfoForEventDetailBean bean = new CharaInfoForEventDetailBean();
+			bean.setCharacterId(charaList.get(i).getCharacterId());
+			bean.setEventId(charaList.get(i).getEventId());
+			bean.setPlayerId(charaList.get(i).getPlayerId());
+			bean.setPlayerName(charaList.get(i).getPlayerName());
+			bean.setName(charaList.get(i).getName());
+			bean.setNameKana(charaList.get(i).getNameKana());
+			bean.setMemo(charaList.get(i).getMemo());
+			bean.setExternalLink(charaList.get(i).getExternalLink());
+			bean.setImageFileName(charaList.get(i).getImageFilename());
+			bean.setImageFilePath(charaList.get(i).getImagePath());
+			newCharaList.add(bean);
+		}
+		return newCharaList;
 	}
 
 	private Boolean canThisUserSignUp(String userId, String organizerId, Integer openLevel,

@@ -3,6 +3,7 @@ package dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import dto.CharasForEventDetailDto;
 import dto.ScenarioEntriedCharaDto;
 
 public interface ScenarioEntriedCharaDao {
@@ -13,5 +14,6 @@ public interface ScenarioEntriedCharaDao {
 	void insert(ScenarioEntriedCharaDto chara) throws SQLException;
 	void updateRowByCharaAndEventId(ScenarioEntriedCharaDto chara) throws SQLException;
 	void deleteByCharaAndEventId(Integer characterId, Integer eventId) throws SQLException;
+	List<CharasForEventDetailDto> getEventEntryCharas(Integer eventId) throws SQLException;
 	
 }

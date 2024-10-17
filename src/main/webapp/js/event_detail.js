@@ -98,25 +98,31 @@ function displayCharacterDetails(characterId) {
 }
 
 function registerParticipant() {
-	//const characterName = document.getElementById('characterName').value;
-	//document.getElementById('selectedCharacter').innerText = characterName;
-	// シナリオ参加キャラクター一覧に登録処理を呼び出す。
-	const charId = document.getElementById('characterId').value;
-	const charName = document.getElementById('characterName').value;
-	const eventId = document.getElementById('eventId').value;
-	const body = JSON.stringify({
-		characterName: charName,
-		characterId: charId,
-		eventId: eventId
+    const charId = document.getElementById('characterId').value;
+    const charName = document.getElementById('characterName').value;
+    const eventId = document.getElementById('eventId').value;
+    const body = JSON.stringify({
+        characterName: charName,
+        characterId: charId,
+        eventId: eventId
+    });
+
+    $.post(ctx + `/AddPerticipateCharaServlet`, body, function(data, status) {
+        if(status === "success"){
+            console.log(data);
+        } else {
+            console.log("登録失敗");
+        }
+    }, "json").done(function(data) {
+		console.log("完了: ", data);
+		updateCharacterList()
+		clearInputFields();
+	}).fail(function(xhr, status, error) {
+		console.error("リクエストエラー: ", error);
+		console.log("ステータス: ", status);
+		console.log("レスポンス: ", xhr.responseText);
 	});
-	$.post(ctx + "/AddPerticipateCharaServlet", body, (data, status) => {
-		if(status == 200){
-			
-			console.log(data);
-		} else {
-			console.log("登録失敗");
-		}
-	});
+
 	closeSearchDiv();
 }
 
@@ -130,6 +136,16 @@ function registerParticipant() {
 //    }
 //}
 
+function clearInputFields() {
+    document.getElementById('characterName').value = '';
+    document.getElementById('characterId').value = '';
+    document.getElementById('suggestions').style.display = 'none';
+    document.getElementById('characterDetails').style.display = 'none';
+    document.getElementById('characterInfo').innerText = '';
+}
+
+// クリアボタンに追加する場合
+// <button type="button" onclick="clearInputFields()">クリア</button>
 
 function searchCharacter() {
 	// 検索処理をここに追加
@@ -138,4 +154,59 @@ function searchCharacter() {
 
 function openRegisterDiv() {
 	// 新規登録画面を表示する処理
+}
+
+function viewCharacterDetails(characterId) {
+    window.location.href = '/characterDetails?characterId=' + characterId;
+}
+
+function deleteCharacter(event, characterId) {
+    event.stopPropagation(); // 親のクリックイベントを防止
+    if (confirm('このキャラクターを削除しますか？')) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', ctx + '/DeleteCharacterServlet', true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 削除成功
+                document.querySelector('.character-card[data-id="' + characterId + '"]').remove();
+            } else if (xhr.readyState === 4) {
+                // 削除失敗
+                alert('削除に失敗しました。');
+            }
+        };
+        xhr.send(JSON.stringify({ characterId: characterId }));
+    }
+}
+
+function updateCharacterList() {
+	const eventId = document.getElementById('eventId').value;
+    $.ajax({
+        url: ctx + '/UpdateCharaListServlet?eventId=' + eventId, // サーブレットのURL
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            const charaListForScreen = response.charaListForScreen;
+            const characterContainer = $('#characterContainer');
+            characterContainer.empty(); // 現在の内容をクリア
+            console.log(charaListForScreen);
+            console.log(response);
+			if((response !== undefined) && response !== null && response !== ""){				
+				response.forEach(function(chara, index) {
+					const characterCard = `
+                    <div class="character-card" onclick="viewCharacterDetails('${index}')">
+                        <img src="`+ctx+`/${chara.imageFilePath}" alt="キャラクター画像" class="character-image">
+                        <span class="delete-button" onclick="deleteCharacter(event, '${index}')">×</span>
+                        <p class="character-name">${chara.name}</p>
+                        <p class="player-name">${chara.playerName}</p>
+                    </div>
+                `;
+					characterContainer.append(characterCard);
+				});
+			}
+        },
+        error: function(xhr, status, error) {
+            console.error('エラー: ' + error);
+        }
+    });
 }
