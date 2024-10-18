@@ -144,26 +144,32 @@
 									</div>
 								</form>
 							</div>
-							
-							<div class="box">
+
+						<div class="box">
 							<div class="chara-card-area">
 								<div class="midashi">登録されたキャラクター</div>
-								<div class="error-message">${errorList }</div>
+								<div class="" id="returnMsg"></div>
 								<div class="character-container" id="characterContainer">
-									<c:forEach items="${charaListForScreen}" var="chara" varStatus="status">
-									<div class="character-card" onclick="viewCharacterDetails('${status.index}')">
-										<img src="<%= request.getContextPath() %>/${chara.imageFilePath}" alt="キャラクター画像"
-											class="character-image"> <span class="delete-button"
-											onclick="deleteCharacter(event, '${status.index}')">×</span>
-										<p class="character-name">${chara.name }</p>
-										<p class="player-name">${player.name }</p>
-									</div>
-									
+									<c:forEach items="${charaListForScreen}" var="chara"
+										varStatus="status">
+										<div class="character-card"
+											onclick="viewCharacterDetails('${status.index}')">
+											<img
+												src="<%= request.getContextPath() %>/${chara.imageFilePath}"
+												alt="キャラクター画像" class="character-image">
+											<c:if test="${chara.isLoginUserOwner }">
+												<span class="delete-button"
+													onclick="deleteCharacter(event,'${chara.characterId}')">×</span>
+											</c:if>
+											<p class="character-name">${chara.name }</p>
+											<p class="player-name">${player.name }</p>
+										</div>
+
 									</c:forEach>
-<!-- <div id="characterContainer"></div> -->
+									<!-- <div id="characterContainer"></div> -->
 									<!-- 他のキャラクターカードも同様に追加 -->
 								</div>
-<button onclick="updateCharacterList()">キャラクター一覧を更新する
+								<button onclick="updateCharacterList()">キャラクター一覧を更新する
 							</div>
 
 						</div>
@@ -172,7 +178,7 @@
 						<div id="childScreen" style="display: none;">
 							キャラクターの名前: 
 							<input type="text" id="characterName" onkeyup="fetchSuggestions()">
-							<input type="hidden" id="characterId" />
+							<input type="hidden" id="characterId" value="${characterId }"/>
 							<ul id="suggestions" style="display: none;"></ul>
 							<div id="characterDetails" style="display: none;">
 								<p id="characterInfo">

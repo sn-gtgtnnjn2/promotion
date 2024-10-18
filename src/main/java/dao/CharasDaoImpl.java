@@ -153,7 +153,7 @@ public class CharasDaoImpl implements CharasDao{
 	}
 
 	@Override
-	public List<CharaDto> selectCharasListByNamePartialMatch(String matchStr) throws SQLException {
+	public List<CharaDto> selectCharasListByNamePartialMatch(String matchStr, String userId) throws SQLException {
 		String sql = "Select "
 				+ " CHARACTER_ID"
 				+ " ,CREATER_ID"
@@ -168,8 +168,9 @@ public class CharasDaoImpl implements CharasDao{
 				+ " ,UPDATE_DATETIME"
 				+ " ,DELETE_FLG"
 				+ " FROM charas"
-				+ " WHERE name_kana like ?"
-				+ " OR  name like ?"; 
+				+ " WHERE (name_kana like ?"
+				+ " OR  name like ? )"
+				+ " AND creater_id = ?"; 
 		System.out.println(getClass().getName() + ":sql;->" + sql);
 		List<CharaDto> rt = new ArrayList<CharaDto>();
 		
@@ -177,6 +178,7 @@ public class CharasDaoImpl implements CharasDao{
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, "%" + matchStr + "%");
 			stmt.setString(2, "%" + matchStr + "%");
+			stmt.setString(3, userId);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				CharaDto cdto = new CharaDto();

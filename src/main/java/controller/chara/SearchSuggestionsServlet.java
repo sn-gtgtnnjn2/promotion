@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -40,12 +41,14 @@ public class SearchSuggestionsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("到達");
         String query = request.getParameter("query");
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
         //String searchStr = request.getParameter("searchString");
         // ここでデータベースから部分一致するキャラクター名を取得する
         List<CharaDto> charaInfo = new ArrayList<>();
         CharasDao cd = DaoFactory.createCharasDao();
         try {
-        	charaInfo = cd.selectCharasListByNamePartialMatch(query);
+        	charaInfo = cd.selectCharasListByNamePartialMatch(query, userId);
 			System.out.println("charaInfosize" + charaInfo.size());
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック

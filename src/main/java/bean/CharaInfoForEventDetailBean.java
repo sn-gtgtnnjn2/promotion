@@ -15,7 +15,7 @@ public class CharaInfoForEventDetailBean  implements Serializable{
 	private String memo;
 	private String tmpImageFilePath;
 	private String imageFilePath;
-	
+	private Boolean isLoginUserOwner;	
 
 	public Integer getEventId() {
 		return eventId;
@@ -82,5 +82,11 @@ public class CharaInfoForEventDetailBean  implements Serializable{
 	}
 	public void setImageFilePath(String imageFilePath) {
 		this.imageFilePath = imageFilePath;
+	}
+	public Boolean getIsLoginUserOwner() {
+		return isLoginUserOwner;
+	}
+	public void setIsLoginUserOwner(Boolean isLoginUserOwner) {
+		this.isLoginUserOwner = isLoginUserOwner;
 	}
 }

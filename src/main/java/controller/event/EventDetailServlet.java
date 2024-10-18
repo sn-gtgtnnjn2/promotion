@@ -104,7 +104,7 @@ public class EventDetailServlet extends HttpServlet {
 		EventAndDetailBean eadb = storeEventAndDetailToBean(event, entAppList.size());
 		
 		// キャラクター情報をbeanに格納
-		List<CharaInfoForEventDetailBean> charaListForScreen = storeCharaListToBean(charaList);
+		List<CharaInfoForEventDetailBean> charaListForScreen = storeCharaListToBean(charaList, userId);
 		
 		// 申込者が参加できるかどうかを判定（主催者でない、イベントの閲覧権限があるかどうか)
 		List<String> userRejectList = new ArrayList<String>();
@@ -132,7 +132,7 @@ public class EventDetailServlet extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/view/event/event_detail.jsp").forward(request, response);
 	}
 
-	private List<CharaInfoForEventDetailBean> storeCharaListToBean(List<CharasForEventDetailDto> charaList) {
+	private List<CharaInfoForEventDetailBean> storeCharaListToBean(List<CharasForEventDetailDto> charaList, String loginUser) {
 		List<CharaInfoForEventDetailBean> newCharaList = new ArrayList<CharaInfoForEventDetailBean>();
 		for(int i = 0; i < charaList.size(); i ++) {
 			CharaInfoForEventDetailBean bean = new CharaInfoForEventDetailBean();
@@ -146,6 +146,11 @@ public class EventDetailServlet extends HttpServlet {
 			bean.setExternalLink(charaList.get(i).getExternalLink());
 			bean.setImageFileName(charaList.get(i).getImageFilename());
 			bean.setImageFilePath(charaList.get(i).getImagePath());
+			if(charaList.get(i).getPlayerId().equals(loginUser)) {
+				bean.setIsLoginUserOwner(true);
+			} else {
+				bean.setIsLoginUserOwner(false);
+			}
 			newCharaList.add(bean);
 		}
 		return newCharaList;

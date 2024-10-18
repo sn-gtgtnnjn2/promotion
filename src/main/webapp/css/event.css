@@ -147,12 +147,13 @@
 }
 
 .character-container {
+	justify-content: center;
     display: flex;
     flex-wrap: wrap;
 }
 
 .character-card {
-    width: 23%;
+    width: 100px;
     margin: 1%;
     padding: 10px;
     border: 1px solid #ccc;

@@ -106,10 +106,16 @@ function registerParticipant() {
         characterId: charId,
         eventId: eventId
     });
-
+	$('#returnMsg').removeClass('error');
+	$('#returnMsg').text("");
     $.post(ctx + `/AddPerticipateCharaServlet`, body, function(data, status) {
         if(status === "success"){
-            console.log(data);
+            $('#returnMsg').removeClass('error');
+            const rtnMsg = data["message"];
+            if(rtnMsg.startsWith("エラー")){
+            	$('#returnMsg').addClass('error');
+			}
+            $('#returnMsg').text(rtnMsg);
         } else {
             console.log("登録失敗");
         }
@@ -161,22 +167,47 @@ function viewCharacterDetails(characterId) {
 }
 
 function deleteCharacter(event, characterId) {
-    event.stopPropagation(); // 親のクリックイベントを防止
-    if (confirm('このキャラクターを削除しますか？')) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', ctx + '/DeleteCharacterServlet', true);
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // 削除成功
-                document.querySelector('.character-card[data-id="' + characterId + '"]').remove();
-            } else if (xhr.readyState === 4) {
-                // 削除失敗
-                alert('削除に失敗しました。');
-            }
-        };
-        xhr.send(JSON.stringify({ characterId: characterId }));
-    }
+	event.stopPropagation(); // 親要素のクリックイベントを止める
+	$('#returnMsg').removeClass('error');
+	$('#returnMsg').text("");
+	if (confirm('このキャラクターを削除しますか？')) {
+		//        const xhr = new XMLHttpRequest();
+		//        xhr.open('POST', ctx + '/DeleteCharacterServlet', true);
+		//        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+		//        xhr.onreadystatechange = function() {
+		//            if (xhr.readyState === 4 && xhr.status === 200) {
+		//                // 削除成功
+		//                //document.querySelector('.character-card[data-id="' + characterId + '"]').remove();
+		//                updateCharacterList();
+		//            } else if (xhr.readyState === 4) {
+		//                // 削除失敗
+		//                alert('削除に失敗しました。');
+		//            }
+		//        };
+		//        xhr.send(JSON.stringify({ characterId: characterId }));
+		const eventId = document.getElementById('eventId').value;
+
+		const param = JSON.stringify({
+			characterId: characterId,
+			eventId: eventId
+		});
+
+		$.post(ctx + `/DeleteCharacterServlet`, param, function(data, status) {
+			if (status === "success") {
+				console.log(data);
+			} else {
+				console.log("削除失敗");
+			}
+		}, "json").done(function(data) {
+			console.log("完了: ", data);
+			updateCharacterList()
+			clearInputFields();
+		}).fail(function(xhr, status, error) {
+			console.error("リクエストエラー: ", error);
+			console.log("ステータス: ", status);
+			console.log("レスポンス: ", xhr.responseText);
+		});
+	}
 }
 
 function updateCharacterList() {
@@ -193,10 +224,15 @@ function updateCharacterList() {
             console.log(response);
 			if((response !== undefined) && response !== null && response !== ""){				
 				response.forEach(function(chara, index) {
+					let deleteButton = '';
+					if (chara.isLoginUserOwner) {
+						deleteButton = `<span class="delete-button" onclick="deleteCharacter(event, '${index}')">×</span>`;
+					}
+					
 					const characterCard = `
                     <div class="character-card" onclick="viewCharacterDetails('${index}')">
                         <img src="`+ctx+`/${chara.imageFilePath}" alt="キャラクター画像" class="character-image">
-                        <span class="delete-button" onclick="deleteCharacter(event, '${index}')">×</span>
+                        ${deleteButton}
                         <p class="character-name">${chara.name}</p>
                         <p class="player-name">${chara.playerName}</p>
                     </div>

@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -38,6 +39,8 @@ public class UpdateCharaListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
 		//List<Character> charaListForScreen = 
 		String eventIdStr = request.getParameter("eventId");
 		Integer eventId = null;
@@ -62,7 +65,7 @@ System.out.println(getClass().getName() + "到達");
 		}
 		
 		// キャラクター情報をbeanに格納
-		List<CharaInfoForEventDetailBean> charaListForScreen = storeCharaListToBean(charaList);
+		List<CharaInfoForEventDetailBean> charaListForScreen = storeCharaListToBean(charaList, userId);
 System.out.println(getClass().getName() + "charaListForScreenの長さ->" + charaListForScreen.size());		
 		Gson gson = new Gson();
 		String jsonResponse = gson.toJson(charaListForScreen);
@@ -82,7 +85,7 @@ System.out.println(getClass().getName() + "charaListForScreenの長さ->" + char
 		doGet(request, response);
 	}
 
-	private List<CharaInfoForEventDetailBean> storeCharaListToBean(List<CharasForEventDetailDto> charaList) {
+	private List<CharaInfoForEventDetailBean> storeCharaListToBean(List<CharasForEventDetailDto> charaList, String loginUser) {
 		List<CharaInfoForEventDetailBean> newCharaList = new ArrayList<CharaInfoForEventDetailBean>();
 		for(int i = 0; i < charaList.size(); i ++) {
 			CharaInfoForEventDetailBean bean = new CharaInfoForEventDetailBean();
@@ -96,6 +99,13 @@ System.out.println(getClass().getName() + "charaListForScreenの長さ->" + char
 			bean.setExternalLink(charaList.get(i).getExternalLink());
 			bean.setImageFileName(charaList.get(i).getImageFilename());
 			bean.setImageFilePath(charaList.get(i).getImagePath());
+			if(charaList.get(i).getPlayerId().equals(loginUser)) {
+				System.out.println(loginUser +":" + "true");
+				System.out.println(charaList.get(i).getPlayerId() +":" + "true");
+				bean.setIsLoginUserOwner(true);
+			} else {
+				bean.setIsLoginUserOwner(false);
+			}
 			newCharaList.add(bean);
 		}
 		return newCharaList;

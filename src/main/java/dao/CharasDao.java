@@ -12,5 +12,5 @@ public interface CharasDao {
 	void insert(CharaDto chara) throws SQLException;
 	void updateRow(CharaDto chara) throws SQLException;
 	void deleteByCharacterId(Integer characterId) throws SQLException;
-	List<CharaDto> selectCharasListByNamePartialMatch(String matchStr) throws SQLException;
+	List<CharaDto> selectCharasListByNamePartialMatch(String matchStr, String userId) throws SQLException;
 }

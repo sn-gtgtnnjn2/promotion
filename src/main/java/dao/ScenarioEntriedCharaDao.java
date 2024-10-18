@@ -13,7 +13,9 @@ public interface ScenarioEntriedCharaDao {
 	ScenarioEntriedCharaDto findByCharacterId(Integer characterId) throws SQLException;
 	void insert(ScenarioEntriedCharaDto chara) throws SQLException;
 	void updateRowByCharaAndEventId(ScenarioEntriedCharaDto chara) throws SQLException;
-	void deleteByCharaAndEventId(Integer characterId, Integer eventId) throws SQLException;
+	void deleteByCharaUserAndEventId(Integer characterId, Integer eventId, String userId) throws SQLException, Exception;
 	List<CharasForEventDetailDto> getEventEntryCharas(Integer eventId) throws SQLException;
+	Boolean checkExistByKeys(Integer eventId, Integer characterId);
+	void updateDeleteFlg(boolean updateStatus, Integer characterId, Integer eventId, String userId);
 	
 }

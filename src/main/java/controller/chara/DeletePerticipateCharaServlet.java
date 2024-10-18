@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dao.DaoFactory;
@@ -26,14 +26,14 @@ import dto.ScenarioEntriedCharaDto;
 /**
  * Servlet implementation class AddPerticipateCharaServlet
  */
-@WebServlet("/AddPerticipateCharaServlet")
-public class AddPerticipateCharaServlet extends HttpServlet {
+@WebServlet("/DeleteCharacterServlet")
+public class DeletePerticipateCharaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddPerticipateCharaServlet() {
+    public DeletePerticipateCharaServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,66 +42,64 @@ public class AddPerticipateCharaServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("リクエスト受信");
-		System.out.println(getClass().getName());
+		System.out.println(getClass().getName() + "リクエスト受信");
 
 		BufferedReader reader = request.getReader();
+		System.out.println("a");
 		Gson gson = new Gson();
 		JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
-		String characterIdStr = jsonObject.get("characterId").getAsString();
-		// String characterName = jsonObject.get("characterName").getAsString();
-		String eventIdStr = jsonObject.get("eventId").getAsString();
+		System.out.println("b");
+		
+		
+		JsonElement characterIdElement = jsonObject.get("characterId");
+		Integer characterId = null;
+	    if (characterIdElement != null && characterIdElement.isJsonPrimitive()) {
+	        characterId = characterIdElement.getAsJsonPrimitive().getAsInt();
+	    } else {
+	    	// 元の画面に戻す
+	    }
+	    
+	    JsonElement eventIdElement = jsonObject.get("eventId");
+	    Integer eventId = null;
+	    if (eventIdElement != null && eventIdElement.isJsonPrimitive()) {
+	    	eventId = eventIdElement.getAsJsonPrimitive().getAsInt();
+	    } else {
+	    	// 元の画面に戻す
+	    }
 
 		// エラーリストの作成
 		List<String> errorList = new ArrayList<String>();
 		
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
-		//String characterName = request.getParameter("characterName");
-		//String characterIdStr = request.getParameter("characterId");
-		//String eventIdStr = request.getParameter("eventId");
-		System.out.println("characterId->" + characterIdStr);
-		System.out.println("eventIdStr->" + eventIdStr);
 		
-		Integer characterId = null;
-		Integer eventId = null;
-		try {
-			characterId = Integer.parseInt(characterIdStr);
-			eventId = Integer.parseInt(eventIdStr);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			System.out.println(getClass().getName() + "数値変換に失敗");
-		}
-		
-		if(Objects.isNull(eventId) || Objects.isNull(characterId)) {
-			
-		}
-		
+//		try {
+//			characterId = Integer.parseInt(characterIdStr);
+//			eventId = Integer.parseInt(eventIdStr);
+//		} catch (NumberFormatException e) {
+//			e.printStackTrace();
+//			System.out.println(getClass().getName() + "数値変換に失敗");
+//		}
+
 		ScenarioEntriedCharaDto secDto = new ScenarioEntriedCharaDto();
 		secDto.setCharacterId(characterId);
 		secDto.setEventId(eventId);
 		secDto.setPlayerId(userId);
 		ScenarioEntriedCharaDao secd = DaoFactory.createScenarioEntriedCharaDao();
 		try {
-			// 削除フラグになっただけのキャラクターがいるかキーで検索する
-			Boolean isExist = secd.checkExistByKeys(eventId, characterId);
-			// いた場合の処理 
-			if(isExist) {
-				// 削除フラグをfalseに更新
-				secd.updateDeleteFlg(false, characterId, eventId, userId);
-			} else {				
-				secd.insert(secDto);
-			}
+			// 本人が削除権限があるものだけ、削除するためにuserIdが必要
+			secd.deleteByCharaUserAndEventId(characterId, eventId, userId);
 		} catch (SQLIntegrityConstraintViolationException e) {
 	        // 返却値に設定
-			System.out.println("既に登録されている");
-	        String errMsg = "エラー：既に登録されています";
+	        String errMsg = "既に登録されています";
 			errorList.add(errMsg);
 		} catch (SQLException e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 			System.out.println("dao処理で失敗");
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
 		}
 		
         // レスポンスデータの作成
