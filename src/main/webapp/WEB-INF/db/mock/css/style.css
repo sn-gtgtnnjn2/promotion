@@ -1,0 +1,322 @@
+/* タブレット */
+@media (max-width: 1000px) {
+  h1 {
+    color: blue;
+  }
+}
+
+/* スマホ */
+@media (max-width: 670px) {
+  h1 {
+    color: green;
+  }
+}
+
+divbase {
+  border: solid 8px #A8DBA8 ;
+  box-sizing: border-box;
+
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+}
+
+.box2, box3 {
+  float: left;
+  border-color: yellow;
+  min-width: 20vw;  /** 横幅50% **/
+}
+
+.box3 {
+  float: left;
+  border-color: yellow;
+  width: 80vw;  /** 横幅50% **/
+}
+
+.profBox {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+
+  border: none;
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+
+
+
+
+
+.container {
+  font:menu;
+  background-color: #A8DBA8;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding:4vh;
+  align-items: center;
+}
+ 
+[class^=block-] {
+  display: flex;
+  flex-direction: row;
+  gap: 4vh;
+  width: 70%;
+}
+ 
+[class^=box-] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1vh solid #79BD9A ;
+  background-color: #79BD9A ;
+  border-radius: 10px;
+  position: relative;
+  border-radius: 8px;
+}
+ 
+.box-1, .box-5 {
+  background-color: #757575;
+  flex-basis: 100%;
+  height: 20vh;
+  flex-direction:column;
+}
+ 
+.box-3 {
+  flex-basis: 70%;
+  height: 30vh;
+  flex-direction:column;
+}
+
+.midashi {
+  color:#757575;
+  line-height:40px;
+  font-size:large;
+}
+
+.box-2, .box-4 {
+  flex-direction:column;
+  flex-basis: 30%;
+}
+
+.box-basic {
+  flex-basis: 20%;
+  line-height: 40px;
+  flex-direction: column;
+}
+
+.box-search {
+  width: 60vw;
+  flex-basis: 60%;
+  line-height: 40px;
+  flex-direction: column;
+}
+ 
+@media (max-width: 480px) {
+  .block-2 {
+    flex-direction: column;
+    height: 60vh;
+  }
+ 
+  .box-2 {
+    display: none;
+  }
+ 
+  .box-3 {
+    flex-basis: 80%;
+  }
+
+  .box-4 {
+    flex-basis: 20%;
+  }
+
+  .box-member-regist {
+    flex-basis: 20%;
+    line-height: 40px;
+  }
+}
+
+td.calendar-left-arrow {
+  cursor: pointer;
+  text-align: center;
+}
+
+td.calendar-header-month {
+  text-align: center;
+}
+
+td.calendar-right-arrow {
+  cursor: pointer;
+  text-align: center;
+}
+
+td.calendar-date {
+  cursor: pointer;
+  text-align: center;
+}
+
+td.calendar-saturday {
+  background-color: #ccccff;
+}
+td.calendar-sunday {
+  background-color: #ffcccc;
+}
+
+
+td.calendar-target-date {
+  background-color: #ffffcc;
+}
+
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.custom-table th, .custom-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+.custom-table th:nth-child(1), .custom-table td:nth-child(1) {
+  width: 30%;
+}
+.custom-table th:nth-child(2), .custom-table td:nth-child(2) {
+  width: 50%;
+}
+
+
+
+
+
+
+
+ul {
+  border: solid 10px 79BD9A ;/*線の設定*/
+  background-color: #EFEFEF ;
+  padding: 0.5em 1em 0.5em 2.3em;
+  position: relative;
+  overflow-y: scroll;
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+}
+
+ul li {
+  inline-size: fit-content;
+  line-height: normal;
+  width: fit-content;
+  padding: 0.5em 0;
+  list-style-type: none!important;
+  word-break: break-all;
+  font-style: normal;
+  font-weight:lighter;
+}
+
+ul li:before {
+  
+  font-family: "Font Awesome 5 Free";
+  position: absolute;
+  color: skyblue; /*アイコン色*/
+}
+
+ul.sample li + li {
+  border-top: 1px solid #666;
+  width: auto;
+}
+
+img {
+  width:fit-content;
+  height:fit-content;
+  max-width:80%;
+  max-height:80%;
+}
+
+img.menu-icon{
+  background-color: #1e90ff;
+  box-shadow: 0px 3px #000080;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+  line-height: 30px;
+  border-radius: 50px;
+}
+
+img.menu-icon:active {
+  box-shadow: none;
+  position: relative;
+  top: 3px;
+}
+
+
+.example2 img{
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  margin-top: 20px;
+}
+
+
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family:'Avenir','Helvetica, Neue','Helvetica','Arial';
+}
+
+.event-table {
+  border-collapse: collapse;
+  width: 80%;
+}
+.event-table th, .event-table td {
+  border: solid 1px #000;
+  padding: 8px;
+}
+.event-table th {
+  background-color: lightgreen;
+  text-align: center;
+  border-bottom: double 3px #000;
+}
+.event-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.event-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+.event-table td {
+  border-top: dotted 1px #000;
+  border-bottom: dotted 1px #000;
+}
+.event-table td:first-child {
+  border-left: solid 1px #000;
+}
+.event-table td:last-child {
+  border-right: solid 1px #000;
+}
+
+.design10 {
+  width: 80%;
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.design10 th {
+  padding: 10px;
+  border-bottom: solid 4px #778ca3;
+  color: #778ca3;
+}
+
+.design10 td {
+  padding: 10px;
+  border-bottom: solid 1px #778ca3;
+}
+
+.design10 tr:nth-child(even) td {
+  background-color: rgba(119, 140, 163, 0.2); /* 半透明の背景色 */
+}

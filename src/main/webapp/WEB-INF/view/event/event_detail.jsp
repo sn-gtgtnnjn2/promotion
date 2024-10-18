@@ -134,20 +134,17 @@
 									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
 									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
-									<div>
-										<!-- 登録キャラクター表示場所 -->
-										<div id="selectedCharacterName"></div>
-										<div id="selectedCharacterNameKana"></div>
-										<div id="selectedCharacterPict"></div>
-										<div id="selectedCharacter"></div>
-										<button type="button" onclick="openSearchDiv()">検索する</button>
-									</div>
 								</form>
 							</div>
-
+							
+<!-- キャラクター登録機能（承認者のみ） -->
 						<div class="box">
 							<div class="chara-card-area">
 								<div class="midashi">登録されたキャラクター</div>
+									<div>
+										<!-- 登録キャラクター表示場所 -->
+										<button type="button" onclick="openSearchDiv()">検索する</button>
+									</div>
 								<div class="" id="returnMsg"></div>
 								<div class="character-container" id="characterContainer">
 									<c:forEach items="${charaListForScreen}" var="chara"
@@ -171,7 +168,6 @@
 								</div>
 								<button onclick="updateCharacterList()">キャラクター一覧を更新する
 							</div>
-
 						</div>
 
 						<div id="overlay" style="display: none;"></div>
@@ -189,6 +185,7 @@
 							<button type="button" onclick="searchCharacter()">検索</button>
 							<button type="button" onclick="openRegisterDiv()">新規登録</button>
 						</div>
+<!-- キャラクター登録機能（承認者のみ）ここまで -->
 
 						<c:url var="backUrl" value="${backTarget}">
     					<c:param name="searchQuery" value="${searchQuery}" />

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>イベント検索</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/calendar.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+  <divbase class="container">
+	<div class="box-search">
+　<div class="midashi">イベント検索</div>
+    <form action="/search_results" method="get">
+        <table>
+            <tr>
+                <td><label for="organizer">主催者名:</label></td>
+                <td><input type="text" id="organizer" name="organizer"></td>
+            </tr>
+            <tr>
+                <td><label for="scenario">シナリオ名:</label></td>
+                <td><input type="text" id="scenario" name="scenario"></td>
+            </tr>
+            <tr>
+                <td><label for="month">開催月:</label></td>
+                <td><input type="month" id="month" name="month"></td>
+            </tr>
+            <tr>
+                <td><label for="followersOnly">フォロワー内検索:</label></td>
+                <td><input type="checkbox" id="followersOnly" name="followersOnly"></td>
+            </tr>
+        </table>
+        <input type="submit" value="検索">
+    </form>
+	</div>
+	<div class="box-search">
+　<div class="midashi">検索結果</div>
+    <table class="design10">
+        <tr>
+            <th>日付</th>
+            <th>主催者</th>
+            <th>シナリオ名</th>
+            <th>フォロワーかどうか</th>
+            <th>イベントタイトル</th>
+            <th>募集締切</th>
+        </tr>
+        <tr>
+            <td>2024-05-24</td>
+            <td>ABC主催</td>
+            <td>冒険のシナリオ</td>
+            <td>はい</td>
+            <td>大冒険の会</td>
+            <td>2024-06-10</td>
+        </tr>
+        <tr>
+            <td>2024-05-24</td>
+            <td>ABC主催</td>
+            <td>冒険のシナリオ</td>
+            <td>はい</td>
+            <td>大冒険の会</td>
+            <td>2024-06-10</td>
+        </tr>
+        <tr>
+            <td>2024-05-24</td>
+            <td>ABC主催</td>
+            <td>冒険のシナリオ</td>
+            <td>はい</td>
+            <td>大冒険の会</td>
+            <td>2024-06-10</td>
+        </tr>
+        <tr>
+            <td>2024-05-24</td>
+            <td>ABC主催</td>
+            <td>冒険のシナリオ</td>
+            <td>はい</td>
+            <td>大冒険の会</td>
+            <td>2024-06-10</td>
+        </tr>
+        <!-- 他のレコードも同様に追加 -->
+    </table>
+    </div>
+    <divbase class="block-3">
+      <divbase class="box-5">
+
+        <div class="example2">
+          <img class="menu-icon" src="img/btn_logout.png" alt="ログアウト" onclick="location.href='login.html'">
+          <img class="menu-icon" src="img/btn_search.png" alt="検索" onclick="location.href='search.html'">
+          <img class="menu-icon" src="img/btn_histedit.png" alt="">
+          <img class="menu-icon" src="img/btn_post.png" alt="">
+          <img class="menu-icon" src="img/btn_home.png" alt="HOMEへ" onclick="location.href='index.html'">
+        </div>
+
+
+      </divbase>
+    </divbase>
+  </divbase>
+</body>
+
+</html>

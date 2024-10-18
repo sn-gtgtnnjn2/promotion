@@ -1,0 +1,99 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #EFEFEF;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    background-color: #757575;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+}
+
+header h1, footer p {
+    margin: 0;
+}
+
+main {
+    padding: 2em;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.block {
+    flex: 1;
+    min-width: 300px;
+    background-color: #fff;
+    padding: 1em;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.box {
+    margin-bottom: 1em;
+}
+
+.midashi {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #79BD9A;
+    font-size: 1.2em;
+    border-bottom: 2px solid #A8DBA8;
+    padding-bottom: 0.5em;
+}
+
+.calendar {
+    background-color: #A8DBA8;
+    padding: 1em;
+    border-radius: 8px;
+}
+
+.sample {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sample li {
+    background-color: #79BD9A;
+    color: #fff;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    border-radius: 4px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    background-color: #757575;
+    padding: 1em 0;
+}
+
+.menu-icon {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+/* スマホ表示用のスタイル */
+@media (max-width: 600px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .block {
+        width: 100%;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ボックスの例</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/calendar.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="js/calender.js"></script>
+  <script type="text/javascript" src="js/modal.js"></script>
+</head>
+
+<body>
+  <divbase class="container">
+    <divbase class="block-1">
+      <divbase class="box-4">
+        <div class="midashi">アイコン【ラベル】</div>
+        <img src="icons/testicon.png" alt="てすとあいこん">
+      </divbase>
+      <divbase class="box-3">
+        <div class="midashi">プロフィール【ラベル】</div>
+        <p>AA 自己紹介メモ</p>
+      </divbase>
+    </divbase>
+    <divbase class="block-2">
+      <divbase class="box-2">
+        <div class="midashi">カレンダー【ラベル】</div>
+        <div id="calendar" class="calendar"></div>
+
+        <script>
+          function clicked(date) {
+            alert("日付.." + date.toString());
+          }
+
+          const elem = document.getElementById("calendar");
+          const calendar = new Calendar(elem, new Date());
+          calendar.setDatePickedCallback(clicked);
+
+          function currentDate() {
+            const date = calendar.getCurrentDate();
+            const span = document.getElementById("current-date");
+            span.innerText = "今選ばれている日付.." + date.toString();
+          }
+        </script>
+
+
+      </divbase>
+      <divbase class="box-3">
+
+        <div class="midashi">イベント一覧【ラベル】</div>
+
+        <ul class="sample">
+          <li>
+            HTMLHTML
+          </li>
+          <li>CSS</li>
+        </ul>
+
+      </divbase>
+    </divbase>
+    <divbase class="block-3">
+      <divbase class="box-5">
+
+        <div class="example2">
+          <img class="menu-icon" src="img/btn_logout.png" alt="ログアウト" onclick="location.href='login.html'">
+          <img class="menu-icon" src="img/btn_search.png" alt="検索" onclick="location.href='search.html'">
+          <img class="menu-icon" src="img/btn_histedit.png" alt="">
+          <img class="menu-icon" src="img/btn_post.png" alt="">
+          <img class="menu-icon" src="img/btn_home.png" alt="HOMEへ" onclick="location.href='index.html'">
+        </div>
+
+
+      </divbase>
+    </divbase>
+  </divbase>
+</body>
+
+</html>
