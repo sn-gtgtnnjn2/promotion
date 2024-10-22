@@ -50,6 +50,7 @@ public class EventDetailOrgServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		EventAndDetailBean eadbTransition = (EventAndDetailBean) session.getAttribute("eadb");
 		String userId = (String) session.getAttribute("userId");
 		String strEventId = request.getParameter("eventId");
 		String fromStr = request.getParameter("from");
@@ -115,7 +116,12 @@ public class EventDetailOrgServlet extends HttpServlet {
 		}
 		
 		// イベント情報、詳細情報をBeanに格納(イベントとしての参加可能かどうかのステータスが格納されている)
-		EventAndDetailBean eadb = storeEventAndDetailToBean(event, entSignUpList.size());
+		EventAndDetailBean eadb = null;
+		if(!Objects.isNull(eadbTransition)) {
+			eadb = eadbTransition;
+		} else {
+			eadb = storeEventAndDetailToBean(event, entApprovedList.size());
+		}
 		
 		// 申込者が参加できるかどうかを判定（主催者でない、イベントの閲覧権限があるかどうか)
 		List<String> userRejectList = new ArrayList<String>();

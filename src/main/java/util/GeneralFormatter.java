@@ -53,4 +53,11 @@ public class GeneralFormatter {
     	}
     	return str;
     }
+    
+	public static Date parseCustomDate(String dateString) throws ParseException {
+		// "2024/11/08(金) 09:28"のような文字列を想定
+		String cleanedDateString = dateString.replaceAll("\\(.*\\)", ""); // "(金)"を除去
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		return formatter.parse(cleanedDateString);
+	}
 }
