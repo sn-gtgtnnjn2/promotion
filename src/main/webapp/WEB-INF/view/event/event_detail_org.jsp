@@ -19,29 +19,28 @@
 				<div class="box">
 					<div class="midashi">イベント詳細</div>
 					<form id="user-management-form" method="POST"
-						action="<%=request.getContextPath()%>/event/editEvent">
+						action="<%=request.getContextPath()%>/event/editEvent" onsubmit="return validateEventForm()">
 						<table class="custom-table">
 							<table>
 								<tr>
 									<td>イベント日時</td>
 									<td>
+									<fmt:formatDate value="${eadb.eventDate}" pattern="yyyy/MM/dd(E)" var="eventDate" />
+									<fmt:formatDate value="${eadb.eventDate}" pattern="HH:mm" var="eventTime" />
 										<div>
-											<fmt:formatDate value="${eadb.eventDate}"
-												pattern="yyyy/MM/dd(E)" var="eventDate" />
-											<input type="text" id="eventDate" name="eventDate" maxlength="8"
-												placeholder="例: 20241009" value="${eventDate }"> <span
-												class="discription">YYYYMMDDで入力</span>
+											<input type="text" id="eventDate" name="eventDate"
+												maxlength="8" placeholder="例: 20241009" value="${eventDate}">
+											<span class="description">YYYYMMDDで入力</span>
 											<div id="date-error" class="error-message">入力値が不正です</div>
 										</div>
 										<div>
-											<fmt:formatDate value="${eadb.eventDate}" pattern="HH:mm"
-												var="eventTime" />
-											<input type="text" id="eventTime" name="eventTime" maxlength="4"
-												placeholder="例: 1900" value="${eventTime }"> <span
-												class="discription">HHMMで入力</span>
+											<input type="text" id="eventTime" name="eventTime"
+												maxlength="4" placeholder="例: 1900" value="${eventTime}">
+											<span class="description">HHMMで入力</span>
 											<div id="time-error" class="error-message">入力値が不正です</div>
 										</div>
 									</td>
+
 								</tr>
 								<tr>
 									<td>イベントタイトル</td>
@@ -58,8 +57,10 @@
 												pattern="HH:mm" var="recruitmentStartTime" />
 											<input type="text" id="recruitmentStartDate" name="recruitmentStartDate" maxlength="8"
 												placeholder="例: 20241009" value="<c:out value="${recruitmentStartDate }" />">
+											<div id="date-error-recruitmentStartDate" class="error-message">開始日が不正です</div>
 											<input type="text" id="recruitmentStartTime" name="recruitmentStartTime" maxlength="8"
 												placeholder="例: 20241009" value="<c:out value="${recruitmentStartTime }" />">
+											<div id="time-error-recruitmentStartTime" class="error-message">開始時刻が不正です</div>
 											<br>～<br>
 											<fmt:formatDate value="${eadb.recruitmentEndDate}"
 												pattern="yyyy/MM/dd(E)" var="recruitmentEndDate" />
@@ -67,8 +68,10 @@
 												pattern="HH:mm" var="recruitmentEndTime" />
 											<input type="text" id="recruitmentEndDate" name="recruitmentEndDate" maxlength="8"
 												placeholder="例: 20241009" value="<c:out value="${recruitmentEndDate }" />">
+											<div id="date-error-recruitmentEndDate" class="error-message">終了日が不正です</div>
 											<input type="text" id="recruitmentEndTime" name="recruitmentEndTime" maxlength="8"
 												placeholder="例: 20241009" value="<c:out value="${recruitmentEndTime }" />">
+											<div id="time-error-recruitmentEndTime" class="error-message">終了時刻が不正です</div>
 										</div></td>
 								</tr>
 								<tr>

@@ -22,6 +22,7 @@ public class EventAndDetailBean implements Serializable{
 	private List<String> userRejectList;
 	private Boolean isAvailableUser;
 	private Boolean organizerFlg;
+	private Boolean cancelFlg;
 	
 	public static final int STATUS_YET = 4;
 	public static final int STATUS_IS_AVAILABLE = 0;
@@ -181,5 +182,11 @@ public class EventAndDetailBean implements Serializable{
 	}
 	public void setOrganizerFlg(Boolean organizerFlg) {
 		this.organizerFlg = organizerFlg;
+	}
+	public Boolean getCancelFlg() {
+		return cancelFlg;
+	}
+	public void setCancelFlg(Boolean cancelFlg) {
+		this.cancelFlg = cancelFlg;
 	}
 }

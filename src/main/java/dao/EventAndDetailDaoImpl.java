@@ -206,8 +206,63 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 	}
 
 	@Override
-	public void updateRow(EventAndDetail EventAndDetail) {
+	public void updateRow(EventAndDetail ead) throws SQLException{
 		// TODO 自動生成されたメソッド・スタブ
+		String sql = "UPDATE event set ( "
+				+ " event_title"
+				+ ", event_datetime"
+				+ ", scenario_title"
+				+ ", recruitment_start_date"
+				+ ", recruitment_end_date"
+				+ ", member_limit"
+				+ ", open_level"
+				+ ") values ( ?, ?, ?, ?, ?, ?, ?)"
+				+ " WHERE event_id = ?"
+				+ " AND delete_flg = 0";
+		
+		String sql2 = "UPDATE event_detail set ( "
+				+ " detail"
+				+ " ) values ( ?)"
+				+ " WHERE event_id = ?"
+				+ " AND delete_flg = 0";
+		
+		try(Connection con = ds.getConnection()){
+			con.setAutoCommit(false); // トランザクションを開始
+			
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, ead.getEventTitle());
+			stmt.setTimestamp(2, GeneralFormatter.convDateToSqlTimestamp(ead.getEventDatetime()));
+			stmt.setString(3, ead.getScenarioTitle());
+			stmt.setTimestamp(4, GeneralFormatter.convDateToSqlTimestamp(ead.getRecruitmentStartDate()));
+			stmt.setTimestamp(5, GeneralFormatter.convDateToSqlTimestamp(ead.getRecruitmentEndDate()));
+			stmt.setInt(6, ead.getMemberLimit());
+			stmt.setInt(7, ead.getOpenLevel());
+			
+			stmt.setInt(8, ead.getEventId());
+			int affectedRows = stmt.executeUpdate();
+			boolean firstUpdateSuccess = (affectedRows == 1);
+            
+			if (firstUpdateSuccess) {
+				PreparedStatement stmt2 = con.prepareStatement(sql2);
+				stmt2.setString(1, ead.getDetail());
+				stmt2.setInt(2, ead.getEventId());
+				
+				int affectedRows2 = stmt2.executeUpdate();
+                boolean secondUpdateSuccess = (affectedRows2 == 1);
+                if (secondUpdateSuccess) {
+                    con.commit(); // 全ての更新が成功した場合にコミット
+                } else {
+                    con.rollback(); // 失敗した場合はロールバック
+                }
+            } else {
+                con.rollback(); // 失敗した場合はロールバック
+            }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("ead更新失敗");
+		}
+		
 		
 	}
 

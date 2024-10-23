@@ -41,6 +41,10 @@ public class DateValidator {
     	return isNotEmpty(checkDate, itemName) & isFutureDate(checkDate, itemName);
     }
     
+    public boolean basicValidate(Date checkDate, String itemName) {
+    	return isNotEmpty(checkDate, itemName);
+    }
+    
     public void clearErrorMessage() {
         this.errorList = new ArrayList<String>();
     }

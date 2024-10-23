@@ -10,6 +10,6 @@ public interface EventAndDetailDao {
 	EventAndDetail findById(Integer id);
 	EventAndDetail findByEventId(Integer eventId) throws SQLException;
 	void insert(EventAndDetail EventAndDetail);
-	void updateRow(EventAndDetail EventAndDetail);
+	void updateRow(EventAndDetail EventAndDetail) throws SQLException;
 	void deleteById(EventAndDetail EventAndDetail);
 }

@@ -60,7 +60,7 @@ public class EditEventServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String userId = (String) session.getAttribute("userId");
 		String userName = (String) session.getAttribute("userName");
-		
+		String strEventId = request.getParameter("eventId");
 		String eventTitle = request.getParameter("eventTitle");
 		String strEventDate = request.getParameter("eventDate");
 		String strEventTime = request.getParameter("eventTime");
@@ -68,7 +68,7 @@ public class EditEventServlet extends HttpServlet {
 		String strRecruitmentEndDate = request.getParameter("recruitmentEndDate");
 		String scenarioTitle = request.getParameter("scenarioTitle");
 		String strStatus = request.getParameter("eventStatus");
-		String detail = request.getParameter("detail");
+		String detail = request.getParameter("details");
 		System.out.println(detail);
 		System.out.println(strEventDate);
 		String strmemberLimit = request.getParameter("memberLimit");
@@ -83,6 +83,7 @@ public class EditEventServlet extends HttpServlet {
 		Date eventDate = null;
 		Date recruitmentStartDate = null;
 		Date recruitmentEndDate = null;
+		Integer eventId = null;
 		Integer memberLimit = null;
 		Integer openLevel = null;
 		Integer status = null;
@@ -116,6 +117,13 @@ public class EditEventServlet extends HttpServlet {
 		}
 		
 		try {
+			eventId = Integer.parseInt(strEventId);
+		} catch (NumberFormatException e) {
+			errorList.add(String.format("イベントIDの取得に失敗しました。"));
+			e.printStackTrace();
+		}
+		
+		try {
 			status = Integer.parseInt(strStatus);
 		} catch (NumberFormatException e) {
 			errorList.add(String.format("ステータスの値が不正です"));
@@ -124,6 +132,7 @@ public class EditEventServlet extends HttpServlet {
 
 		if(errorList.size() > 0) {
 			EventAndDetailBean eadb = new EventAndDetailBean();
+			eadb.setEventDate(eventDate);
 			eadb.setEventTitle(eventTitle);
 			eadb.setUserId(userId);
 			eadb.setOrganizerName(userName);
@@ -136,9 +145,9 @@ public class EditEventServlet extends HttpServlet {
 			eadb.setopenLevel(openLevel);
 			eadb.setStatus(null);
 			
-			request.setAttribute("eventDate", GeneralFormatter.toISO8601(eventDate));
-			request.setAttribute("recruitmentStartDate",  GeneralFormatter.toISO8601(recruitmentStartDate));
-			request.setAttribute("recruitmentEndDate",  GeneralFormatter.toISO8601(recruitmentEndDate));
+			// request.setAttribute("eventDate", eventDate);
+			// request.setAttribute("recruitmentStartDate",  recruitmentStartDate);
+			// request.setAttribute("recruitmentEndDate",  recruitmentEndDate);
 			session.setAttribute("eadb", eadb);
 			request.getRequestDispatcher("/WEB-INF/view/event/event_detail_org.jsp").forward(request, response);
 			return;
@@ -170,20 +179,26 @@ public class EditEventServlet extends HttpServlet {
 			errorList.add("参加人数:1～100の範囲で入力してください");
 		}
 		
-		if(!dv.validate(recruitmentStartDate, "募集開始日時")) {
+		if(!dv.basicValidate(recruitmentStartDate, "募集開始日時")) {
 			errorList.addAll(dv.getErrorList());
 		}
 		dv.clearErrorMessage();
 		
-		if(!dv.validate(recruitmentEndDate, "募集終了日時")) {
+		if(!dv.basicValidate(recruitmentEndDate, "募集終了日時")) {
 			errorList.addAll(dv.getErrorList());
 		}
 		dv.clearErrorMessage();
+		
+		for(String errMsg : errorList){
+			System.out.println(errMsg);
+		}
 		
 		// 一個以上エラーがあれば、ユーザー情報登録画面へ返却
 		if(errorList.size() > 0) {
 			EventAndDetailBean eadb = new EventAndDetailBean();
+			eadb.setEventId(eventId);
 			eadb.setEventTitle(eventTitle);
+			eadb.setEventDate(eventDate);
 			eadb.setUserId(userId);
 			eadb.setOrganizerName(userName);
 			eadb.setOrganizerId(userId);
@@ -195,9 +210,9 @@ public class EditEventServlet extends HttpServlet {
 			eadb.setopenLevel(openLevel);
 			eadb.setStatus(status);
 			
-			request.setAttribute("eventDate", GeneralFormatter.toISO8601(eventDate));
-			request.setAttribute("recruitmentStartDate",  GeneralFormatter.toISO8601(recruitmentStartDate));
-			request.setAttribute("recruitmentEndDate",  GeneralFormatter.toISO8601(recruitmentEndDate));
+			//request.setAttribute("eventDate", eventDate);
+			//request.setAttribute("recruitmentStartDate",  recruitmentStartDate);
+			//request.setAttribute("recruitmentEndDate",  recruitmentEndDate);
 			
 			session.setAttribute("eadb", eadb);
 			request.setAttribute("errorList", errorList);
@@ -207,6 +222,7 @@ public class EditEventServlet extends HttpServlet {
 		
 		// エラーがなければ、セッションに情報を詰めて、確認画面へ
 		EventAndDetailBean eadb = new EventAndDetailBean();
+		eadb.setEventId(eventId);
 		eadb.setEventTitle(eventTitle);
 		eadb.setEventDate(eventDate);
 		eadb.setUserId(userId);
@@ -225,7 +241,7 @@ public class EditEventServlet extends HttpServlet {
 		request.setAttribute("recruitmentEndDate",  GeneralFormatter.toUsualString(recruitmentEndDate));
 				
 		session.setAttribute("eadb", eadb);
-		request.getRequestDispatcher("/WEB-INF/view/event/confirm.jsp").forward(request, response);
+		request.getRequestDispatcher("/event/editEventConfirm").forward(request, response);
 		
 		
 	}

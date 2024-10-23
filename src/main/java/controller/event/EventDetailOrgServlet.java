@@ -118,8 +118,11 @@ public class EventDetailOrgServlet extends HttpServlet {
 		// イベント情報、詳細情報をBeanに格納(イベントとしての参加可能かどうかのステータスが格納されている)
 		EventAndDetailBean eadb = null;
 		if(!Objects.isNull(eadbTransition)) {
+			System.out.println("引き継いだ");
 			eadb = eadbTransition;
+			System.out.println(eadb.getEventDate());
 		} else {
+			System.out.println("新規取得");
 			eadb = storeEventAndDetailToBean(event, entApprovedList.size());
 		}
 		
