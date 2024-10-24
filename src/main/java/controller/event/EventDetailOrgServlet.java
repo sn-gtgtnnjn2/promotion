@@ -146,6 +146,7 @@ public class EventDetailOrgServlet extends HttpServlet {
 		request.setAttribute("canSignUp", canSignUp);
 		request.setAttribute("backTarget", backTarget);
 		request.setAttribute("eadb", eadb);
+		session.setAttribute("eadb", eadb);
 		request.setAttribute("signUpMemberPictList", signUpMemberPictList);
 		request.setAttribute("approveMemberPictList", approveMemberPictList);
 		request.setAttribute("screenId", NavigationManager.SCREEN_EVENT_DETAIL_VIEW);

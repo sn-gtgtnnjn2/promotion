@@ -207,22 +207,24 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 
 	@Override
 	public void updateRow(EventAndDetail ead) throws SQLException{
+System.out.println(ead.getEventId());
+System.out.println(ead.getEventTitle());
+System.out.println(ead.getScenarioTitle());
+System.out.println(ead.getEventDatetime());
 		// TODO 自動生成されたメソッド・スタブ
-		String sql = "UPDATE event set ( "
-				+ " event_title"
-				+ ", event_datetime"
-				+ ", scenario_title"
-				+ ", recruitment_start_date"
-				+ ", recruitment_end_date"
-				+ ", member_limit"
-				+ ", open_level"
-				+ ") values ( ?, ?, ?, ?, ?, ?, ?)"
+		String sql = "UPDATE event set"
+				+ " event_title = ?"
+				+ ", event_datetime = ?"
+				+ ", scenario_title = ?"
+				+ ", recruitment_start_date = ?"
+				+ ", recruitment_end_date = ?"
+				+ ", member_limit = ?"
+				+ ", open_level = ?"
 				+ " WHERE event_id = ?"
 				+ " AND delete_flg = 0";
 		
-		String sql2 = "UPDATE event_detail set ( "
-				+ " detail"
-				+ " ) values ( ?)"
+		String sql2 = "UPDATE event_detail set "
+				+ " detail = ?"
 				+ " WHERE event_id = ?"
 				+ " AND delete_flg = 0";
 		
@@ -239,6 +241,8 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 			stmt.setInt(7, ead.getOpenLevel());
 			
 			stmt.setInt(8, ead.getEventId());
+			
+System.out.println(sql);
 			int affectedRows = stmt.executeUpdate();
 			boolean firstUpdateSuccess = (affectedRows == 1);
             
@@ -247,10 +251,12 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 				stmt2.setString(1, ead.getDetail());
 				stmt2.setInt(2, ead.getEventId());
 				
+System.out.println(sql2);
 				int affectedRows2 = stmt2.executeUpdate();
                 boolean secondUpdateSuccess = (affectedRows2 == 1);
                 if (secondUpdateSuccess) {
                     con.commit(); // 全ての更新が成功した場合にコミット
+                    System.out.println("commit");
                 } else {
                     con.rollback(); // 失敗した場合はロールバック
                 }

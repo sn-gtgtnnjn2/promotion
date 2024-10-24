@@ -18,8 +18,8 @@
 			<div class="block">
 				<div class="box">
 					<div class="midashi">イベント詳細</div>
-					<form id="user-management-form" method="POST"
-						action="<%=request.getContextPath()%>/event/editEvent" onsubmit="return validateEventForm()">
+					<form id="user-management-form" method="GET"
+						action="<%=request.getContextPath()%>/event/editEventConfirm" onsubmit="return validateEventForm()">
 						<table class="custom-table">
 							<table>
 								<tr>

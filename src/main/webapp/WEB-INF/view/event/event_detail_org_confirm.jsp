@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
 <link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
 <script>var ctx = "<%=request.getContextPath()%>"</script>
-<script src="<%= request.getContextPath() %>/js/event_detail.js"></script>
+<script src="<%= request.getContextPath() %>/js/event_detail_confirm.js"></script>
 <body>
 	<header>
 		<h1>
@@ -24,7 +24,7 @@
 								<tr>
 									<td>イベント日時</td>
 									<td>
-									<fmt:formatDate value="${eadb.eventDate}" pattern="yyyy/MM/dd(E) HH:MM" var="eventDate" />
+									<fmt:formatDate value="${eadb.eventDate}" pattern="yyyy/MM/dd(E) HH:mm" var="eventDate" />
 									<input type="text" id="eventDate" name="eventDate" value="${eventDate }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> /></td>
 								</tr>
@@ -37,8 +37,8 @@
 								<tr>
 									<td>募集日時</td>
 									<td><div>
-									<fmt:formatDate value="${eadb.recruitmentStartDate}" pattern="yyyy/MM/dd(E) HH:MM" var="recruitmentStartDate" />
-									<fmt:formatDate value="${eadb.recruitmentEndDate}" pattern="yyyy/MM/dd(E) HH:MM" var="recruitmentEndDate" />
+									<fmt:formatDate value="${eadb.recruitmentStartDate}" pattern="yyyy/MM/dd(E) HH:mm" var="recruitmentStartDate" />
+									<fmt:formatDate value="${eadb.recruitmentEndDate}" pattern="yyyy/MM/dd(E) HH:mm" var="recruitmentEndDate" />
 											<div readonly class="readonly"><c:out value="${recruitmentStartDate}" /></div>
 											～
 											<div readonly class="readonly"><c:out value="${recruitmentEndDate}" /></div>

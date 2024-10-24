@@ -2,7 +2,9 @@ package controller.event;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +23,9 @@ import dao.EventAndDetailDao;
 import dto.EntryApproval;
 import dto.EntryApprovalWithPict;
 import dto.EventAndDetail;
+import util.DateValidator;
 import util.GeneralFormatter;
+import util.StringValidator;
 
 /**
  * Servlet implementation class Eventdetailervlet
@@ -43,9 +47,113 @@ public class EditEventConfirmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		EventAndDetailBean eadb = (EventAndDetailBean) session.getAttribute("eadb"); 
-		request.setAttribute("eadb", eadb);
+		EventAndDetailBean beforeEadb = (EventAndDetailBean) session.getAttribute("eadb"); 
+		EventAndDetailBean newEadb = storeEventAndDetailBeanFromRequest(request, beforeEadb);
+		
+        // ページ遷移管理情報を取得
+        String strEventId = request.getParameter("eventId");
+        String searchQuery = request.getParameter("searchQuery");
+        String backTarget = request.getParameter("backTarget");
+		
+		request.setAttribute("eadb", newEadb);
+		session.setAttribute("eadb", newEadb);
+		System.out.println("eadb:" + beforeEadb.getEventId());
+		System.out.println("eadb:" + newEadb.getEventId());
 		request.getRequestDispatcher("/WEB-INF/view/event/event_detail_org_confirm.jsp").forward(request, response);
+	}
+
+	private EventAndDetailBean storeEventAndDetailBeanFromRequest(HttpServletRequest request, EventAndDetailBean beforeEadb) {
+		EventAndDetailBean eadb = new EventAndDetailBean();
+		
+		// リクエストから必要なパラメータを取得
+		String strEventId = request.getParameter("eventId");
+		String eventTitle = request.getParameter("eventTitle");
+		String strEventDate = request.getParameter("eventDate");
+		String strEventTime = request.getParameter("eventTime");
+		String strRecruitmentStartDate = request.getParameter("recruitmentStartDate");
+		String strRecruitmentStartTime = request.getParameter("recruitmentStartTime");
+		String strRecruitmentEndDate = request.getParameter("recruitmentEndDate");
+		String strRecruitmentEndTime = request.getParameter("recruitmentEndTime");
+		String scenarioTitle = request.getParameter("scenarioTitle");
+		String strStatus = request.getParameter("eventStatus");
+		String detail = request.getParameter("details");
+		System.out.println(getClass().getName());
+		System.out.println(strEventDate);
+		String strmemberLimit = request.getParameter("memberLimit");
+		String stropenLevel = request.getParameter("openLevel");
+		
+		// エラーリスト
+		List<String> errorList = new ArrayList<String>();
+		StringValidator sv = new StringValidator();
+		DateValidator dv = new DateValidator();
+		
+		// 文字種変換
+		Date eventDate = null;
+		Date recruitmentStartDate = null;
+		Date recruitmentEndDate = null;
+		Integer eventId = null;
+		Integer memberLimit = null;
+		Integer openLevel = null;
+		Integer status = null;
+		try {
+			eventDate = GeneralFormatter.parseCustomDate(strEventDate + " " + strEventTime);
+		} catch(ParseException e) {
+			errorList.add(String.format("入力されたイベント日時が不正です"));
+			e.printStackTrace();
+		}
+		
+		try {
+			recruitmentStartDate = GeneralFormatter.parseCustomDate(strRecruitmentStartDate + " " + strRecruitmentStartTime);
+			recruitmentEndDate = GeneralFormatter.parseCustomDate(strRecruitmentEndDate + " " + strRecruitmentEndTime);
+		} catch(ParseException e) {
+			errorList.add(String.format("入力された募集期間が不正です"));
+			e.printStackTrace();
+		}
+		
+		try {
+			memberLimit = Integer.parseInt(strmemberLimit);
+		} catch (NumberFormatException e) {
+			errorList.add(String.format("参加人数は数字で入力してください"));
+			e.printStackTrace();
+		}
+		
+		try {
+			openLevel = Integer.parseInt(stropenLevel);
+		} catch (NumberFormatException e) {
+			errorList.add(String.format("公開範囲の値が不正です"));
+			e.printStackTrace();
+		}
+		
+		try {
+			eventId = Integer.parseInt(strEventId);
+		} catch (NumberFormatException e) {
+			errorList.add(String.format("イベントIDの取得に失敗しました。"));
+			e.printStackTrace();
+		}
+		
+		try {
+			status = Integer.parseInt(strStatus);
+		} catch (NumberFormatException e) {
+			errorList.add(String.format("ステータスの値が不正です"));
+			e.printStackTrace();
+		}
+		
+			eadb.setEventId(eventId);
+System.out.println("newEventDate" + eventDate);
+			eadb.setEventDate(eventDate);
+			eadb.setEventTitle(eventTitle);
+			eadb.setOrganizerName(beforeEadb.getOrganizerName());
+			eadb.setScenarioTitle(scenarioTitle);
+			eadb.setDetail(detail);
+			eadb.setMemberLimit(memberLimit);
+			eadb.setopenLevel(openLevel);
+			eadb.setRecruitmentStartDate(recruitmentStartDate);
+			eadb.setRecruitmentEndDate(recruitmentEndDate);
+
+			// イベントが募集状況かどうかを判定（人数制限以内、募集期間内）
+			eadb.setStatus(beforeEadb.getStatus());
+
+		return eadb;
 	}
 
 	private Boolean canThisUserSignUp(String userId, String organizerId, Integer openLevel,
@@ -123,26 +231,30 @@ public class EditEventConfirmServlet extends HttpServlet {
 		request.setAttribute("backTarget", backTarget);
 		request.setAttribute("searchQuery", searchQuery);
 		
-		EventAndDetail ead = storeBeanToDto(eadb);
+		EventAndDetail ead = storeBeanToDto(eadb, eventId);
 		
 		try {
 			EventAndDetailDao eadd = DaoFactory.createEventAndDetailDao();
 			eadd.updateRow(ead);
+			System.out.println("イベント情報の更新成功");
 		} catch (SQLException e) {
 			System.out.println("イベント情報の更新失敗");
 			e.printStackTrace();
 		}
 		
-		doGet(request, response);
+		// セッション削除
+		session.removeAttribute("eadb");
+		System.out.println("セッション削除");
+System.out.println("update終わり");		
 		
 		// 再度詳細画面へ
 		request.getRequestDispatcher("/event/eventViewOrg?" + searchQuery).forward(request, response);
 		
 	}
 	
-	private EventAndDetail storeBeanToDto(EventAndDetailBean eadb) {
+	private EventAndDetail storeBeanToDto(EventAndDetailBean eadb, Integer eventId) {
 		EventAndDetail ead = new EventAndDetail();
-		ead.setEventId(null);
+		ead.setEventId(eventId);
 		ead.setDetail(eadb.getDetail());
 		ead.setEventDatetime(eadb.getEventDate());
 		ead.setEventId(eadb.getEventId());
