@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dao.DaoFactory;
 import dao.ProfileDao;
@@ -32,7 +32,8 @@ import util.Base64ImageEncoder;
  * Servlet implementation class UploadServlet
  */
 @WebServlet("/upload")
-@MultipartConfig(location = "C:/Users/zd2Q17/temp", maxFileSize = 1024 * 1024)
+//@MultipartConfig(location = "C:/Users/zd2Q17/temp", maxFileSize = 1024 * 1024)
+@MultipartConfig(location = "C:/tmp", maxFileSize = 1024 * 1024)
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final long MAX_FILE_SIZE = 1024 * 500;

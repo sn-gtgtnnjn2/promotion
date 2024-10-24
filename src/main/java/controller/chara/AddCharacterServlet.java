@@ -29,7 +29,7 @@ import util.StringValidator;
  * Servlet implementation class AddCharacterServlet
  */
 @WebServlet("/chara/addCharacter")
-@MultipartConfig(location = "C:/Users/zd2Q17/temp", maxFileSize = 1024 * 1024)
+@MultipartConfig(location = "C:\\tmp", maxFileSize = 1024 * 1024)
 public class AddCharacterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final long MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
