@@ -72,8 +72,8 @@ public class PreUserRegistServlet extends HttpServlet {
 		PreUser updatedPu = pud.findByEmailAndToken(email, uuid);
 		System.out.println(updatedPu.getId());
 		
-		String url = "http://localhost:8080/kadai2/validate?id=" + updatedPu.getId() + "&uuid=" + uuid ;
-		//String url = "http://localhost:8080/SEISAKU_KADAI/validate?id=" + updatedPu.getId() + "&uuid=" + uuid ;
+		//String url = "http://localhost:8080/kadai2/validate?id=" + updatedPu.getId() + "&uuid=" + uuid ;
+		String url = "http://localhost:8080/SEISAKU_KADAI/validate?id=" + updatedPu.getId() + "&uuid=" + uuid ;
 		
 		request.setAttribute("email", email);
 		request.setAttribute("uuid", uuid);

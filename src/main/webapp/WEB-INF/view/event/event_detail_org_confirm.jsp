@@ -112,7 +112,12 @@
 						<c:url var="backUrl" value="${backTarget}">
     					<c:param name="searchQuery" value="${searchQuery}" />
 						</c:url>
-						<button onclick="location.href='${backUrl}'">戻る</button>
+						<form action="<%= request.getContextPath() %>/event/eventViewOrg">
+						<button>戻る</button>
+						<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
+						<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
+						<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
+						</form>
 				</div>
 			</div>
 		</div>

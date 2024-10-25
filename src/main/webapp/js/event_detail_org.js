@@ -72,6 +72,7 @@ function prepareHiddenFields() {
 	updateHiddenParams('approvedUsers', 'approvedUsers[]', 'approved-users');
 	updateHiddenParams('pendingUsers', 'pendingUsers[]', 'pending-users');
 	updateHiddenParams('rejectedUsers', 'rejectedUsers[]', 'rejected-users');
+	document.getElementById('addPlayerForm').submit();
 }
 
 document.getElementById('eventDate').addEventListener('blur', function() {

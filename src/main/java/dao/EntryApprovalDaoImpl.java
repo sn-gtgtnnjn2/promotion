@@ -117,7 +117,7 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 	}
 	
 	@Override
-	public List<EntryApprovalWithPict> selectByEventIdWithPict(Integer eventId, Integer approvalStatus) {
+	public List<EntryApprovalWithPict> selectByEventIdWithPict(Integer eventId, String organizerId , Integer approvalStatus) {
 		System.out.println(getClass().getName() + "->" + eventId + "," + approvalStatus);
 		List<EntryApprovalWithPict> entryAppList = new ArrayList<EntryApprovalWithPict>();
 		String sql = "SELECT "
@@ -136,12 +136,14 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 				+ " INNER JOIN user ON entry_approval.sign_up_user_id = user.user_id"
 				+ " WHERE entry_approval.event_id = ?"
 				+ " AND entry_approval.approve_status = ? "
+				+ " AND entry_approval.sign_up_user_id <> ? "
 				+ " ORDER BY entry_approval.update_datetime ASC";
 		System.out.println(sql);
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, eventId);
 			stmt.setInt(2, approvalStatus);
+			stmt.setString(3, organizerId);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				EntryApprovalWithPict eawp = new EntryApprovalWithPict();

@@ -98,9 +98,9 @@ public class EventDetailOrgServlet extends HttpServlet {
 			// イベント情報、詳細情報を取得
 			event = eid.findByEventId(eventId);
 			// 申請者リストを取得
-			entSignUpList = ead.selectByEventIdWithPict(eventId, Constants.EVENT_APPROVAL_SIGNUP);
+			entSignUpList = ead.selectByEventIdWithPict(eventId, event.getOrganizerId(), Constants.EVENT_APPROVAL_SIGNUP);
 			// 承認者リストを取得
-			entApprovedList = ead.selectByEventIdWithPict(eventId, Constants.EVENT_APPROVAL_AVAILABLE);
+			entApprovedList = ead.selectByEventIdWithPict(eventId, event.getOrganizerId(), Constants.EVENT_APPROVAL_AVAILABLE);
 			
 			// フォロワーかどうかの情報を取得
 			FollowsDao flwDao = DaoFactory.createFollowsDao();

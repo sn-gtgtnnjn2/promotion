@@ -59,7 +59,7 @@
 												placeholder="例: 20241009" value="<c:out value="${recruitmentStartDate }" />">
 											<div id="date-error-recruitmentStartDate" class="error-message">開始日が不正です</div>
 											<input type="text" id="recruitmentStartTime" name="recruitmentStartTime" maxlength="8"
-												placeholder="例: 20241009" value="<c:out value="${recruitmentStartTime }" />">
+												placeholder="例: 1930" value="<c:out value="${recruitmentStartTime }" />">
 											<div id="time-error-recruitmentStartTime" class="error-message">開始時刻が不正です</div>
 											<br>～<br>
 											<fmt:formatDate value="${eadb.recruitmentEndDate}"
@@ -70,7 +70,7 @@
 												placeholder="例: 20241009" value="<c:out value="${recruitmentEndDate }" />">
 											<div id="date-error-recruitmentEndDate" class="error-message">終了日が不正です</div>
 											<input type="text" id="recruitmentEndTime" name="recruitmentEndTime" maxlength="8"
-												placeholder="例: 20241009" value="<c:out value="${recruitmentEndTime }" />">
+												placeholder="例: 1930" value="<c:out value="${recruitmentEndTime }" />">
 											<div id="time-error-recruitmentEndTime" class="error-message">終了時刻が不正です</div>
 										</div></td>
 								</tr>
@@ -264,11 +264,13 @@
 									<div class="text-muted">申請中ユーザー</div>
 									<div class="custom-select-list" id="rejected-users"></div>
 								</div>
-
+								
+								<form method="post" id="addPlayerForm" name="addPlayerForm">
 								<!-- Hidden fields to store the selected values -->
 								<div id="approvedUsers"></div>
 								<div id="pendingUsers"></div>
 								<div id="rejectedUsers"></div>
+								</form>
 							</div>
 
 							<div class="main-button-area">
