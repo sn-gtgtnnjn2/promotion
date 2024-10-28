@@ -3,14 +3,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event_list.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event.css" />
 
-<script src="<%= request.getContextPath() %>/js/jquery-3.7.1.min.js"></script>
+<script src="<%=request.getContextPath()%>/js/jquery-3.7.1.min.js"></script>
 <body>
 	<header>
 		<h1>
-			TRPG Resume Site<img class="logo" src="<%= request.getContextPath() %>/img/logo.png" alt="" />
+			TRPG Resume Site<img class="logo" src="<%=request.getContextPath()%>/img/logo.png" alt="" />
 		</h1>
 	</header>
 	<main>
@@ -161,6 +161,7 @@
 									</td>
 									<input type="hidden" name="eventStatus" value="${eadb.status }"/>
 								</tr>
+								<!-- 
 								<tr>
 									<td>あなたのステータス</td>
 									<td><input type="text" id="yourStatus" name="yourStatus"
@@ -168,6 +169,7 @@
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> />
 									</td>
 								</tr>
+								-->
 							</table>
 							<div class="main-button-area">
 								<input type="hidden" id="eventId" name="eventId"
@@ -300,6 +302,6 @@
 				</div>
 	</main>
 	<jsp:include page="/WEB-INF/view/footer.jsp" flush="true" />
-	<script src="<%= request.getContextPath() %>/js/event_detail_org.js"></script>
+	<script src="<%=request.getContextPath()%>/js/event_detail_org.js"></script>
 </body>
 </html>

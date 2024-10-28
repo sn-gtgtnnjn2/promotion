@@ -3,14 +3,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event_list.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event.css" />
 <script>var ctx = "<%=request.getContextPath()%>"</script>
-<script src="<%= request.getContextPath() %>/js/event_detail.js"></script>
+<script src="<%=request.getContextPath()%>/js/event_detail.js"></script>
 <body>
 	<header>
 		<h1>
-			TRPG Resume Site<img class="logo" src="<%= request.getContextPath() %>/img/logo.png" alt="" />
+			TRPG Resume Site<img class="logo" src="<%=request.getContextPath()%>/img/logo.png" alt="" />
 		</h1>
 	</header>
 	<main>
@@ -23,8 +23,10 @@
 							<table>
 								<tr>
 									<td>イベント日時</td>
-									<td><input type="text" id="eventDate" name="eventDate"
-										value="${eadb.eventDate }"
+									<td>
+									<fmt:formatDate value="${eadb.eventDate}" pattern="yyyy/MM/dd(E) HH:mm" var="eventDate" />
+									<input type="text" id="eventDate" name="eventDate"
+										value="${eventDate }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> /></td>
 								</tr>
 								<tr>
@@ -36,9 +38,11 @@
 								<tr>
 									<td>募集日時</td>
 									<td><div>
-											<c:out value="${eadb.recruitmentStartDate }" />
+									<fmt:formatDate value="${eadb.recruitmentStartDate}" pattern="yyyy/MM/dd(E) HH:mm" var="recruitmentStartDate" />
+									<fmt:formatDate value="${eadb.recruitmentEndDate}" pattern="yyyy/MM/dd(E) HH:mm" var="recruitmentEndDate" />
+											<input type="text" id="eventTitle" name="eventTitle" value="<c:out value="${recruitmentStartDate }" />" <c:if test="${!organizerFlg}">readonly class="readonly"</c:if>/>
 											～
-											<c:out value="${eadb.recruitmentEndDate }" />
+											<input type="text" id="eventTitle" name="eventTitle" value="<c:out value="${recruitmentEndDate }" />" <c:if test="${!organizerFlg}">readonly class="readonly"</c:if>/>
 										</div></td>
 								</tr>
 								<tr>
@@ -55,10 +59,7 @@
 								</tr>
 								<tr>
 									<td>詳細情報</td>
-									<td><textarea id="details" name="details"
-											<c:if test="${!organizerFlg}">readonly class="readonly"</c:if>>
-											<c:out value="${eadb.detail }" />
-											</textarea></td>
+									<td><textarea id="details" name="details" <c:if test="${!organizerFlg}">readonly class="readonly"</c:if>><c:out value="${eadb.detail }" /></textarea></td>
 								</tr>
 								<tr>
 									<td>募集人数</td>
@@ -102,16 +103,16 @@
 										value="${eadb.statusName }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> /></td>
 								</tr>
-								<tr>
+								<!-- <tr>
 									<td>あなたのステータス</td>
 									<td><input type="text" id="yourStatus" name="yourStatus"
 										value="${canSignUp }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> />
 									</td>
-								</tr>
+								</tr> -->
 							</table>
 							<div class="main-button-area">
-								<form action="<%= request.getContextPath() %>/event/signUpEvent" name="signUpForm" id="signUpForm">
+								<form action="<%=request.getContextPath()%>/event/signUpEvent" name="signUpForm" id="signUpForm">
 									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
 									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
@@ -130,7 +131,7 @@
 							</c:if>
 
 							<div class="main-button-area">
-								<form action="<%= request.getContextPath() %>/event/signUpEvent" name="signUpForm" id="signUpForm">
+								<form action="<%=request.getContextPath()%>/event/signUpEvent" name="signUpForm" id="signUpForm">
 									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
 									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
@@ -150,9 +151,9 @@
 									<c:forEach items="${charaListForScreen}" var="chara"
 										varStatus="status">
 										<div class="character-card"
-											onclick="viewCharacterDetails('${status.index}')">
+											onclick="viewCharacterDetails('${chara.characterId}')">
 											<img
-												src="<%= request.getContextPath() %>/${chara.imageFilePath}"
+												src="<%=request.getContextPath()%>/${chara.imageFilePath}"
 												alt="キャラクター画像" class="character-image">
 											<c:if test="${chara.isLoginUserOwner }">
 												<span class="delete-button"

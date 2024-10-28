@@ -175,6 +175,7 @@ public class SearchServlet extends HttpServlet {
 			eib.setStatus(EventAndDetail.getIsAvailable(eventList.get(i), eventList.get(i).getCurrentApprovedNum()));
 			eib.setCurrentSignUpNum(eventList.get(i).getCurrentSignUpNum());
 			eib.setCurrentApprovedNum(eventList.get(i).getCurrentApprovedNum());
+			eib.setMemberLimit(eventList.get(i).getMemberLimit());
 			if(eventList.get(i).getOrganizerId().equals(userId)){
 				eib.setOrganizerFlg(true);
 			} else {

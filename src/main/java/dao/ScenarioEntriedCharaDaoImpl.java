@@ -87,15 +87,18 @@ public class ScenarioEntriedCharaDaoImpl implements ScenarioEntriedCharaDao{
 			stmt.setInt(2, eventId);
 			stmt.setString(3, userId);
 System.out.println("sql->" + sql);
+System.out.println("charaId->" + characterId);
+System.out.println("eventId->" + eventId);
+System.out.println("user->" + userId);
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()) {
 				Integer targetCount = rs.getInt("target");
+				System.out.println("targetCount->" + targetCount);
 				if(targetCount == 1) {
-System.out.println("targetCount->" + targetCount);
 					updateDeleteFlg(true, characterId, eventId, userId);
 				} else {
-					throw new Exception("異常");
+					throw new Exception("削除対象がありません。");
 				}
 			}
 			
@@ -128,7 +131,8 @@ System.out.println("targetCount->" + targetCount);
 				+ " INNER JOIN charas c ON sec.character_id = c.character_id"
 				+ " INNER JOIN user u ON sec.player_id = u.user_id"
 				+ " WHERE sec.event_id = ?"
-				+ " AND sec.delete_flg = false";
+				+ " AND sec.delete_flg = 0";
+		System.out.println("テスト");
 		System.out.println(getClass().getName() + "->" + sql);
 		List<CharasForEventDetailDto> charaList = new ArrayList<>();
 		try(Connection con = ds.getConnection()){
@@ -156,6 +160,7 @@ System.out.println("targetCount->" + targetCount);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(charaList.size());
 		return charaList;
 	}
 

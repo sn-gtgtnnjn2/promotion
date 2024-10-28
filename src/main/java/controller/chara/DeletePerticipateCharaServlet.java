@@ -87,8 +87,17 @@ public class DeletePerticipateCharaServlet extends HttpServlet {
 		secDto.setPlayerId(userId);
 		ScenarioEntriedCharaDao secd = DaoFactory.createScenarioEntriedCharaDao();
 		try {
-			// 本人が削除権限があるものだけ、削除するためにuserIdが必要
-			secd.deleteByCharaUserAndEventId(characterId, eventId, userId);
+			// 削除フラグになっただけのキャラクターがいるかキーで検索する
+			Boolean isExist = secd.checkExistByKeys(eventId, characterId);
+			// いた場合の処理 
+			if(isExist) {
+				// 削除フラグをfalseに更新
+				secd.updateDeleteFlg(true, characterId, eventId, userId);
+			} else {				
+				// 本人が削除権限があるものだけ、削除するためにuserIdが必要
+				secd.deleteByCharaUserAndEventId(characterId, eventId, userId);
+			}
+			
 		} catch (SQLIntegrityConstraintViolationException e) {
 	        // 返却値に設定
 	        String errMsg = "既に登録されています";
@@ -106,7 +115,7 @@ public class DeletePerticipateCharaServlet extends HttpServlet {
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("status", "success");
         if(errorList.size() < 1) {        	
-        	jsonResponse.addProperty("message", "キャラクターが登録されました。");        	
+        	jsonResponse.addProperty("message", "キャラクターが削除されました。");        	
         } else {
         	jsonResponse.addProperty("message", errorList.get(0));
         }

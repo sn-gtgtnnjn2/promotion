@@ -32,8 +32,8 @@ import util.Base64ImageEncoder;
  * Servlet implementation class UploadServlet
  */
 @WebServlet("/upload")
-@MultipartConfig(location = "C:/Users/zd2Q17/temp", maxFileSize = 1024 * 1024)
-//@MultipartConfig(location = "C:/tmp", maxFileSize = 1024 * 1024)
+//@MultipartConfig(location = "C:/Users/zd2Q17/temp", maxFileSize = 1024 * 1024)
+@MultipartConfig(location = "C:/tmp", maxFileSize = 1024 * 1024)
 public class UploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final long MAX_FILE_SIZE = 1024 * 500;
@@ -68,7 +68,9 @@ public class UploadServlet extends HttpServlet {
         }
 		
 		String userId = request.getParameter("userId");
+System.out.println("userId:" + userId);
 		Integer id = getIdFromUsers(userId);
+System.out.println("id:" + id);
 		Part upfile = request.getPart("profile-image");
 		
 		if(Objects.isNull(id)) {			

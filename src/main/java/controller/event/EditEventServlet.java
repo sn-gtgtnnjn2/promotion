@@ -65,7 +65,9 @@ public class EditEventServlet extends HttpServlet {
 		String strEventDate = request.getParameter("eventDate");
 		String strEventTime = request.getParameter("eventTime");
 		String strRecruitmentStartDate = request.getParameter("recruitmentStartDate");
+		String strRecruitmentStartTime = request.getParameter("recruitmentStartTime");
 		String strRecruitmentEndDate = request.getParameter("recruitmentEndDate");
+		String strRecruitmentEndTime = request.getParameter("recruitmentEndTime");
 		String scenarioTitle = request.getParameter("scenarioTitle");
 		String strStatus = request.getParameter("eventStatus");
 		String detail = request.getParameter("details");
@@ -95,8 +97,8 @@ public class EditEventServlet extends HttpServlet {
 		}
 		
 		try {
-			recruitmentStartDate = GeneralFormatter.parseCustomDate(strRecruitmentStartDate + " " + strEventTime);
-			recruitmentEndDate = GeneralFormatter.parseCustomDate(strRecruitmentEndDate + " " + strEventTime);
+			recruitmentStartDate = GeneralFormatter.parseCustomDate(strRecruitmentStartDate + " " + strRecruitmentStartTime);
+			recruitmentEndDate = GeneralFormatter.parseCustomDate(strRecruitmentEndDate + " " + strRecruitmentEndTime);
 		} catch(ParseException e) {
 			errorList.add(String.format("入力された募集期間が不正です"));
 			e.printStackTrace();

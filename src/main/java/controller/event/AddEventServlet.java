@@ -63,8 +63,11 @@ public class AddEventServlet extends HttpServlet {
 		
 		String eventTitle = request.getParameter("eventTitle");
 		String strEventDate = request.getParameter("eventDate");
+		String strEventTime = request.getParameter("eventTime");
 		String strRecruitmentStartDate = request.getParameter("recruitmentStartDate");
+		String strRecruitmentStartTime = request.getParameter("recruitmentStartTime");
 		String strRecruitmentEndDate = request.getParameter("recruitmentEndDate");
+		String strRecruitmentEndTime = request.getParameter("recruitmentEndTime");
 		String scenarioTitle = request.getParameter("scenarioTitle");
 		String detail = request.getParameter("detail");
 		System.out.println(detail);
@@ -83,15 +86,15 @@ public class AddEventServlet extends HttpServlet {
 		Integer memberLimit = null;
 		Integer openLevel = null;
 		try {
-			eventDate = GeneralFormatter.convDtLocalToDate(strEventDate);
+			eventDate = GeneralFormatter.parseCustomDate(strEventDate + " " + strEventTime);
 		} catch(ParseException e) {
 			errorList.add(String.format("入力されたイベント日時が不正です"));
 			e.printStackTrace();
 		}
 		
 		try {
-			recruitmentStartDate = GeneralFormatter.convDtLocalToDate(strRecruitmentStartDate);
-			recruitmentEndDate = GeneralFormatter.convDtLocalToDate(strRecruitmentEndDate);
+			recruitmentStartDate = GeneralFormatter.parseCustomDate(strRecruitmentStartDate + " " + strRecruitmentStartTime);
+			recruitmentEndDate = GeneralFormatter.parseCustomDate(strRecruitmentEndDate + " " + strRecruitmentEndTime);
 		} catch(ParseException e) {
 			errorList.add(String.format("入力された募集期間が不正です"));
 			e.printStackTrace();
@@ -184,9 +187,9 @@ public class AddEventServlet extends HttpServlet {
 			eadb.setopenLevel(openLevel);
 			eadb.setStatus(null);
 			
-			request.setAttribute("eventDate", GeneralFormatter.toISO8601(eventDate));
-			request.setAttribute("recruitmentStartDate",  GeneralFormatter.toISO8601(recruitmentStartDate));
-			request.setAttribute("recruitmentEndDate",  GeneralFormatter.toISO8601(recruitmentEndDate));
+			request.setAttribute("eventDate", eventDate);
+			request.setAttribute("recruitmentStartDate",  recruitmentStartDate);
+			request.setAttribute("recruitmentEndDate",  recruitmentEndDate);
 			
 			request.setAttribute("eadb", eadb);
 			request.setAttribute("errorList", errorList);

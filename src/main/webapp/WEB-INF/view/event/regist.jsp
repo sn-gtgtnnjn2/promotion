@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
-
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event.css" />
 <body>
 	<header>
 		<h1>
-			TRPG Resume Site<img class="logo" src="<%= request.getContextPath() %>/img/logo.png" alt="" />
+			TRPG Resume Site<img class="logo" src="<%=request.getContextPath()%>/img/logo.png" alt="" />
 		</h1>
 	</header>
 	<main>
@@ -28,8 +28,24 @@
 							</tr>
 							<tr>
 								<td><label for="eventDate">イベント日時:</label></td>
-								<td><input type="datetime-local" id="eventDate" 
-									name="eventDate" value="${eventDate }" required></td>
+								<td>
+								
+									<fmt:formatDate value="${eadb.eventDate}" pattern="yyyy/MM/dd(E)" var="eventDate" />
+									<fmt:formatDate value="${eadb.eventDate}" pattern="HH:mm" var="eventTime" />
+										<div>
+											<input type="text" id="eventDate" name="eventDate"
+												maxlength="8" placeholder="例: 20241009" value="${eventDate}">
+											<span class="description">YYYYMMDDで入力</span>
+											<div id="date-error" class="error-message">入力値が不正です</div>
+										</div>
+										<div>
+											<input type="text" id="eventTime" name="eventTime"
+												maxlength="4" placeholder="例: 1900" value="${eventTime}">
+											<span class="description">HHMMで入力</span>
+											<div id="time-error" class="error-message">入力値が不正です</div>
+										</div>	
+									
+								</td>
 							</tr>
 							<tr>
 								<td><label for="scenarioTitle">シナリオ名:</label></td>
@@ -47,11 +63,45 @@
 							</tr>
 							<tr>
 								<td><label for="recruitmentStartDate">募集開始日時:</label></td>
-								<td><input type="datetime-local" id="recruitmentStartDate" name="recruitmentStartDate" value="${recruitmentStartDate }"></td>
+								<td>
+											<fmt:formatDate value="${eadb.recruitmentStartDate}"
+												pattern="yyyy/MM/dd(E)" var="recruitmentStartDate" />
+											<fmt:formatDate value="${eadb.recruitmentStartDate}"
+												pattern="HH:mm" var="recruitmentStartTime" />
+											<input type="text" id="recruitmentStartDate" name="recruitmentStartDate" maxlength="8"
+												placeholder="例: 20241009" value="<c:out value="${recruitmentStartDate }" />">
+											<div id="date-error-recruitmentStartDate" class="error-message">開始日が不正です</div>
+											<input type="text" id="recruitmentStartTime" name="recruitmentStartTime" maxlength="8"
+												placeholder="例: 1930" value="<c:out value="${recruitmentStartTime }" />">
+											<div id="time-error-recruitmentStartTime" class="error-message">開始時刻が不正です</div>
+								
+								</td>
 							</tr>
+							
+							
+
+							
+							
+							
 							<tr>
 								<td><label for="recruitmentEndDate">募集終了日時:</label></td>
-								<td><input type="datetime-local" id="recruitmentEndDate" name="recruitmentEndDate" value="${recruitmentEndDate }"></td>
+								<td>
+								
+															<div>				
+											<fmt:formatDate value="${eadb.recruitmentEndDate}"
+												pattern="yyyy/MM/dd(E)" var="recruitmentEndDate" />
+											<fmt:formatDate value="${eadb.recruitmentEndDate}"
+												pattern="HH:mm" var="recruitmentEndTime" />
+											<input type="text" id="recruitmentEndDate" name="recruitmentEndDate" maxlength="8"
+												placeholder="例: 20241009" value="<c:out value="${recruitmentEndDate }" />">
+											<div id="date-error-recruitmentEndDate" class="error-message">終了日が不正です</div>
+											<input type="text" id="recruitmentEndTime" name="recruitmentEndTime" maxlength="8"
+												placeholder="例: 1930" value="<c:out value="${recruitmentEndTime }" />">
+											<div id="time-error-recruitmentEndTime" class="error-message">終了時刻が不正です</div>
+										</div>
+								
+								
+								</td>
 							</tr>
 							<tr>
 								<td><label for="memberLimit" value="${eadb.memberLimit }">公開範囲:</label></td>
@@ -70,7 +120,7 @@
 							
 							<tr>
 								<td colspan="2" style="text-align: center;">
-									<button onclick="location.href= '<%= request.getContextPath() %>/portal'">戻る</button> 
+									<button onclick="location.href= '<%=request.getContextPath()%>/portal'">戻る</button> 
 									<input type="submit" value="確認画面へ">
 								</td>
 							</tr>
@@ -83,5 +133,6 @@
 		</div>
 	</main>
 	<jsp:include page="/WEB-INF/view/footer.jsp" flush="true" />
+<script src="<%=request.getContextPath()%>/js/event_detail_org.js"></script>
 </body>
 </html>

@@ -46,7 +46,9 @@ public class SignUpEventServlet extends HttpServlet {
 //		String searchQuery = (String) request.getQueryString();
 		String backTarget = (String) request.getParameter("backTarget");
 		System.out.println(searchQuery);
+		
 		// エラーリスト
+		
 		
 		// バリデーション
 		if(StringUtils.isEmpty(strEventId)) {
@@ -69,9 +71,11 @@ public class SignUpEventServlet extends HttpServlet {
 		ea.setSignUpUserId(userId);
 		try {
 			EntryApproval eaFromDB = ead.findByEventIdAndSgnUpUsrId(eventId, userId);
-			if(Objects.isNull(eaFromDB)) {
+			if(Objects.isNull(eaFromDB.getId())) {
+				System.out.println("insert");
 				ead.insert(ea);
 			} else {
+				System.out.println("update");
 				ea.setApprovalStatus(Constants.EVENT_APPROVAL_SIGNUP);
 				ead.updateApproveStatusRow(ea);
 			}

@@ -114,6 +114,7 @@ public class UserRegistServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("userName", userName);
+		session.setAttribute("userId", userId);
 		request.getRequestDispatcher("/WEB-INF/view/portal.jsp").forward(request, response);
 	}
 

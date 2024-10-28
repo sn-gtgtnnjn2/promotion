@@ -7,10 +7,10 @@
 	<header>
 		<script src="<%=request.getContextPath()%>/js/search_pager.js"></script>
 		<script src="<%=request.getContextPath()%>/js/event_view.js"></script>
-		<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
-		<link rel="stylesheet" href="<%= request.getContextPath() %>/css/pager.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event.css" />
+		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/pager.css" />
 		<h1>
-			TRPG Resume Site<img class="logo" src="<%= request.getContextPath() %>/img/logo.png" alt="" />
+			TRPG Resume Site<img class="logo" src="<%=request.getContextPath()%>/img/logo.png" alt="" />
 		</h1>
 	</header>
 	<main>
@@ -63,16 +63,17 @@
 								<th>シナリオ名</th>
 								<th>ステータス</th>
 								<th>応募締切</th>
-								<th>参加人数/募集人数</th>
+								<th>参加人数/応募人数/募集人数</th>
 							</tr>
 							<c:forEach var="event" items="${eventInfoList}">
 								<c:if test="${!event.organizerFlg }">
-									<tr  data-href="<%= request.getContextPath() %>/event/eventView?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">							
+									<tr  data-href="<%=request.getContextPath()%>/event/eventView?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">							
 								</c:if>
 								<c:if test="${event.organizerFlg }">
-									<tr  data-href="<%= request.getContextPath() %>/event/eventViewOrg?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">							
+									<tr  data-href="<%=request.getContextPath()%>/event/eventViewOrg?eventId=${event.eventId}&from=${screenId}&${searchQuery}" class="event-row">							
 								</c:if>
-									<td><c:out value="${event.eventDate}" /></td>
+									<fmt:formatDate value="${event.eventDate}" pattern="yyyy/MM/dd(E) HH:mm" var="eventDate" />
+									<td><c:out value="${eventDate}" /></td>
 									<td><div class="icon-img"><img src="data:image/jpeg;base64,<c:out value="${event.organizerImageString}" />"
 										alt="主催者アイコン" />
 									</div>
@@ -81,9 +82,9 @@
 									<td><c:out value="${event.eventTitle}" /></td>
 									<td><c:out value="${event.scenarioTitle}" /></td>
 									<td><c:out value="${event.statusName}" /></td>
-									<td><c:out value="${event.recruitmentEndDate}" /></td>
-									<td><c:out value="${event.currentApprovedNum}" /> / <c:out
-											value="${event.currentSignUpNum}" /></td>
+									<fmt:formatDate value="${event.recruitmentEndDate}" pattern="yyyy/MM/dd(E) HH:mm" var="recruitmentEndDate" />
+									<td><c:out value="${recruitmentEndDate}" /></td>
+									<td><c:out value="${event.currentApprovedNum}" /> / <c:out value="${event.currentSignUpNum}" /> / <c:out value="${event.memberLimit}" /></td>
 								</tr>
 							</c:forEach>
 							<!-- 他のレコードも同様に追加 -->

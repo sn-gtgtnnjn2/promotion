@@ -3,14 +3,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <jsp:include page="/WEB-INF/view/header.jsp" flush="true" />
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event_list.css" />
-<link rel="stylesheet" href="<%= request.getContextPath() %>/css/event.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event_list.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/event.css" />
 <script>var ctx = "<%=request.getContextPath()%>"</script>
-<script src="<%= request.getContextPath() %>/js/event_detail_confirm.js"></script>
+<script src="<%=request.getContextPath()%>/js/event_detail_confirm.js"></script>
 <body>
 	<header>
 		<h1>
-			TRPG Resume Site<img class="logo" src="<%= request.getContextPath() %>/img/logo.png" alt="" />
+			TRPG Resume Site<img class="logo" src="<%=request.getContextPath()%>/img/logo.png" alt="" />
 		</h1>
 	</header>
 	<main>
@@ -83,7 +83,7 @@
 								</tr>
 							</table>
 							<div class="main-button-area">
-								<form action="<%= request.getContextPath() %>/event/editEventConfirm" name="updateForm" id="updateForm" method="post">
+								<form action="<%=request.getContextPath()%>/event/editEventConfirm" name="updateForm" id="updateForm" method="post">
 									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
 									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
@@ -102,7 +102,7 @@
 							</c:if>
 
 							<div class="main-button-area">
-								<form action="<%= request.getContextPath() %>/event/signUpEvent" name="signUpForm" id="signUpForm">
+								<form action="<%=request.getContextPath()%>/event/signUpEvent" name="signUpForm" id="signUpForm">
 									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
 									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
@@ -112,7 +112,7 @@
 						<c:url var="backUrl" value="${backTarget}">
     					<c:param name="searchQuery" value="${searchQuery}" />
 						</c:url>
-						<form action="<%= request.getContextPath() %>/event/eventViewOrg">
+						<form action="<%=request.getContextPath()%>/event/eventViewOrg">
 						<button>戻る</button>
 						<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 						<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />

@@ -163,7 +163,7 @@ function openRegisterDiv() {
 }
 
 function viewCharacterDetails(characterId) {
-    window.location.href = '/characterDetails?characterId=' + characterId;
+    window.location.href = ctx + '/CharacterDetailsServlet?characterId=' + characterId;
 }
 
 function deleteCharacter(event, characterId) {
@@ -226,11 +226,11 @@ function updateCharacterList() {
 				response.forEach(function(chara, index) {
 					let deleteButton = '';
 					if (chara.isLoginUserOwner) {
-						deleteButton = `<span class="delete-button" onclick="deleteCharacter(event, '${index}')">×</span>`;
+						deleteButton = `<span class="delete-button" onclick="deleteCharacter(event, '${chara.characterId}')">×</span>`;
 					}
 					
 					const characterCard = `
-                    <div class="character-card" onclick="viewCharacterDetails('${index}')">
+                    <div class="character-card" onclick="viewCharacterDetails('${chara.characterId}')">
                         <img src="`+ctx+`/${chara.imageFilePath}" alt="キャラクター画像" class="character-image">
                         ${deleteButton}
                         <p class="character-name">${chara.name}</p>

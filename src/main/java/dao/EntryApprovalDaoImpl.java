@@ -112,7 +112,7 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 			System.out.println("selectByEventIdWithPictで問題が生じました");
 			e.printStackTrace();
 		}
-				
+		System.out.println("entryAppList:" + entryAppList.size());
 		return entryAppList;
 	}
 	

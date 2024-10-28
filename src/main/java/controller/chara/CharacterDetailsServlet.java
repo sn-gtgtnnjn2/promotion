@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 
@@ -35,6 +36,9 @@ public class CharacterDetailsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("userId");
+		
 		String characterIdStr = request.getParameter("characterId");
 		System.out.println("characterIdStr" + characterIdStr);
 		
@@ -49,6 +53,7 @@ public class CharacterDetailsServlet extends HttpServlet {
 		
         // キャラクターの詳細情報をデータベースから取得する
 		CharasDao cd = DaoFactory.createCharasDao();
+		
 		CharaDto charaInfo = null;
 		try {
 			charaInfo = cd.findByCharacterId(characterId);
@@ -59,10 +64,9 @@ public class CharacterDetailsServlet extends HttpServlet {
 		System.out.println("charInfo->" + charaInfo);
 		System.out.println("charInfo.name->" + charaInfo.getName());
 		
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        out.println(new Gson().toJson(charaInfo));
-        out.close();
+		request.setAttribute("charaInfo", charaInfo);
+		request.setAttribute("userId", userId);
+        request.getRequestDispatcher("/WEB-INF/view/chara/detail.jsp").forward(request, response);
 		
 	}
 

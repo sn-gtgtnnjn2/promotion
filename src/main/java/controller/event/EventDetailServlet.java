@@ -114,12 +114,12 @@ public class EventDetailServlet extends HttpServlet {
 
 		System.out.println("charaForScreenSize" + charaListForScreen.size());
 		// 参加者一覧情報をBeanに追加
-		//LinkedHashMap<String,String> memberPictList = storeMemberInfo(entAppList);
+		LinkedHashMap<String,String> memberPictList = storeMemberInfo(entAppList);
 		request.setAttribute("canSignUp", canSignUp);
 		request.setAttribute("backTarget", NavigationManager.getServletURL(fromStr));
 		request.setAttribute("eadb", eadb);
 		request.setAttribute("charaListForScreen", charaListForScreen);
-		//request.setAttribute("memberPictList", memberPictList);
+		request.setAttribute("memberPictList", memberPictList);
 		request.setAttribute("screenId", NavigationManager.SCREEN_EVENT_DETAIL_VIEW);
 		
 		// 検索画面のクエリパラメータをセット
