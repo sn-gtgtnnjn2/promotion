@@ -260,6 +260,7 @@ public class EventDetailOrgServlet extends HttpServlet {
 			pendingTargetList = checkUpdateTarget(memberHashMap, pendingUsers, Constants.EVENT_APPROVAL_SIGNUP);
 		}
 		if ((!Objects.isNull(rejectedUsers)) && rejectedUsers.length > 0) {
+			System.out.println("reject!!");
 			rejectTargetList = checkUpdateTarget(memberHashMap, rejectedUsers, Constants.EVENT_APPROVAL_REJECT);
 		}
 		

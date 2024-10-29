@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.CharaInfoForEventDetailBean;
 import bean.EventAndDetailBean;
+import bean.MemberBean;
 import controller.NavigationManager;
 import dao.DaoFactory;
 import dao.EntryApprovalDao;
@@ -27,6 +28,7 @@ import dto.EntryApprovalWithPict;
 import dto.EventAndDetail;
 import dto.Follows;
 import util.Constants;
+import util.GeneralFormatter;
 
 /**
  * Servlet implementation class Eventdetailervlet
@@ -76,6 +78,7 @@ public class EventDetailServlet extends HttpServlet {
 		
 		EventAndDetail event = null;
 		List<EntryApprovalWithPict> entAppList = null;
+		List<EntryApprovalWithPict> entSignUpList = null;
 		List<CharasForEventDetailDto> charaList = null;
 		Boolean canSignUp = false;
 		Boolean isFollower = false;
@@ -86,7 +89,8 @@ public class EventDetailServlet extends HttpServlet {
 			event = eid.findByEventId(eventId);
 			
 			// 参加承認情報を取得
-			entAppList = ead.selectByEventIdWithPict(eventId);
+			entAppList = ead.selectByEventIdWithPict(eventId, event.getOrganizerId(), Constants.EVENT_APPROVAL_AVAILABLE);
+			entSignUpList = ead.selectByEventIdWithPict(eventId, event.getOrganizerId(), Constants.EVENT_APPROVAL_SIGNUP);
 			
 			// ログインユーザーの参加承認ステータスを取得
 			loginUserAppStatus = ead.getApprovalStatus(eventId, userId);
@@ -129,15 +133,18 @@ public class EventDetailServlet extends HttpServlet {
 			
 		System.out.println("charaForScreenSize" + charaListForScreen.size());
 		// 参加者一覧情報をBeanに追加
-		LinkedHashMap<String,String> memberPictList = storeMemberInfo(entAppList);
+		List<MemberBean> memberPictList = storeMemberInfo(entAppList);
+		List<MemberBean> signUpMemberPictList = storeMemberInfo(entSignUpList);
 		request.setAttribute("canSignUp", canSignUp);
 		request.setAttribute("backTarget", NavigationManager.getServletURL(fromStr));
 		request.setAttribute("eadb", eadb);
 		request.setAttribute("charaListForScreen", charaListForScreen);
 		request.setAttribute("memberPictList", memberPictList);
+		request.setAttribute("signUpMemberPictList", signUpMemberPictList);
 		request.setAttribute("screenId", NavigationManager.SCREEN_EVENT_DETAIL_VIEW);
 		request.setAttribute("userApprovalStatusName", userApprovalStatusName);
 		request.setAttribute("approveStatus", loginUserAppStatus);
+		System.out.println("approveStatus:" + loginUserAppStatus);
 		
 		// 検索画面のクエリパラメータをセット
 		request.setAttribute("searchQuery", searchQuery);
@@ -193,10 +200,18 @@ public class EventDetailServlet extends HttpServlet {
 		
 		// 既に申請していないことを確認
 		for(int i = 0; i < entAppList.size(); i++) {
-			if(entAppList.get(i).getSignUpUserId().equals(userId)) {
-				userRejectList.add("既に申請しています");
-				System.out.println("既に申請済み");
-				return false;
+			if(entAppList.get(i).getSignUpUserId().equals(userId)) {				
+				//if(entAppList.get(i).getSignUpUserId().equals(userId)) {
+				if(entAppList.get(i).getApprovalStatus().equals(Constants.EVENT_APPROVAL_SIGNUP)) {
+					userRejectList.add("既に申請しています");
+					System.out.println("既に申請済み");
+					return false;
+				}
+				if(entAppList.get(i).getApprovalStatus().equals(Constants.EVENT_APPROVAL_AVAILABLE)) {
+					userRejectList.add("既に承認しています");
+					System.out.println("既に承認済み");
+					return false;
+				}
 			}
 		}
 		return true;
@@ -207,14 +222,14 @@ public class EventDetailServlet extends HttpServlet {
 		return true;
 	}
 
-	private LinkedHashMap<String, String> storeMemberInfo(List<EntryApprovalWithPict> entAppList) {
-		// TODO 自動生成されたメソッド・スタブ
-		LinkedHashMap<String,String> linkedHashMap = new LinkedHashMap<String,String>();
-		for(int i = 0 ; i < entAppList.size(); i ++) {
-			linkedHashMap.put(entAppList.get(i).getUserName(),entAppList.get(i).getBase64ImgStr());
-		}
-		return linkedHashMap;
-	}
+//	private LinkedHashMap<String, String> storeMemberInfo(List<EntryApprovalWithPict> entAppList) {
+//		// TODO 自動生成されたメソッド・スタブ
+//		LinkedHashMap<String,String> linkedHashMap = new LinkedHashMap<String,String>();
+//		for(int i = 0 ; i < entAppList.size(); i ++) {
+//			linkedHashMap.put(entAppList.get(i).getUserName(),entAppList.get(i).getBase64ImgStr());
+//		}
+//		return linkedHashMap;
+//	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -243,6 +258,18 @@ public class EventDetailServlet extends HttpServlet {
 		}
 		return eadb;
 	}
-
-
+	
+	private List<MemberBean> storeMemberInfo(List<EntryApprovalWithPict> entAppList) {
+		// TODO 自動生成されたメソッド・スタブ
+		List<MemberBean> memberList = new ArrayList<MemberBean>();
+		for(int i = 0 ; i < entAppList.size(); i ++) {
+			MemberBean member = new MemberBean();
+			member.setUserId(entAppList.get(i).getSignUpUserId());
+			member.setUserName(entAppList.get(i).getUserName());
+			member.setSignUpDateStr(GeneralFormatter.toUsualString(entAppList.get(i).getUpdateDatetime()));
+			member.setImageString(entAppList.get(i).getBase64ImgStr());
+			memberList.add(member);
+		}
+		return memberList;
+	}
 }

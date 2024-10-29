@@ -107,7 +107,7 @@
 												<c:if test="${empty approveMemberPict.imageString}">
 													<img src="<%=request.getContextPath()%>/icon/testicon.png"
 														alt="${signUpMemberPict.userName }"
-														title="${signUpMemberPict.userName }" />">
+														title="${signUpMemberPict.userName }" />
 												</c:if>
 												<c:if test="${!empty approveMemberPict.imageString}">
 													<img class="member-icon"
@@ -127,7 +127,7 @@
 												<c:if test="${empty signUpMemberPict.imageString}">
 													<img src="<%=request.getContextPath()%>/icon/testicon.png"
 														alt="${signUpMemberPict.userName }"
-														title="${signUpMemberPict.userName }" />">
+														title="${signUpMemberPict.userName }" />
 												</c:if>
 												<c:if test="${!empty signUpMemberPict.imageString}">
 													<img class="member-icon"

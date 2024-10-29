@@ -71,11 +71,19 @@
 									<td>参加者一覧</td>
 									<td><div id="participantList" name="participantList"
 											<c:if test="${!organizerFlg}">readonly class="readonly"</c:if>>
-											<c:forEach items="${memberPictList }" var="memberPict"
-												varStatus="status">
-												<img class="member-icon"
-													src="data:image/png;base64,${memberPict.value}"
-													alt="${memberPict.key }" title="${memberPict.key }" />
+											<c:forEach items="${approveMemberPictList }"
+												var="approveMemberPict" varStatus="status">
+												<c:if test="${empty approveMemberPict.imageString}">
+													<img src="<%=request.getContextPath()%>/icon/testicon.png"
+														alt="${signUpMemberPict.userName }"
+														title="${signUpMemberPict.userName }" />">
+												</c:if>
+												<c:if test="${!empty approveMemberPict.imageString}">
+													<img class="member-icon"
+														src="data:image/png;base64,${approveMemberPict.imageString}"
+														alt="${approveMemberPict.userName }"
+														title="${approveMemberPict.userName }" />
+												</c:if>
 											</c:forEach>
 										</div></td>
 								</tr>
@@ -85,9 +93,17 @@
 											<c:if test="${!organizerFlg}">readonly class="readonly"</c:if>>
 											<c:forEach items="${signUpMemberPictList }"
 												var="signUpMemberPict" varStatus="status">
-												<img class="member-icon"
-													src="data:image/png;base64,${signUpMemberPict.value}"
-													alt="${signUpMemberPict.key }" title="${memberPict.key }" />
+												<c:if test="${empty signUpMemberPict.imageString}">
+													<img src="<%=request.getContextPath()%>/icon/testicon.png"
+														alt="${signUpMemberPict.userName }"
+														title="${signUpMemberPict.userName }" />">
+												</c:if>
+												<c:if test="${!empty signUpMemberPict.imageString}">
+													<img class="member-icon"
+														src="data:image/png;base64,${signUpMemberPict.imageString}"
+														alt="${signUpMemberPict.userName }"
+														title="${signUpMemberPict.userName }" />
+												</c:if>
 											</c:forEach>
 										</div></td>
 								</tr>
@@ -116,14 +132,18 @@
 									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
 									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
-									<c:if test="${(approveStatus != '1' )}">
+									<c:if test="${(empty approveStatus)}">
 									<button type="button" onclick="submitSignUpForm();"
 										<c:if test="${!eadb.overallStatus}"> disabled </c:if>>
 										参加表明</button>
 									</c:if>
-									<c:if test="${(approveStatus == '1' )}">
+									<c:if test="${(approveStatus == '1' ) || (approveStatus == '0' )}">
 									 <button type="button" onclick="cancelForm(${eadb.eventId},${userId });">
 										キャンセルする</button>
+									</c:if>
+									<c:if test="${(approveStatus == '2' )}">
+									 <button type="button" onclick="submitSignUpForm();">
+										再申請する</button>
 									</c:if>
 								</form>
 								<div>

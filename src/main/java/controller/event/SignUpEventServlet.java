@@ -69,6 +69,7 @@ public class SignUpEventServlet extends HttpServlet {
 		EntryApproval ea = new EntryApproval();
 		ea.setEventID(eventId);
 		ea.setSignUpUserId(userId);
+		ea.setApprovalStatus(Constants.EVENT_APPROVAL_AVAILABLE);
 		try {
 			EntryApproval eaFromDB = ead.findByEventIdAndSgnUpUsrId(eventId, userId);
 			if(Objects.isNull(eaFromDB.getId())) {

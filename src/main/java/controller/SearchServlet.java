@@ -125,8 +125,8 @@ public class SearchServlet extends HttpServlet {
 		StringBuilder sb = new StringBuilder();
 		String whereStr = "WHERE event.recruitment_start_date <= now()"
 				+ " AND event.recruitment_end_date > now()"
-				+ " AND event.cancel_flg <> 1"
-				+ " AND event.delete_flg <> 1";
+				+ " AND event.cancel_flg = 0"
+				+ " AND event.delete_flg = 0";
 		sb.append(whereStr);
 		
 		// イベントIDの指定があれば追加

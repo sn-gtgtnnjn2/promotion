@@ -1,6 +1,7 @@
 package controller.event;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -59,7 +60,11 @@ public class RegistEventServlet extends HttpServlet {
 		ead.setMemberLimit(eadb.getMemberLimit());
 		ead.setOpenLevel(eadb.getopenLevel());
 		ead.setStatus(eadb.getStatus());
-		eadd.insert(ead);
+		try	{			
+			eadd.insert(ead);
+		} catch (SQLException e) {
+			System.out.println("ロールバック");
+		}
 		
 		session.removeAttribute("eadb");
 		request.setAttribute("info", "イベントが追加されました");

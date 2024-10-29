@@ -133,7 +133,7 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 	}
 
 	@Override
-	public void insert(EventAndDetail ead) {
+	public void insert(EventAndDetail ead) throws SQLException{
 		String sql = "INSERT INTO event ( "
 				+ " user_id"
 				+ ", event_title"
@@ -197,11 +197,12 @@ public class EventAndDetailDaoImpl implements EventAndDetailDao {
 			} catch (SQLException e) {
 				System.out.println("ロールバックが行われました");
 				con.rollback();
-				e.printStackTrace();
+				throw e;
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw e;
 		}
 	}
 

@@ -21,12 +21,12 @@
 						<table width="1000" border="0">
 							<tr>
 								<th>ユーザーID</th>
-								<th><input type="text" maxlength="100" placeholder="山田太郎"
+								<th><input type="text" maxlength="100" placeholder="my_user_id"
 									id="userId" name="userId" value="${userId}"></th>
 							</tr>
 							<tr>
 								<th>ユーザー名</th>
-								<th><input type="text" maxlength="200" placeholder="やまだたろう"
+								<th><input type="text" maxlength="200" placeholder="ニックネーム"
 									id="userName" name="userName" value="${userName}"></th>
 							</tr>
 							<tr>
