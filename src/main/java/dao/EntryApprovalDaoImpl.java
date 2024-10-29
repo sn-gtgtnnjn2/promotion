@@ -176,7 +176,8 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 				+ ", update_datetime"
 				+ ", delete_flg"
 				+ " FROM entry_approval"
-				+ " WHERE sign_up_user_id = ?";
+				+ " WHERE sign_up_user_id = ?"
+				+ " AND delete_flg = 0";
 		List<EntryApproval> eventList = new ArrayList<EntryApproval>();
 		try(Connection con = ds.getConnection()){
 			PreparedStatement stmt = con.prepareStatement(sql);

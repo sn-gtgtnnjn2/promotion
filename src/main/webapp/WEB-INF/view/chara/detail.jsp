@@ -34,7 +34,12 @@
 		<div class="container">
 			<div class="block">
 				<div class="box">
-					<h2>キャラクター詳細情報</h2>
+					<c:if test="${userId == charaInfo.createrId}">
+						<h2>キャラクター詳細情報</h2>
+					</c:if>
+					<c:if test="${userId != charaInfo.createrId}">
+						<h2>キャラクター照会情報</h2>
+					</c:if>
 					<div>
 						<img class="charaImage" src="${charaInfo.imagePath}"
 							alt="キャラクター画像">
@@ -47,11 +52,17 @@
 				
 			<div class="block">	
 				<div class="box">
-					<h2>詳細情報</h2>
+					<c:if test="${userId == charaInfo.createrId}">
+						<h2>詳細情報</h2>
+					</c:if>
+					<c:if test="${userId != charaInfo.createrId}">
+						<h2>照会情報</h2>
+					</c:if>
 					<div>
 						<c:if test="${userId == charaInfo.createrId}">
 							<input type="text" value="${ charaInfo.name }"
 								placeholder="キャラクター名称">
+							<br>
 							<input type="text" value="${charaInfo.nameKana}"
 								placeholder="キャラクターのフリガナ">
 						</c:if>

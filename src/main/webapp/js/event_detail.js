@@ -5,6 +5,12 @@
 function submitSignUpForm() {
 	document.getElementById('signUpForm').submit();
 }
+
+
+function cancelForm(eventId, userId){
+	//window.location.href = ctx + '/EventCancelServlet?eventId=' + eventId + '&userId=' + userId;
+}
+
 function openSearchDiv() {
 	document.getElementById('overlay').style.display = 'block';
 	document.getElementById('childScreen').style.display = 'block';
@@ -16,11 +22,21 @@ function closeSearchDiv() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-	document.getElementById('overlay').addEventListener('click', function() {
-		console.log('Overlay clicked');
-		closeSearchDiv();
-	});
+    const overlayElement = document.getElementById('overlay');
+    if (overlayElement) {
+        overlayElement.addEventListener('click', function() {
+            console.log('Overlay clicked');
+            closeSearchDiv();
+        });
+    }
 });
+
+//document.addEventListener("DOMContentLoaded", function() {
+//	document.getElementById('overlay').addEventListener('click', function() {
+//		console.log('Overlay clicked');
+//		closeSearchDiv();
+//	});
+//});
 
 //function fetchSuggestions() {
 //	const query = document.getElementById('characterName').value;

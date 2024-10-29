@@ -21,7 +21,7 @@ public class EventInfoDaoImpl implements EventInfoDao{
 	}
 	
 	@Override
-	public List<Event> selectByEventIdsWithPict(List<Integer> eventIds) {
+	public List<Event> selectByEventIdsWithPict(List<Integer> eventIds, String userId) {
 		String sql = "SELECT "
 				+ " event.event_id"
 				+ ", event.user_id"
@@ -50,6 +50,7 @@ public class EventInfoDaoImpl implements EventInfoDao{
 				+ " ) AS entry_approval2 ON event.EVENT_ID = entry_approval2.event_id"
 				+ " WHERE event.event_id IN ("
 				+ eventIds.stream().map(id -> "?").collect(Collectors.joining((","))) + ")"
+				+ " AND (event.organizer_id = ? OR entry_approval.sign_up_user_id = ?)"
 				+ " group by event.EVENT_ID , entry_approval.sign_up_user_id";
 		
 		System.out.println(sql);
@@ -59,6 +60,8 @@ public class EventInfoDaoImpl implements EventInfoDao{
 			for(int i = 0; i < eventIds.size(); i ++) {
 				stmt.setInt(i + 1, eventIds.get(i));
 			}
+			stmt.setString(eventIds.size() + 1, userId);
+			stmt.setString(eventIds.size() + 2, userId);
 			
 			ResultSet rs = stmt.executeQuery();
 			eiList = storeFetchData(rs);

@@ -94,7 +94,7 @@ public class PortalServlet extends HttpServlet {
 			}
 		}
 		if (!Objects.isNull(eventIdList) && eventIdList.size() != 0) {
-			eventList = eid.selectByEventIdsWithPict(eventIdList);
+			eventList = eid.selectByEventIdsWithPict(eventIdList, userId);
 			for (int i = 0; i < eventList.size(); i++) {
 				// 参加締め切り前、締め切り後を判定してステータスをセット
 				eventList.get(i).setStatus(getEventStatus(eventList.get(i).getRecruitmentStartDate(),

@@ -116,9 +116,15 @@
 									<input type="hidden" id="eventId" name="eventId" value="${eadb.eventId}" />
 									<input type="hidden" id="searchQuery" name="searchQuery" value="${searchQuery}" />
 									<input type="hidden" id="backTarget" name="backTarget" value="${backTarget}" />
+									<c:if test="${(approveStatus != '1' )}">
 									<button type="button" onclick="submitSignUpForm();"
 										<c:if test="${!eadb.overallStatus}"> disabled </c:if>>
 										参加表明</button>
+									</c:if>
+									<c:if test="${(approveStatus == '1' )}">
+									 <button type="button" onclick="cancelForm(${eadb.eventId},${userId });">
+										キャンセルする</button>
+									</c:if>
 								</form>
 								<div>
 									<c:forEach items="${eadb.userRejectList}" var="userRejectList">
