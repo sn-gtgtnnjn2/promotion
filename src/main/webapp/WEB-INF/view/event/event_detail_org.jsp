@@ -272,16 +272,17 @@
 								<div id="approvedUsers"></div>
 								<div id="pendingUsers"></div>
 								<div id="rejectedUsers"></div>
+								<input type="hidden" id="searchQuery" name="searchQuery"
+									value="${searchQuery}" /> 
+								<input type="hidden" id="backTarget"
+									name="backTarget" value="${backTarget}" />
+								<input type="hidden"
+									id="eventId" name="eventId" value="${eventId}" />
 								</form>
 							</div>
 
 							<div class="main-button-area">
-								<input type="hidden" id="searchQuery" name="searchQuery"
-									value="${searchQuery}" /> <input type="hidden" id="backTarget"
-									name="backTarget" value="${backTarget}" /> <input type="hidden"
-									id="eventId" name="eventId" value="${eventId}" />
-								<button type="submit" class="btn btn-primary"
-									onclick="prepareHiddenFields();">登録</button>
+								<button type="submit" class="btn btn-primary" onclick="prepareHiddenFields();">登録</button>
 							</div>
 							<div></div>
 							<div class="row m-3">

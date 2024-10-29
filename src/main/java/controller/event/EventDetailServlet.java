@@ -26,6 +26,7 @@ import dto.CharasForEventDetailDto;
 import dto.EntryApprovalWithPict;
 import dto.EventAndDetail;
 import dto.Follows;
+import util.Constants;
 
 /**
  * Servlet implementation class Eventdetailervlet
@@ -78,11 +79,17 @@ public class EventDetailServlet extends HttpServlet {
 		List<CharasForEventDetailDto> charaList = null;
 		Boolean canSignUp = false;
 		Boolean isFollower = false;
+		Integer loginUserAppStatus = null;
+		
 		try {
 			// イベント情報、詳細情報を取得
 			event = eid.findByEventId(eventId);
+			
 			// 参加承認情報を取得
 			entAppList = ead.selectByEventIdWithPict(eventId);
+			
+			// ログインユーザーの参加承認ステータスを取得
+			loginUserAppStatus = ead.getApprovalStatus(eventId, userId);
 			
 			// 参加予定キャラクターを取得
 			charaList = secd.getEventEntryCharas(eventId);
@@ -107,11 +114,19 @@ public class EventDetailServlet extends HttpServlet {
 		List<CharaInfoForEventDetailBean> charaListForScreen = storeCharaListToBean(charaList, userId);
 		
 		// 申込者が参加できるかどうかを判定（主催者でない、イベントの閲覧権限があるかどうか)
-		List<String> userRejectList = new ArrayList<String>();
-		canSignUp = canThisUserSignUp(userId, event.getOrganizerId(), event.getOpenLevel(), entAppList, isFollower, userRejectList);
-			eadb.setUserRejectList(userRejectList);
+		List<String> userRejectReasonList = new ArrayList<String>();
+		canSignUp = canThisUserSignUp(userId, event.getOrganizerId(), event.getOpenLevel(), entAppList, isFollower, userRejectReasonList);
+			eadb.setUserRejectList(userRejectReasonList);
 			eadb.setIsAvailableUser(canSignUp);
 
+			// ログインユーザーの参加承認状況を取得
+			String userApprovalStatusName = null;
+			if(!Objects.isNull(loginUserAppStatus)) {
+				userApprovalStatusName = Constants.getApprovalStatusName(loginUserAppStatus);
+			} else {
+				userApprovalStatusName = "未申請";				
+			}
+			
 		System.out.println("charaForScreenSize" + charaListForScreen.size());
 		// 参加者一覧情報をBeanに追加
 		LinkedHashMap<String,String> memberPictList = storeMemberInfo(entAppList);
@@ -121,6 +136,8 @@ public class EventDetailServlet extends HttpServlet {
 		request.setAttribute("charaListForScreen", charaListForScreen);
 		request.setAttribute("memberPictList", memberPictList);
 		request.setAttribute("screenId", NavigationManager.SCREEN_EVENT_DETAIL_VIEW);
+		request.setAttribute("userApprovalStatusName", userApprovalStatusName);
+		request.setAttribute("approveStatus", loginUserAppStatus);
 		
 		// 検索画面のクエリパラメータをセット
 		request.setAttribute("searchQuery", searchQuery);

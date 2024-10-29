@@ -85,7 +85,7 @@ function fetchSuggestions() {
 
 function displayCharacterDetails(characterId) {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', ctx + '/CharacterDetailsServlet?characterId=' + encodeURIComponent(characterId), true);
+    xhr.open('GET', ctx + '/event/GetCharaDetailServlet?characterId=' + encodeURIComponent(characterId), true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const characterInfo = JSON.parse(xhr.responseText);

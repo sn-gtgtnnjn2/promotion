@@ -49,13 +49,13 @@
 				<div class="box">
 					<h2>詳細情報</h2>
 					<div>
-						<c:if test="${currentUserId == characterCreatorId}">
+						<c:if test="${userId == charaInfo.createrId}">
 							<input type="text" value="${ charaInfo.name }"
 								placeholder="キャラクター名称">
 							<input type="text" value="${charaInfo.nameKana}"
 								placeholder="キャラクターのフリガナ">
 						</c:if>
-						<c:if test="${currentUserId != characterCreatorId}">
+						<c:if test="${userId != charaInfo.createrId}">
 							<p>キャラクター名称: ${charaInfo.name}</p>
 							<p>キャラクターのフリガナ: ${charaInfo.nameKana}</p>
 						</c:if>
@@ -65,6 +65,7 @@
 						<c:if test="${userId == charaInfo.createrId}">
 						<form action="updateCharaServlet">
 							<textarea id="memo" name="memo" required>${charaInfo.memo}</textarea>
+							<br>
 							<input type="text" value="${charaInfo.externalLink}"
 								placeholder="外部リンクアドレス">
 							<div class="main-button-area">

@@ -103,13 +103,13 @@
 										value="${eadb.statusName }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> /></td>
 								</tr>
-								<!-- <tr>
+								<tr>
 									<td>あなたのステータス</td>
 									<td><input type="text" id="yourStatus" name="yourStatus"
-										value="${canSignUp }"
+										value="${userApprovalStatusName }"
 										<c:if test="${!organizerFlg}">readonly class="readonly"</c:if> />
 									</td>
-								</tr> -->
+								</tr>
 							</table>
 							<div class="main-button-area">
 								<form action="<%=request.getContextPath()%>/event/signUpEvent" name="signUpForm" id="signUpForm">
@@ -139,9 +139,10 @@
 							</div>
 							
 <!-- キャラクター登録機能（承認者のみ） -->
+						<c:if test="${approveStatus == '1'}">
 						<div class="box">
 							<div class="chara-card-area">
-								<div class="midashi">登録されたキャラクター</div>
+								<div class="midashi">登録しているキャラクター</div>
 									<div>
 										<!-- 登録キャラクター表示場所 -->
 										<button type="button" onclick="openSearchDiv()">検索する</button>
@@ -186,6 +187,7 @@
 							<button type="button" onclick="searchCharacter()">検索</button>
 							<button type="button" onclick="openRegisterDiv()">新規登録</button>
 						</div>
+						</c:if>
 <!-- キャラクター登録機能（承認者のみ）ここまで -->
 
 						<c:url var="backUrl" value="${backTarget}">

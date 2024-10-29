@@ -295,6 +295,7 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 				+ " FROM entry_approval"
 				+ " WHERE event_id = ?"
 				+ " AND sign_up_user_id = ?"
+				+ " AND delete_flg = 0"
 				+ " ORDER BY update_datetime ASC";
 		
 		System.out.println(getClass().getName() + "SQL->" + sql);
@@ -317,5 +318,36 @@ public class EntryApprovalDaoImpl implements EntryApprovalDao{
 			e.printStackTrace();
 		}
 		return ea;
+	}
+
+	@Override
+	public Integer getApprovalStatus(Integer eventId, String userId) throws SQLException {
+		String sql = "SELECT "
+				+ " id"
+				+ ", event_id"
+				+ ", sign_up_user_id"
+				+ ", approve_status"
+				+ ", entry_datetime"
+				+ ", update_datetime"
+				+ ", delete_flg"
+				+ " FROM entry_approval"
+				+ " WHERE event_id = ?"
+				+ " AND sign_up_user_id = ?"
+				+ " ORDER BY update_datetime ASC";
+		
+		System.out.println(getClass().getName() + "SQL->" + sql);
+		Integer ret = null;
+		try(Connection con = ds.getConnection()){
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setInt(1, eventId);
+			stmt.setString(2, userId);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				ret = rs.getInt("approve_status");
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return ret;
 	}
 }

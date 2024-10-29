@@ -20,4 +20,5 @@ public interface EntryApprovalDao {
 	List<EntryApprovalWithPict> selectByEventIdWithPict(Integer eventId, String string, Integer approvalStatus);
 	void updateApproveStatus(List<EntryApproval> approveTargetList, Integer updateStatus) throws SQLException;
 	EntryApproval findByEventIdAndSgnUpUsrId(Integer eventId, String userId);
+	Integer getApprovalStatus(Integer eventId, String userId)throws SQLException;
 }
