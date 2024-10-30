@@ -25,7 +25,10 @@
 							</tr>
 							<tr>
 								<th>URL</th>
-								<th>${url }</th>
+								<th><p>こちらをクリックして、本登録に進んでください。</p>
+								<p>
+								<a href="${url }">${url }</a>
+								</p></th>
 							</tr>
 							<tr>
 								<th>認証期限</th>

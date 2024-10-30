@@ -36,8 +36,8 @@ public class EventInfoDaoImpl implements EventInfoDao{
 				+ ", event.open_level"
 				+ ", event.status"
 				+ ", event.cancel_flg"				
-				+ ", COUNT(entry_approval.sign_up_user_id) AS 'currentSignUpNum'"
-				+ ", COUNT(entry_approval2.sign_up_user_id) AS 'currentApprovedNum'"
+				+ ", SUM(CASE WHEN entry_approval.approve_status = 0 THEN 1 ELSE 0 END) AS currentSignUpNum "
+				+ ", SUM(CASE WHEN entry_approval.approve_status = 1 THEN 1 ELSE 0 END) AS currentApprovedNum "
 				+ ", profile.base64_data"
 				+ " FROM event inner join profile"
 				+ " ON event.user_id = profile.user_id"
@@ -53,7 +53,21 @@ public class EventInfoDaoImpl implements EventInfoDao{
 				+ " AND (event.organizer_id = ? OR entry_approval.sign_up_user_id = ?)"
 				+ " AND event.delete_flg = 0"
 				+ " AND entry_approval.delete_flg = 0"
-				+ " group by event.EVENT_ID , entry_approval.sign_up_user_id";
+		        + " GROUP BY event.event_id"
+		        + ", event.user_id"
+		        + ", event.event_title"
+		        + ", event.event_datetime"
+		        + ", event.organizer_name"
+		        + ", event.organizer_id"
+		        + ", event.scenario_title"
+		        + ", event.recruitment_start_date"
+		        + ", event.recruitment_end_date"
+		        + ", event.member_limit"
+		        + ", event.open_level"
+		        + ", event.status"
+		        + ", event.cancel_flg"
+		        + ", profile.base64_data"
+				+ " order by event.update_datetime DESC";
 		
 		System.out.println(sql);
 		List<Event> eiList = new ArrayList<Event>();
