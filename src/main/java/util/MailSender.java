@@ -20,8 +20,8 @@ public class MailSender {
         props.put("mail.smtp.port", "587");
 
         // 認証情報の設定
-        final String username = "saki.aacgcaaaggca@gmail.com";
-        final String password = "xzsk qdkl dyhs pcrk";
+        final String username = "user"; // 無効化済みユーザー名
+        final String password = "xpsk qpkl dihs pcrkaaaaaaa"; // 無効化済みアプリパスワード
 
         // セッションの作成
         Session session = Session.getInstance(props, new Authenticator() {
